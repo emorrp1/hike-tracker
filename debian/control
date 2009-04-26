@@ -1,13 +1,12 @@
 Source: hike-tracker
-Section: unknown
+Section: editors
 Priority: extra
 Maintainer: Philip Morrell <ubuntu.emorrp1@mamber.net>
 Build-Depends: debhelper (>= 7)
 Standards-Version: 3.7.3
-Homepage: <insert the upstream URL, if relevant>
 
 Package: hike-tracker
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Depends: python (>=2.5), python-sqlite, python-elixir
+Description: A program for tracking people on scout hikes.
+ A program for tracking people on scout hikes.

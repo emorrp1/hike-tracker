@@ -27,7 +27,7 @@ build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
-	$(MAKE)
+	#$(MAKE)
 	#docbook-to-man debian/hike-tracker.sgml > hike-tracker.1
 
 	touch $@
@@ -38,7 +38,7 @@ clean:
 	rm -f build-stamp configure-stamp
 
 	# Add here commands to clean up after the build process.
-	$(MAKE) clean
+	#$(MAKE) clean
 
 	dh_clean 
 
@@ -49,8 +49,11 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/hike-tracker.
-	$(MAKE) DESTDIR=$(CURDIR)/debian/hike-tracker install
+	#$(MAKE) DESTDIR=$(CURDIR)/debian/hike-tracker install
+	mkdir -p $(CURDIR)/debian/hike-tracker
 
+	mkdir -p $(CURDIR)/debian/hike-tracker/usr/lib/hike-tracker
+	cp -r $(CURDIR)/*.py $(CURDIR)/debian/hike-tracker/usr/lib/hike-tracker/
 
 # Build architecture-independent files here.
 binary-indep: build install
