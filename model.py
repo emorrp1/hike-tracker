@@ -12,7 +12,7 @@ class Event(Entity):
 	time = Field(DateTime)
 
 	def __repr__(self):
-		return '<Event %s %iE %iN>' % (str(self.time), self.loc.e, self.loc.n)
+		return '<Event %s %sE %sN>' % (str(self.time), self.loc.e, self.loc.n)
 
 class Team(Entity):
 	number = Field(Integer)
