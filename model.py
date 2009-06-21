@@ -5,7 +5,7 @@ class Location(Entity):
   n = Field(Integer)
 
   def __repr__(self):
-    return '<Location %s %s>' % (self.x-coord, self.y-coord)
+    return '<Location %s %s>' % (self.e, self.n)
 
 class Team(Entity):
   number = Field(Integer)
