@@ -1,3 +1,9 @@
+hike-tracker (0.1.1) jaunty; urgency=low
+
+  * Packaging for jaunty
+
+ -- Philip Morrell <ubuntu.emorrp1@mamber.net>  Sun, 21 Jun 2009 14:44:08 +0100
+
 hike-tracker (0.1) intrepid; urgency=low
 
   * Initial release
