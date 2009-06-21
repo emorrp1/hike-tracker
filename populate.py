@@ -7,7 +7,7 @@ metadata.bind = "sqlite:///custom.hike" # connect
 
 setup_all()
 
-home = Location(e=000,n=000)
+home = Location(e=0,n=0)
 noon = datetime(2009,06,22,12,00)
 home_noon = Event(time=noon,loc=home)
 team = Team(number=101)
