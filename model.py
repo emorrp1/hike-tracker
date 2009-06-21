@@ -1,16 +1,16 @@
 from elixir import *
 
 class Location(Entity):
-  e = Field(Integer)
-  n = Field(Integer)
+	e = Field(Integer)
+	n = Field(Integer)
 
-  def __repr__(self):
-    return '<Location %s %s>' % (self.e, self.n)
+	def __repr__(self):
+		return '<Location %s %s>' % (self.e, self.n)
 
 class Team(Entity):
-  number = Field(Integer)
+	number = Field(Integer)
 
-  location = ManyToOne('Location')
+	location = ManyToOne('Location')
 
-  def __repr__(self):
-    return '<Team %s>' % self.id
+	def __repr__(self):
+		return '<Team %s>' % self.number
