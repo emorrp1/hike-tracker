@@ -15,9 +15,8 @@ class Event(Entity):
 		return '<Event %s %sE %sN>' % (str(self.time), self.loc.e, self.loc.n)
 
 class Team(Entity):
+	seen = ManyToMany('Event')
 	number = Field(Integer)
-
-	location = ManyToOne('Location')
 
 	def __repr__(self):
 		return '<Team %s>' % self.number
