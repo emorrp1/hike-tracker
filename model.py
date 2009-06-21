@@ -5,14 +5,14 @@ class Location(Entity):
 	n = Field(Integer)
 
 	def __repr__(self):
-		return '<Location %s %s>' % (self.e, self.n)
+		return '<Location %sE %sN>' % (self.e, self.n)
 
 class Event(Entity):
 	loc = ManyToOne('Location')
 	time = Field(DateTime)
 
 	def __repr__(self):
-		return '<Event %s %sE %sN>' % (str(self.time), self.loc.e, self.loc.n)
+		return '<Event %s %s>' % (str(self.time), self.loc)
 
 class Team(Entity):
 	seen = ManyToMany('Event')
