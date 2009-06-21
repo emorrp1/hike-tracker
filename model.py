@@ -13,8 +13,6 @@ class Base(Location):
   using_options(inheritance='multi')
   name = Field(Unicode(5))
 
-  stewards = OneToMany('Steward')
-
   def __repr__(self):
     return '<Base "%s">' % self.name
 
@@ -24,15 +22,6 @@ class Person(Entity):
 
   def __repr__(self):
     return '<Person "%s">' % self.name
-
-class Steward(Person):
-  using_options(inheritance='multi')
-  role = Field(Unicode(20))
-
-  base = ManyToOne('Base')
-
-  def __repr__(self):
-    return '<Steward "%s">' % self.name
 
 class Participant(Person):
   using_options(inheritance='multi')
