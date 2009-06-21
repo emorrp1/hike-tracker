@@ -9,13 +9,6 @@ class Location(Entity):
   def __repr__(self):
     return '<Location %s %s>' % (self.x-coord, self.y-coord)
 
-class Base(Location):
-  using_options(inheritance='multi')
-  name = Field(Unicode(5))
-
-  def __repr__(self):
-    return '<Base "%s">' % self.name
-
 class Team(Entity):
   number = Field(Integer)
 
