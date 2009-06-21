@@ -7,6 +7,13 @@ class Location(Entity):
 	def __repr__(self):
 		return '<Location %s %s>' % (self.e, self.n)
 
+class Event(Entity):
+	loc = ManyToOne('Location')
+	time = Field(DateTime)
+
+	def __repr__(self):
+		return '<Event %s %iE %iN>' % (str(self.time), self.loc.e, self.loc.n)
+
 class Team(Entity):
 	number = Field(Integer)
 
