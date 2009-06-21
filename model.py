@@ -14,7 +14,6 @@ class Base(Location):
   name = Field(Unicode(5))
 
   stewards = OneToMany('Steward')
-  routes = ManyToMany('Route')
 
   def __repr__(self):
     return '<Base "%s">' % self.name
@@ -48,15 +47,6 @@ class Team(Entity):
 
   participants = OneToMany('Participant')
   location = ManyToOne('Location')
-  route = ManyToOne('Route')
 
   def __repr__(self):
     return '<Team %s>' % self.id
-
-class Route(Entity):
-  section = Field(Unicode(5))
-  bases = ManyToMany('Base')
-  teams = OneToMany('Team')
-
-  def __repr__(self):
-    return '<Route %s>' % self.section
