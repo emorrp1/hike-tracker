@@ -17,8 +17,7 @@ class Base(Entity):
 	reports = OneToMany('Report')
 
 	def report(self, team_id, arr, dep=None, date=DATE):
-		if not dep:
-			dep = arr
+		if not dep: dep = arr
 		arr = mkdt(arr, date)
 		dep = mkdt(dep, date)
 		r = Report(arr=arr, dep=dep)
