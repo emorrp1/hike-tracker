@@ -12,10 +12,10 @@ b10 = Base(id=1,e=10,n=0)
 b11 = Base(id=2,e=10,n=10)
 b01 = Base(id=3,e=0,n=10)
 
-t1 = Team(number=1)
-t2 = Team(number=2)
-t3 = Team(number=3)
-t4 = Team(number=4)
+t1 = Team(id=1)
+t2 = Team(id=2)
+t3 = Team(id=3)
+t4 = Team(id=4)
 
 session.commit()
 
