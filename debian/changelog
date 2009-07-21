@@ -1,3 +1,9 @@
+hike-tracker (0.3) jaunty; urgency=low
+
+  * changed model again to be more like the reporting process
+
+ -- Philip Morrell <ubuntu.emorrp1@mamber.net>  Tue, 21 Jul 2009 13:30:20 +0100
+
 hike-tracker (0.2) jaunty; urgency=low
 
   * simplifying model
