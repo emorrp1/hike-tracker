@@ -1,6 +1,14 @@
 from elixir import *
-from datetime import datetime
 DATE='090721'
+
+def mkdt(time, date=DATE):
+	from datetime import datetime
+	y = int(date[:2])
+	m = int(date[2:-2])
+	d = int(date[-2:])
+	hh = int(time[:2])
+	mm = int(time[-2:])
+	return datetime(y, m, d, hh, mm)
 
 class Base(Entity):
 	id = Field(Integer)
@@ -11,8 +19,9 @@ class Base(Entity):
 	def report(self, team_id, arr, dep, date=DATE)
 		arr = datetime(int(date[:2]),int(date[2:-2]),int(date[-2:]),int(arr[:2]),int(arr[-2:]))
 		dep = datetime(int(date[:2]),int(date[2:-2]),int(date[-2:]),int(dep[:2]),int(dep[-2:]))
-		team = Team.get_by(id=team_id)
-		reports.append(Report(arr=
+		r = Report(arr=arr, dep=dep)
+		r.team = Team.get_by(id=team_id)
+		self.reports.append(r)
 
 	def __repr__(self):
 		return '<Base %s>' % self.id
