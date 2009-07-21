@@ -1,3 +1,10 @@
+hike-tracker (0.2) jaunty; urgency=low
+
+  * simplifying model
+  * adding more populate data
+
+ -- Philip Morrell <ubuntu.emorrp1@mamber.net>  Tue, 21 Jul 2009 12:30:17 +0100
+
 hike-tracker (0.1.1) jaunty; urgency=low
 
   * Packaging for jaunty
