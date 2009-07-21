@@ -10,13 +10,13 @@ class Base(Entity):
 		return '<Base %s>' % self.id
 
 class Report(Entity):
-	base = ManyToOne('Base')
-	team = ManyToOne('Team')
 	arr = Field(DateTime)
 	dep = Field(DateTime)
+	base = ManyToOne('Base')
+	team = ManyToOne('Team')
 
 	def __repr__(self):
-		return '<Base %s Report: Team %s arr %s dep %s>' % (base.id, team.number, str(arr), str(dep))
+		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.number, str(arr), str(dep))
 
 class Team(Entity):
 	visited = OneToMany('Report')
