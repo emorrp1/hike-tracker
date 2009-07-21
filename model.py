@@ -16,11 +16,11 @@ class Report(Entity):
 	team = ManyToOne('Team')
 
 	def __repr__(self):
-		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.number, str(arr), str(dep))
+		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr), str(dep))
 
 class Team(Entity):
+	id = Field(Integer)
 	visited = OneToMany('Report')
-	number = Field(Integer)
 
 	def __repr__(self):
-		return '<Team %s>' % self.number
+		return '<Team %s>' % self.id
