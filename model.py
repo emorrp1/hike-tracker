@@ -16,9 +16,11 @@ class Base(Entity):
 	n = Field(Integer)
 	reports = OneToMany('Report')
 
-	def report(self, team_id, arr, dep, date=DATE)
+	def report(self, team_id, arr, dep=None, date=DATE):
+		if not dep:
+			dep = arr
 		arr = mkdt(arr, date)
-		dep = mkdt(arr, date)
+		dep = mkdt(dep, date)
 		r = Report(arr=arr, dep=dep)
 		r.team = Team.get_by(id=team_id)
 		self.reports.append(r)
