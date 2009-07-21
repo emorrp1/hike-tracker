@@ -4,8 +4,9 @@ DATE='090721'
 def mkdt(time, date=DATE):
 	from datetime import datetime
 	y = int(date[:2])
-	m = int(date[2:-2])
+	m = date[2:-2]
 	if len(m) == 4: m = m[1:-1]
+	m = int(m)
 	d = int(date[-2:])
 	hh = int(time[:2])
 	mm = int(time[-2:])
