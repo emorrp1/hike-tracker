@@ -10,10 +10,10 @@ class Location(Entity):
 
 class Base(Location):
 	using_options(inheritance='multi')
-	name = Field(Unicode(1))
+	id = Field(Integer)
 
 	def __repr__(self):
-		return '<Base %s>' % self.name
+		return '<Base %s>' % self.id
 
 class Event(Entity):
 	loc = ManyToOne('Location')
