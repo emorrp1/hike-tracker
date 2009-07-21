@@ -38,7 +38,7 @@ class Report(Entity):
 		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
 
 class Team(Entity):
-	id = Field(Integer, primary_ket=True)
+	id = Field(Integer, primary_key=True)
 	visited = OneToMany('Report')
 
 	def __repr__(self):
