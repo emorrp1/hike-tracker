@@ -16,7 +16,7 @@ class Report(Entity):
 	team = ManyToOne('Team')
 
 	def __repr__(self):
-		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr), str(dep))
+		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
 
 class Team(Entity):
 	id = Field(Integer)
