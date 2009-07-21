@@ -1,16 +1,9 @@
 from elixir import *
 
-class Location(Entity):
-	using_options(inheritance='multi')
+class Base(Entity):
+	id = Field(Integer)
 	e = Field(Integer)
 	n = Field(Integer)
-
-	def __repr__(self):
-		return '<Location %sE %sN>' % (self.e, self.n)
-
-class Base(Location):
-	using_options(inheritance='multi')
-	id = Field(Integer)
 	reports = OneToMany('Report')
 
 	def __repr__(self):
