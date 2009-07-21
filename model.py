@@ -12,7 +12,7 @@ def mkdt(time, date=DATE):
 	return datetime(y, m, d, hh, mm)
 
 class Base(Entity):
-	id = Field(Integer)
+	id = Field(Integer, primary_key=True)
 	e = Field(Integer)
 	n = Field(Integer)
 	reports = OneToMany('Report')
@@ -38,7 +38,7 @@ class Report(Entity):
 		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
 
 class Team(Entity):
-	id = Field(Integer)
+	id = Field(Integer, primary_ket=True)
 	visited = OneToMany('Report')
 
 	def __repr__(self):
