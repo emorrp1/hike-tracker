@@ -1,6 +1,6 @@
 from elixir import *
-DATE='090721'
 
+DATE='090721'
 def mkdt(time, date=DATE):
 	from datetime import datetime
 	y = int(date[:2])
@@ -17,8 +17,8 @@ class Base(Entity):
 	reports = OneToMany('Report')
 
 	def report(self, team_id, arr, dep, date=DATE)
-		arr = datetime(int(date[:2]),int(date[2:-2]),int(date[-2:]),int(arr[:2]),int(arr[-2:]))
-		dep = datetime(int(date[:2]),int(date[2:-2]),int(date[-2:]),int(dep[:2]),int(dep[-2:]))
+		arr = mkdt(arr, date)
+		dep = mkdt(arr, date)
 		r = Report(arr=arr, dep=dep)
 		r.team = Team.get_by(id=team_id)
 		self.reports.append(r)
