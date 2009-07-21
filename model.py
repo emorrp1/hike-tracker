@@ -19,11 +19,11 @@ class Base(Location):
 class Report(Entity):
 	base = ManyToOne('Base')
 	team = OneToOne('Team')
-	arr = OneToOne('Event')
-	dep = OneToOne('Event')
+	arr = Field(DateTime)
+	dep = Field(DateTime)
 
 	def __repr__(self):
-		return '<Base %s Report: Team %s arr %s dep %s>' % (base.id, team.number, str(arr.time), str(dep.time))
+		return '<Base %s Report: Team %s arr %s dep %s>' % (base.id, team.number, str(arr), str(dep))
 
 class Event(Entity):
 	loc = ManyToOne('Location')
