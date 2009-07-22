@@ -1,7 +1,6 @@
 #!/usr/bin/python
 from elixir import *
 from model import *
-from datetime import datetime
 
 metadata.bind = "sqlite:///custom.hike" # connect
 
