@@ -1,9 +1,8 @@
 #!/usr/bin/python
+
 from elixir import *
 from model import *
-
 metadata.bind = "sqlite:///custom.hike" # connect
-
 setup_all()
 
 Base(id=0,e=0,n=0)
