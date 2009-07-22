@@ -18,6 +18,11 @@ class Base(Entity):
 	n = Field(Integer)
 	reports = OneToMany('Report')
 
+	def __init__(self, id, ref):
+		e = int(ref[:3])
+		n = int(ref[-3:])
+		Entity.__init__(self, id=id, e=e, n=n)
+
 	def __repr__(self):
 		return '<Base %s>' % self.id
 
