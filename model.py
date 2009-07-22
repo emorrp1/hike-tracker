@@ -47,5 +47,8 @@ class Team(Entity):
 	id = Field(Integer, primary_key=True)
 	visited = OneToMany('Report')
 
+	def __init__(self, id):
+		Entity.__init__(self, id=int(id))
+
 	def __repr__(self):
 		return '<Team %s>' % self.id
