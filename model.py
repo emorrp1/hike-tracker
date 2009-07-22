@@ -18,14 +18,6 @@ class Base(Entity):
 	n = Field(Integer)
 	reports = OneToMany('Report')
 
-	def report(self, team_id, arr, dep=None, date=DATE):
-		if not dep: dep = arr
-		arr = mkdt(arr, date)
-		dep = mkdt(dep, date)
-		r = Report(arr=arr, dep=dep)
-		r.team = Team.get_by(id=team_id)
-		self.reports.append(r)
-
 	def __repr__(self):
 		return '<Base %s>' % self.id
 
@@ -34,6 +26,14 @@ class Report(Entity):
 	dep = Field(DateTime)
 	base = ManyToOne('Base')
 	team = ManyToOne('Team')
+
+	def __init__(self, base_id, team_id, arr, dep=None, date=DATE):
+		if not dep: dep = arr
+		arr = mkdt(arr, date)
+		dep = mkdt(dep, date)
+		Entity.__init__(self, arr=arr, dep=dep)
+		self.team = Team.get_by(id=team_id)
+		self.base = Base.get_by(id=base_id)
 
 	def __repr__(self):
 		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
