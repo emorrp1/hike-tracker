@@ -21,7 +21,7 @@ class Base(Entity):
 	def __init__(self, id, ref):
 		e = int(ref[:3])
 		n = int(ref[-3:])
-		Entity.__init__(self, id=id, e=e, n=n)
+		Entity.__init__(self, id=int(id), e=e, n=n)
 
 	def __repr__(self):
 		return '<Base %s>' % self.id
@@ -37,8 +37,8 @@ class Report(Entity):
 		arr = mkdt(arr, date)
 		dep = mkdt(dep, date)
 		Entity.__init__(self, arr=arr, dep=dep)
-		self.team = Team.get_by(id=team_id)
-		self.base = Base.get_by(id=base_id)
+		self.team = Team.get_by(id=int(team_id))
+		self.base = Base.get_by(id=int(base_id))
 
 	def __repr__(self):
 		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
