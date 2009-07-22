@@ -5,15 +5,15 @@ from model import *
 metadata.bind = "sqlite:///custom.hike" # connect
 setup_all()
 
-Base(id=0,e=0,n=0)
-Base(id=1,e=10,n=0)
-Base(id=2,e=10,n=10)
-Base(id=3,e=0,n=10)
+Base(0,'000000')
+Base(1,'010000')
+Base(2,'010010')
+Base(3,'000010')
 
-Team(id=1)
-Team(id=2)
-Team(id=3)
-Team(id=4)
+Team(1)
+Team(2)
+Team(3)
+Team(4)
 
 session.commit()
 
