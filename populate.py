@@ -3,24 +3,18 @@ from tracker import *
 
 start()
 
-b0 = Base(0,'000000')
-b1 = Base(1,'000010')
-b2 = Base(2,'010000')
-b3 = Base(3,'010010')
+b0 = Base(0, '000000')
+b1 = Base(1, '000010')
+b2 = Base(2, '010000')
+b3 = Base(3, '010010')
 
-save()
+rc = Route('clock', [0,1,3,2])
+ra = Route('anti',  [0,2,3])
 
-c = Route('clock', [0,1,3,2])
-a = Route('anti', [0,2,3])
-
-save()
-
-Team(1, a)
-Team(2, c)
-Team(3, a)
-Team(4, c)
-
-save()
+t1 = Team(1, ra)
+t2 = Team(2, rc)
+t3 = Team(3, ra)
+t4 = Team(4, rc)
 
 b0.report(1, '12:00')
 b0.report(2, '12:00')
