@@ -11,7 +11,7 @@ b3 = Base(3,'010010')
 save()
 
 c = Route(u'clock', [0,1,3,2])
-a = Route(u'anti', [0,2,3,1])
+a = Route(u'anti', [0,2,3])
 
 save()
 
