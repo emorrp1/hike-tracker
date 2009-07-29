@@ -59,6 +59,12 @@ class Team(Entity):
 		if self.id == other.id: return 0
 		if self.id >  other.id: return 1
 
+	def visited(self, base):
+		if type(base).__name__ == 'int':
+			base = Base.get(base)
+		reports = Report.query.filter(Report.team == self)
+		return reports.filter(Report.base == base).all()
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
