@@ -26,6 +26,9 @@ class Base(Entity):
 	def __repr__(self):
 		return '<Base %s>' % self.id
 
+	def report(self, team_id, arr, dep=None, date=None):
+		Report(self.id, team_id, arr, dep, date)
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
