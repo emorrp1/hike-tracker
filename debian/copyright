@@ -1,7 +1,7 @@
-This package was debianized by Philip Morrell <ubuntu.emorrp1@mamber.net> on
+This package was debianized by Philip Morrell <hike-tracker.emorrp1@mamber.net> on
 Sat, 25 Apr 2009 15:47:59 +0100.
 
-Upstream Author: Philip Morrell <ubuntu.emorrp1@mamber.net>
+Upstream Author: Philip Morrell <hike-tracker.emorrp1@mamber.net>
 
 License:
 
@@ -9,5 +9,5 @@ License:
    it under the terms of the GNU General Public License version 3 as published by
    the Free Software Foundation.
 
-The Debian packaging is (C) 2009, Philip Morrell <ubuntu.emorrp1@mamber.net> and
+The Debian packaging is (C) 2009, Philip Morrell <hike-tracker.emorrp1@mamber.net> and
 is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
