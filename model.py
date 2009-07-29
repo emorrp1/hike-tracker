@@ -48,3 +48,11 @@ class Team(Entity):
 
 	def __repr__(self):
 		return '<Team %s>' % self.id
+
+class Route(Entity):
+	name = Field(UnicodeText, primary_key=True)
+	bases = ManyToMany('Base')
+	teams = OneToMany('Team')
+
+	def __repr__(self):
+		return '<Route %s>' % self.name
