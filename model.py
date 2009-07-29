@@ -65,6 +65,12 @@ class Team(Entity):
 		reports = Report.query.filter(Report.team == self)
 		return reports.filter(Report.base == base).all()
 
+	def completed(self):
+		for base in self.route.bases:
+			if not self.visited(base):
+				return False
+		return True
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
