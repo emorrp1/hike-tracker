@@ -1,16 +1,16 @@
 from elixir import *
 
-DATE='090721'
-def mkdt(time, date=DATE):
+def mkdt(time, date=None):
 	from datetime import datetime
+	if not date: date = datetime.today().strftime('%y%m%d')
 	y = int(date[:2])
 	m = date[2:-2]
 	if len(m) == 4: m = m[1:-1]
 	m = int(m)
 	d = int(date[-2:])
-	hh = int(time[:2])
-	mm = int(time[-2:])
-	return datetime(y, m, d, hh, mm)
+	H = int(time[:2])
+	M = int(time[-2:])
+	return datetime(y, m, d, H, M)
 
 class Base(Entity):
 	id = Field(Integer, primary_key=True)
@@ -32,7 +32,7 @@ class Report(Entity):
 	base = ManyToOne('Base')
 	team = ManyToOne('Team')
 
-	def __init__(self, base_id, team_id, arr, dep=None, date=DATE):
+	def __init__(self, base_id, team_id, arr, dep=None, date=None):
 		if not dep: dep = arr
 		arr = mkdt(arr, date)
 		dep = mkdt(dep, date)
