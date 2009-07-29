@@ -59,10 +59,12 @@ class Route(Entity):
 
 	def __init__(self, name, bases=None, teams=None):
 		Entity.__init__(self, name=name)
-		if bases: for base_id in bases:
-			self.bases.append(Base.get_by(id=base_id))
-		if teams: for team_id in teams:
-			self.teams.append(Team.get_by(id=team_id))
+		if bases:
+			for base_id in bases:
+				self.bases.append(Base.get_by(id=base_id))
+		if teams:
+			for team_id in teams:
+				self.teams.append(Team.get_by(id=team_id))
 
 	def __repr__(self):
 		return '<Route %s>' % self.name
