@@ -1,9 +1,7 @@
 #!/usr/bin/python
+from tracker import *
 
-from elixir import *
-from model import *
-metadata.bind = "sqlite:///custom.hike" # connect
-setup_all()
+start()
 
 Base(0,'000000')
 Base(1,'010000')
