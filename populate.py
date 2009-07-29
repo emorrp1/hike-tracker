@@ -3,10 +3,10 @@ from tracker import *
 
 start()
 
-b00 = Base(0,'000000')
-b10 = Base(1,'010000')
-b11 = Base(2,'010010')
-b01 = Base(3,'000010')
+b0 = Base(0,'000000')
+b1 = Base(1,'000010')
+b2 = Base(2,'010000')
+b3 = Base(3,'010010')
 
 Team(1)
 Team(2)
@@ -15,22 +15,22 @@ Team(4)
 
 save()
 
-b00.report(1, '12:00')
-b00.report(2, '12:00')
-b00.report(3, '12:00')
-b00.report(4, '12:00')
+b0.report(1, '12:00')
+b0.report(2, '12:00')
+b0.report(3, '12:00')
+b0.report(4, '12:00')
 
-b10.report(1, '12:15')
-b10.report(2, '12:45')
-b10.report(3, '12:45')
-b10.report(4, '12:45')
+b1.report(1, '12:45')
+b1.report(2, '12:15')
+b1.report(3, '12:30')
 
-b11.report(2, '12:30')
-b11.report(3, '12:15')
-b11.report(4, '12:15', '12:30')
+b2.report(1, '12:15')
+b2.report(2, '12:45')
+b2.report(3, '12:45')
+b2.report(4, '12:45')
 
-b01.report(1, '12:45')
-b01.report(2, '12:15')
-b01.report(3, '12:30')
+b3.report(2, '12:30')
+b3.report(3, '12:15')
+b3.report(4, '12:15', '12:30')
 
 save()
