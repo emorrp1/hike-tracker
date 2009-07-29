@@ -54,6 +54,11 @@ class Team(Entity):
 	def __repr__(self):
 		return '<Team %s>' % self.id
 
+	def __cmp__(self, other):
+		if self.id <  other.id: return -1
+		if self.id == other.id: return 0
+		if self.id >  other.id: return 1
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
@@ -76,6 +81,6 @@ class Report(Entity):
 		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
 
 	def __cmp__(self, other):
-		if self.arr < other.arr: return -1
+		if self.arr <  other.arr: return -1
 		if self.arr == other.arr: return 0
-		if self.arr > other.arr: return 1
+		if self.arr >  other.arr: return 1
