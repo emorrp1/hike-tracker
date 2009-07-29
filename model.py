@@ -33,7 +33,7 @@ class Route(Entity):
 		if bases:
 			for base in bases:
 				if type(base).__name__ == 'int':
-					base = Base.get_by(id=base)
+					base = Base.get(base)
 				self.bases.append(base)
 
 	def __repr__(self):
@@ -48,7 +48,7 @@ class Team(Entity):
 		Entity.__init__(self, id=id)
 		if route:
 			if type(route).__name__ == 'str':
-				route = Route.get_by(name=route)
+				route = Route.get(route)
 			self.route = route
 
 	def __repr__(self):
@@ -71,10 +71,10 @@ class Report(Entity):
 		dep = mkdt(dep, date)
 		Entity.__init__(self, arr=arr, dep=dep)
 		if type(team).__name__ == 'int':
-			team = Team.get_by(id=team)
+			team = Team.get(team)
 		self.team = team
 		if type(base).__name__ == 'int':
-			base = Base.get_by(id=base)
+			base = Base.get(base)
 		self.base = base
 
 	def __repr__(self):
