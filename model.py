@@ -12,12 +12,10 @@ class Base(Entity):
 	reports = OneToMany('Report')
 	routes = ManyToMany('Route')
 
-	def __init__(self, id, ref, routes=None):
+	def __init__(self, id, ref):
 		e = int(ref[:3])
 		n = int(ref[-3:])
 		Entity.__init__(self, id=id, e=e, n=n)
-		if routes: for route in routes:
-			self.routes.append(Route.get_by(name=route))
 
 	def __repr__(self):
 		return '<Base %s>' % self.id
