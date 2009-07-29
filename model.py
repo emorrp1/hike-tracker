@@ -24,7 +24,7 @@ class Base(Entity):
 		Report(self, team, arr, dep, date)
 
 class Route(Entity):
-	name = Field(UnicodeText, primary_key=True)
+	name = Field(Text, primary_key=True)
 	bases = ManyToMany('Base')
 	teams = OneToMany('Team')
 
