@@ -46,7 +46,10 @@ class Team(Entity):
 
 	def __init__(self, id, route=None):
 		Entity.__init__(self, id=id)
-		if route: self.route = Route.get_by(name=route)
+		if route:
+			if type(route).__name__ == 'str':
+				route = Route.get_by(name=route)
+			self.route = route
 
 	def __repr__(self):
 		return '<Team %s>' % self.id
