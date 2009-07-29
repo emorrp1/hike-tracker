@@ -74,3 +74,8 @@ class Report(Entity):
 
 	def __repr__(self):
 		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
+
+	def __cmp__(self, other):
+		if self.arr < other.arr: return -1
+		if self.arr == other.arr: return 0
+		if self.arr > other.arr: return 1
