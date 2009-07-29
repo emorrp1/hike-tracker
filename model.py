@@ -42,9 +42,11 @@ class Report(Entity):
 class Team(Entity):
 	id = Field(Integer, primary_key=True)
 	visited = OneToMany('Report')
+	route = ManyToOne('Route')
 
-	def __init__(self, id):
+	def __init__(self, id, route=None):
 		Entity.__init__(self, id=id)
+		if route: self.route = Route.get_by(name=route)
 
 	def __repr__(self):
 		return '<Team %s>' % self.id
