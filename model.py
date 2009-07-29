@@ -23,6 +23,13 @@ class Base(Entity):
 	def report(self, team, arr, dep=None, date=None):
 		Report(self, team, arr, dep, date)
 
+	def done(self):
+		for route in self.routes:
+			for team in route.teams:
+				if not team.visited(self):
+					return False
+		return True
+
 class Route(Entity):
 	name = Field(Text, primary_key=True)
 	bases = ManyToMany('Base')
