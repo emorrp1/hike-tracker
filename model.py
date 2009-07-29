@@ -20,8 +20,8 @@ class Base(Entity):
 	def __repr__(self):
 		return '<Base %s>' % self.id
 
-	def report(self, team_id, arr, dep=None, date=None):
-		Report(self.id, team_id, arr, dep, date)
+	def report(self, team, arr, dep=None, date=None):
+		Report(self, team, arr, dep, date)
 
 class Route(Entity):
 	name = Field(UnicodeText, primary_key=True)
@@ -60,13 +60,17 @@ class Report(Entity):
 	base = ManyToOne('Base')
 	team = ManyToOne('Team')
 
-	def __init__(self, base_id, team_id, arr, dep=None, date=None):
+	def __init__(self, base, team, arr, dep=None, date=None):
 		if not dep: dep = arr
 		arr = mkdt(arr, date)
 		dep = mkdt(dep, date)
 		Entity.__init__(self, arr=arr, dep=dep)
-		self.team = Team.get_by(id=team_id)
-		self.base = Base.get_by(id=base_id)
+		if type(team).__name__ == 'int':
+			team = Team.get_by(id=team))
+		self.team = team
+		if type(base).__name__ == 'int':
+			base = Base.get_by(id=base))
+		self.base = base
 
 	def __repr__(self):
 		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
