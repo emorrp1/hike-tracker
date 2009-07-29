@@ -11,3 +11,4 @@ def start(filename="custom.hike"):
 		options_defaults['tablename'] = lambda c: c.__name__.lower()
 		setup_all(True)
 
+save = session.commit

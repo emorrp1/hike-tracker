@@ -13,7 +13,7 @@ Team(2)
 Team(3)
 Team(4)
 
-session.commit()
+save()
 
 Report(0, 1, '12:00')
 Report(0, 2, '12:00')
@@ -33,4 +33,4 @@ Report(3, 1, '12:45')
 Report(3, 2, '12:15')
 Report(3, 3, '12:30')
 
-session.commit()
+save()
