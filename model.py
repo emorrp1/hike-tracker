@@ -41,7 +41,7 @@ class Route(Entity):
 
 class Team(Entity):
 	id = Field(Integer, primary_key=True)
-	visited = OneToMany('Report')
+	reports = OneToMany('Report')
 	route = ManyToOne('Route')
 
 	def __init__(self, id, route=None):
