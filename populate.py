@@ -8,8 +8,12 @@ b1 = Base(1,'000010')
 b2 = Base(2,'010000')
 b3 = Base(3,'010010')
 
-c = Route('clock', [0,1,3,2])
-a = Route('anti', [0,2,3,1])
+save()
+
+c = Route(u'clock', [0,1,3,2])
+a = Route(u'anti', [0,2,3,1])
+
+save()
 
 Team(1, a)
 Team(2, c)

@@ -33,8 +33,8 @@ class Route(Entity):
 		if bases:
 			for base in bases:
 				if type(base).__name__ == 'int':
-					base = Base.get_by(id=base_id)
-				bases.append(base)
+					base = Base.get_by(id=base)
+				self.bases.append(base)
 
 	def __repr__(self):
 		return '<Route %s>' % self.name
