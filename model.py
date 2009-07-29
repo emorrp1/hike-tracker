@@ -41,7 +41,7 @@ class Route(Entity):
 
 class Team(Entity):
 	id = Field(Integer, primary_key=True)
-	visited = OneToMany('Report')
+	reports = OneToMany('Report')
 	route = ManyToOne('Route')
 
 	def __init__(self, id, route=None):
@@ -78,7 +78,7 @@ class Report(Entity):
 		self.base = base
 
 	def __repr__(self):
-		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
+		return '<%s Report: %s arrived %s departed %s>' % (self.base, self.team, self.arr.time(), self.dep.time())
 
 	def __cmp__(self, other):
 		if self.arr <  other.arr: return -1
