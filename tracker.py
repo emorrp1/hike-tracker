@@ -39,6 +39,15 @@ class Base(Entity):
 					return False
 		return True
 
+	def next(self, route):
+		if type(route).__name__ == 'str':
+			route = Route.get(route)
+		n = route.bases.index(self)
+		if len(route.bases) == n+1:
+			return None
+		else:
+			return route.bases[n+1]
+
 class Route(Entity):
 	name = Field(Text, primary_key=True)
 	bases = ManyToMany('Base')
