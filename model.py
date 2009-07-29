@@ -23,6 +23,32 @@ class Base(Entity):
 	def report(self, team_id, arr, dep=None, date=None):
 		Report(self.id, team_id, arr, dep, date)
 
+class Route(Entity):
+	name = Field(UnicodeText, primary_key=True)
+	bases = ManyToMany('Base')
+	teams = OneToMany('Team')
+
+	def __init__(self, name, bases=None):
+		Entity.__init__(self, name=name)
+		if bases:
+			for base_id in bases:
+				self.bases.append(Base.get_by(id=base_id))
+
+	def __repr__(self):
+		return '<Route %s>' % self.name
+
+class Team(Entity):
+	id = Field(Integer, primary_key=True)
+	visited = OneToMany('Report')
+	route = ManyToOne('Route')
+
+	def __init__(self, id, route=None):
+		Entity.__init__(self, id=id)
+		if route: self.route = Route.get_by(name=route)
+
+	def __repr__(self):
+		return '<Team %s>' % self.id
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
@@ -39,32 +65,3 @@ class Report(Entity):
 
 	def __repr__(self):
 		return '<Base %s Report: Team %s arrived %s departed %s>' % (base.id, team.id, str(arr.time()), str(dep.time()))
-
-class Team(Entity):
-	id = Field(Integer, primary_key=True)
-	visited = OneToMany('Report')
-	route = ManyToOne('Route')
-
-	def __init__(self, id, route=None):
-		Entity.__init__(self, id=id)
-		if route: self.route = Route.get_by(name=route)
-
-	def __repr__(self):
-		return '<Team %s>' % self.id
-
-class Route(Entity):
-	name = Field(UnicodeText, primary_key=True)
-	bases = ManyToMany('Base')
-	teams = OneToMany('Team')
-
-	def __init__(self, name, bases=None, teams=None):
-		Entity.__init__(self, name=name)
-		if bases:
-			for base_id in bases:
-				self.bases.append(Base.get_by(id=base_id))
-		if teams:
-			for team_id in teams:
-				self.teams.append(Team.get_by(id=team_id))
-
-	def __repr__(self):
-		return '<Route %s>' % self.name
