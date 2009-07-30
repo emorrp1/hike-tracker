@@ -149,3 +149,6 @@ class Report(Entity):
 		if self.arr <  other.arr: return -1
 		if self.arr == other.arr: return 0
 		if self.arr >  other.arr: return 1
+
+	def stoppage(self):
+		return self.dep - self.arr
