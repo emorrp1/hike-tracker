@@ -109,15 +109,18 @@ class Team(Entity):
 		self.reports.sort(reverse=True)
 		return self.reports[0].base
 
+	def on_route(self):
+		return self.last_visited() in self.route.bases
+
+	def finished(self):
+		last = len(self.route.bases) - 1
+		return self.last_visited() == self.route.bases[last]
+
 	def completed(self):
 		for base in self.route.bases:
 			if not self.visited(base):
 				return False
 		return True
-
-	def on_route(self):
-		self.reports.sort(reverse=True)
-		return self.reports[0].base in self.route.bases
 
 	def traversed(self):
 		sum = 0
