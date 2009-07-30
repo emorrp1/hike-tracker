@@ -134,7 +134,7 @@ class Team(Entity):
 			r = self.reports[i]
 			stoppage += r.stoppage()
 			walking += self.reports[i+1].arr - r.dep
-		return walking.seconds, stoppage.seconds
+		return walking.seconds // 60, stoppage.seconds // 60
 
 class Report(Entity):
 	arr = Field(DateTime)
