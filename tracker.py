@@ -73,6 +73,12 @@ class Route(Entity):
 	def __repr__(self):
 		return '<Route %s>' % self.id
 
+	def __len__(self):
+		sum = 0
+		for base in self.bases[:-1]:
+			sum += base.distance(base.next(self))
+		return sum
+
 class Team(Entity):
 	id = Field(Integer, primary_key=True)
 	reports = OneToMany('Report')
