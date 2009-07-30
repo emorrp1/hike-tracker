@@ -57,6 +57,18 @@ class Base(Entity):
 		hyp =  sqrt( pow(ediff, 2) + pow(ndiff, 2))
 		return int(hyp)
 
+	def distance_along(self, route, other):
+		if type(route).__name__ == 'int':
+			route = Route.get(route)
+		if type(other).__name__ == 'int':
+			other = Base.get(other)
+		sum = 0
+		start = route.bases.index(self)
+		stop = route.bases.index(other)
+		for base in route.bases[start:stop]:
+			sum += base.distance(self.next(route))
+		return sum
+
 class Route(Entity):
 	id = Field(Integer, primary_key=True)
 	bases = ManyToMany('Base')
