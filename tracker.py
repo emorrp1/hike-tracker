@@ -123,13 +123,13 @@ class Team(Entity):
 
 	def last_visited(self):
 		self.reports.sort(reverse=True)
-		return self.reports[0].base
+		return self.reports[0].base, self.reports[0].dep
 
 	def on_route(self):
-		return self.last_visited() in self.route.bases
+		return self.last_visited()[0] in self.route.bases
 
 	def finished(self):
-		return self.last_visited() == self.route.end
+		return self.last_visited()[0] == self.route.end
 
 	def completed(self):
 		for base in self.route.bases:
@@ -164,18 +164,16 @@ class Team(Entity):
 		return ( d*60 ) // t
 
 	def eta(self, base=None):
-		from datetime import timedelta
 		if not self.on_route():
 			return None
+		from datetime import timedelta
+		last, dep = self.last_visited()
 		if not base:
-			base = self.last_visited().next(self.route)
-		else:
-			d = self.last_visited().distance_along(self.route,base)
-			s = self.speed()
-			t = ( d*3600 ) // s
-			self.reports.sort(reverse=True)
-			dep = self.reports[0].dep
-			return dep + timedelta(0,t)
+			base = last.next(self.route)
+		d = last.distance_along(self.route, base)
+		s = self.speed()
+		t = ( d*3600 ) // s
+		return dep + timedelta(0,t)
 
 class Report(Entity):
 	arr = Field(DateTime)
