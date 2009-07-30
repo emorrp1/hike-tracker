@@ -115,6 +115,15 @@ class Team(Entity):
 		self.reports.sort(reverse=True)
 		return self.reports[0].base in self.route.bases
 
+	def traversed(self):
+		sum = 0
+		self.reports.sort()
+		for i in range(len(self.reports)-1):
+			base = self.reports[i].base
+			next = self.reports[i+1].base
+			sum += base.distance(next)
+		return sum
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
