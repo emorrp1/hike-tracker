@@ -172,7 +172,7 @@ class Team(Entity):
 		return ( d*60 ) // t
 
 	def eta(self, base=None, sp=None):
-		if not self.on_route():
+		if self.finished() or not self.on_route():
 			return None
 		from datetime import timedelta
 		last, dep = self.last_visited()
