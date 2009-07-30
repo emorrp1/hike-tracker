@@ -40,7 +40,7 @@ class Base(Entity):
 		return True
 
 	def next(self, route):
-		if type(route).__name__ == 'str':
+		if type(route).__name__ == 'int':
 			route = Route.get(route)
 		n = route.bases.index(self)
 		if len(route.bases) == n+1:
@@ -49,12 +49,12 @@ class Base(Entity):
 			return route.bases[n+1]
 
 class Route(Entity):
-	name = Field(Text, primary_key=True)
+	id = Field(Integer, primary_key=True)
 	bases = ManyToMany('Base')
 	teams = OneToMany('Team')
 
-	def __init__(self, name, bases=None):
-		Entity.__init__(self, name=name)
+	def __init__(self, id, bases=None):
+		Entity.__init__(self, id=id)
 		if bases:
 			for base in bases:
 				if type(base).__name__ == 'int':
@@ -62,7 +62,7 @@ class Route(Entity):
 				self.bases.append(base)
 
 	def __repr__(self):
-		return '<Route %s>' % self.name
+		return '<Route %s>' % self.id
 
 class Team(Entity):
 	id = Field(Integer, primary_key=True)
@@ -72,7 +72,7 @@ class Team(Entity):
 	def __init__(self, id, route=None):
 		Entity.__init__(self, id=id)
 		if route:
-			if type(route).__name__ == 'str':
+			if type(route).__name__ == 'int':
 				route = Route.get(route)
 			self.route = route
 
