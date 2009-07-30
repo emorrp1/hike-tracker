@@ -136,6 +136,11 @@ class Team(Entity):
 			walking += self.reports[i+1].arr - r.dep
 		return walking.seconds // 60, stoppage.seconds // 60
 
+	def speed(self):
+		d = self.traversed()
+		t = self.timings()[0]
+		return ( d*60 ) // t
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
