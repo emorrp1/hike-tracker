@@ -66,7 +66,7 @@ class Base(Entity):
 		start = route.bases.index(self)
 		stop = route.bases.index(other)
 		for base in route.bases[start:stop]:
-			sum += base.distance(self.next(route))
+			sum += base.distance(base.next(route))
 		return sum
 
 class Route(Entity):
