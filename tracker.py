@@ -137,7 +137,7 @@ class Team(Entity):
 		return self.last_visited()[0] in self.route.bases
 
 	def finished(self):
-		return self.last_visited()[0] == self.route.end
+		return self.last_visited()[0] == self.route.end()
 
 	def completed(self):
 		for base in self.route.bases:
