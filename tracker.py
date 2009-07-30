@@ -105,6 +105,10 @@ class Team(Entity):
 		reports = Report.query.filter(Report.team == self)
 		return reports.filter(Report.base == base).all()
 
+	def last_visited(self):
+		self.reports.sort(reverse=True)
+		return self.reports[0].base
+
 	def completed(self):
 		for base in self.route.bases:
 			if not self.visited(base):
