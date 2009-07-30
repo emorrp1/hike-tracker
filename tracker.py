@@ -163,6 +163,20 @@ class Team(Entity):
 		t = self.timings()[0]
 		return ( d*60 ) // t
 
+	def eta(self, base=None):
+		from datetime import timedelta
+		if not self.on_route():
+			return None
+		if not base:
+			base = self.last_visited().next(self.route)
+		else:
+			d = self.last_visited().distance_along(self.route,base)
+			s = self.speed()
+			t = ( d*3600 ) // s
+			self.reports.sort(reverse=True)
+			dep = self.reports[0].dep
+			return dep + timedelta(0,t)
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
