@@ -170,6 +170,9 @@ class Team(Entity):
 		last, dep = self.last_visited()
 		if not base:
 			base = last.next(self.route)
+		else:
+			if type(base).__name__ == 'int':
+				base = Base.get(base)
 		if not sp:
 			sp = self.speed()
 		d = last.distance_along(self.route, base)
