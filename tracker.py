@@ -48,6 +48,15 @@ class Base(Entity):
 		else:
 			return route.bases[n+1]
 
+	def distance(self, other):
+		from math import pow, sqrt
+		if type(other).__name__ == 'int':
+			other = Base.get(other)
+		ediff = self.e - other.e
+		ndiff = self.n - other.n
+		hyp =  sqrt( pow(ediff, 2) + pow(ndiff, 2))
+		return int(hyp)
+
 class Route(Entity):
 	id = Field(Integer, primary_key=True)
 	bases = ManyToMany('Base')
