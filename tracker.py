@@ -53,7 +53,7 @@ class Base(Entity):
 		if type(other).__name__ == 'int':
 			other = Base.get(other)
 		rollover = 1000
-		diffs = fabs(self.e - other.e)
+		ediff = fabs(self.e - other.e)
 		if ediff > rollover/2:
 			ediff = rollover - ediff
 		ndiff = fabs(self.n - other.n)
