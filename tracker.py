@@ -79,6 +79,10 @@ class Route(Entity):
 			sum += base.distance(base.next(self))
 		return sum
 
+	def end(self):
+		last = len(self.bases) - 1
+		return self.bases[last]
+
 class Team(Entity):
 	id = Field(Integer, primary_key=True)
 	reports = OneToMany('Report')
