@@ -111,6 +111,10 @@ class Team(Entity):
 				return False
 		return True
 
+	def on_route(self):
+		self.reports.sort(reverse=True)
+		return self.reports[0].base in self.route.bases
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
