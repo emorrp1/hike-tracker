@@ -57,11 +57,14 @@ class Base(Entity):
 		hyp =  sqrt( pow(ediff, 2) + pow(ndiff, 2))
 		return int(hyp)
 
-	def distance_along(self, route, other):
+	def distance_along(self, route, other=None):
 		if type(route).__name__ == 'int':
 			route = Route.get(route)
-		if type(other).__name__ == 'int':
-			other = Base.get(other)
+		if not other:
+			other = self.next(route)
+		else:
+			if type(other).__name__ == 'int':
+				other = Base.get(other)
 		sum = 0
 		start = route.bases.index(self)
 		stop = route.bases.index(other)
