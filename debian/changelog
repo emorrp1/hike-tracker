@@ -1,3 +1,18 @@
+hike-tracker (0.5) jaunty; urgency=low
+
+  * added Base distance/distance_along
+  * added Team traversed/timings/speed/eta
+  * added Team last_visited/on_route/finished
+  * added Route len/end
+  * added Report stoppage
+  * split team and base into own files
+  * added blackfoot 09 sun routes
+  * added basic testing
+  * Route uses id
+  * ignoring DeprecationWarning on scripts
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Thu, 30 Jul 2009 17:58:02 +0100
+
 hike-tracker (0.4.1) jaunty; urgency=low
 
   * added Team visited/completed
