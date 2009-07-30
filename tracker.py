@@ -49,11 +49,16 @@ class Base(Entity):
 			return route.bases[n+1]
 
 	def distance(self, other):
-		from math import pow, sqrt
+		from math import fabs, pow, sqrt
 		if type(other).__name__ == 'int':
 			other = Base.get(other)
-		ediff = self.e - other.e
-		ndiff = self.n - other.n
+		rollover = 1000
+		diffs = fabs(self.e - other.e)
+		if ediff > rollover/2:
+			ediff = rollover - ediff
+		ndiff = fabs(self.n - other.n)
+		if ndiff > rollover/2:
+			ndiff = rollover - ndiff
 		hyp =  sqrt( pow(ediff, 2) + pow(ndiff, 2))
 		return int(hyp)
 
