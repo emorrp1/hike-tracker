@@ -124,6 +124,18 @@ class Team(Entity):
 			sum += base.distance(next)
 		return sum
 
+	def timings(self):
+		from datetime import timedelta
+		walking = timedelta()
+		self.reports.sort(reverse=True)
+		stoppage = self.reports[0].stoppage()
+		self.reports.sort()
+		for i in range(len(self.reports)-1):
+			r = self.reports[i]
+			stoppage += r.stoppage()
+			walking += self.reports[i+1].arr - r.dep
+		return walking.seconds, stoppage.seconds
+
 class Report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
