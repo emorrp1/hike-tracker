@@ -1,6 +1,6 @@
 #!/usr/bin/python -W ignore::DeprecationWarning
 from tracker import *
-from os import path, system
+from os import path
 
 if not path.exists("custom.hike"):
 	execfile("populate.py")
@@ -39,11 +39,11 @@ assert t3.completed() is True
 assert t4.completed() is False
 
 assert t1.visited(3) == []
-b3.report(t1, '13:00')
+Report(b3, t1, '13:00')
 assert t1.completed() is True
 assert b3.done() is True
 
 assert t4.visited(b1) == []
-b1.report(4, '13:00')
+Report(b1, 4, '13:00')
 assert t4.completed() is True
 assert b1.done() is True
