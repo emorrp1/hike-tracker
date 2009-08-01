@@ -1,3 +1,4 @@
+#!/usr/bin/python -iW ignore::DeprecationWarning
 from elixir import *
 from model import *
 
