@@ -1,3 +1,11 @@
+hike-tracker (0.5.1) jaunty; urgency=low
+
+  * adding hike-tracker launcher
+  * combining team and base back into model.py
+  * using Report rather than Base.report
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Sat, 01 Aug 2009 21:47:26 +0100
+
 hike-tracker (0.5) jaunty; urgency=low
 
   * added Base distance/distance_along
