@@ -1,6 +1,3 @@
-#!/usr/bin/python -W ignore::DeprecationWarning
-from tracker import *
-
 start()
 
 b0 = Base(0, '000000')

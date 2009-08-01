@@ -1,6 +1,3 @@
-#!/usr/bin/python -W ignore::DeprecationWarning
-from tracker import *
-
 start('bf99.hike')
 
 b00 = Base(00, '028683')
