@@ -1,6 +1,4 @@
 from elixir import *
-from team import *
-from base import *
 
 def start(filename="custom.hike"):
 	from os.path import exists
@@ -15,6 +13,69 @@ def mkdt(time, date=None):
 	from datetime import datetime
 	if not date: date = datetime.today().strftime('%y%m%d')
 	return datetime.strptime(date + time, '%y%m%d%H:%M')
+
+class Base(Entity):
+	id = Field(Integer, primary_key=True)
+	e = Field(Integer)
+	n = Field(Integer)
+	reports = OneToMany('Report')
+	routes = ManyToMany('Route')
+
+	def __init__(self, id, ref):
+		e = int(ref[:3])
+		n = int(ref[-3:])
+		Entity.__init__(self, id=id, e=e, n=n)
+
+	def __repr__(self):
+		return '<Base %s>' % self.id
+
+	def report(self, team, arr, dep=None, date=None):
+		Report(self, team, arr, dep, date)
+
+	def done(self):
+		for route in self.routes:
+			for team in route.teams:
+				if not team.visited(self):
+					return False
+		return True
+
+	def next(self, route):
+		if type(route).__name__ == 'int':
+			route = Route.get(route)
+		n = route.bases.index(self)
+		if len(route.bases) == n+1:
+			return None
+		else:
+			return route.bases[n+1]
+
+	def distance(self, other):
+		from math import fabs, pow, sqrt
+		if type(other).__name__ == 'int':
+			other = Base.get(other)
+		rollover = 1000
+		ediff = fabs(self.e - other.e)
+		if ediff > rollover/2:
+			ediff = rollover - ediff
+		ndiff = fabs(self.n - other.n)
+		if ndiff > rollover/2:
+			ndiff = rollover - ndiff
+		hyp =  sqrt( pow(ediff, 2) + pow(ndiff, 2))
+		return int(hyp)
+
+	def distance_along(self, route, other=None):
+		if type(route).__name__ == 'int':
+			route = Route.get(route)
+		if not other:
+			other = self.next(route)
+		else:
+			if type(other).__name__ == 'int':
+				other = Base.get(other)
+		sum = 0
+		start = route.bases.index(self)
+		stop = route.bases.index(other)
+		for base in route.bases[start:stop]:
+			sum += base.distance(base.next(route))
+		return sum
 
 class Route(Entity):
 	id = Field(Integer, primary_key=True)
@@ -41,6 +102,85 @@ class Route(Entity):
 	def end(self):
 		last = len(self.bases) - 1
 		return self.bases[last]
+
+class Team(Entity):
+	id = Field(Integer, primary_key=True)
+	reports = OneToMany('Report')
+	route = ManyToOne('Route')
+
+	def __init__(self, id, route=None):
+		Entity.__init__(self, id=id)
+		if route:
+			if type(route).__name__ == 'int':
+				route = Route.get(route)
+			self.route = route
+
+	def __repr__(self):
+		return '<Team %s>' % self.id
+
+	def __cmp__(self, other):
+		if self.id <  other.id: return -1
+		if self.id == other.id: return 0
+		if self.id >  other.id: return 1
+
+	def visited(self, base):
+		if type(base).__name__ == 'int':
+			base = Base.get(base)
+		reports = Report.query.filter(Report.team == self)
+		return reports.filter(Report.base == base).all()
+
+	def last_visited(self):
+		self.reports.sort(reverse=True)
+		return self.reports[0].base, self.reports[0].dep
+
+	def on_route(self):
+		return self.last_visited()[0] in self.route.bases
+
+	def finished(self):
+		return self.last_visited()[0] == self.route.end()
+
+	def completed(self):
+		for base in self.route.bases:
+			if not self.visited(base):
+				return False
+		return True
+
+	def traversed(self):
+		sum = 0
+		self.reports.sort()
+		for i in range(len(self.reports)-1):
+			base = self.reports[i].base
+			next = self.reports[i+1].base
+			sum += base.distance(next)
+		return sum
+
+	def timings(self):
+		from datetime import timedelta
+		walking = timedelta()
+		self.reports.sort(reverse=True)
+		stoppage = self.reports[0].stoppage()
+		self.reports.sort()
+		for i in range(len(self.reports)-1):
+			r = self.reports[i]
+			stoppage += r.stoppage()
+			walking += self.reports[i+1].arr - r.dep
+		return walking.seconds // 60, stoppage.seconds // 60
+
+	def speed(self):
+		d = self.traversed()
+		t = self.timings()[0]
+		return ( d*60 ) // t
+
+	def eta(self, base=None, sp=None):
+		if self.finished() or not self.on_route():
+			return None
+		from datetime import timedelta
+		last, dep = self.last_visited()
+		if not sp:
+			sp = self.speed()
+		d = last.distance_along(self.route, base)
+		t = ( d*3600 ) // sp
+		return dep + timedelta(0,t)
 
 class Report(Entity):
 	arr = Field(DateTime)
