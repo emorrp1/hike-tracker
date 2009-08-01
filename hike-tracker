@@ -1,0 +1,5 @@
+#!/usr/bin/python -iW ignore::DeprecationWarning
+import sys
+sys.path.append('/usr/lib/hike-tracker')
+del sys
+from tracker import *
