@@ -3,7 +3,7 @@ from tracker import *
 from os import path, system
 
 if not path.exists("custom.hike"):
-	system("./populate.py")
+	execfile("populate.py")
 
 start()
 
