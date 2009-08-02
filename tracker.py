@@ -2,10 +2,10 @@
 from elixir import *
 from model import *
 from configobj import ConfigObj
+from os.path import exists
 
 def start(hike="custom"):
 	hike += ".hike"
-	from os.path import exists
 	metadata.bind = "sqlite:///%s" % hike
 	setup_all()
 	if not exists(hike):
@@ -15,11 +15,11 @@ save = session.commit
 
 def configure(hike="custom"):
 	hike += ".conf"
-	config = ConfigObj(hike)
-	for b in config['bases']:
-		Base(b, config['bases'][b])
-	for r in config['routes']:
-		Route(r, config['routes'][r])
-	for t in config['teams']:
-		Team(t, config['teams'][t])
-	save()
+	if exists(hike):
+		config = ConfigObj(hike)
+		for b in config['bases']:
+			Base(b, config['bases'][b])
+		for r in config['routes']:
+			Route(r, config['routes'][r])
+		for t in config['teams']:
+			Team(t, config['teams'][t])
