@@ -1,4 +1,4 @@
-start('bf99.hike')
+start('bf99')
 
 b00 = Base(00, '028683')
 b21 = Base(21, '017671')
