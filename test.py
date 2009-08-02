@@ -2,10 +2,11 @@
 from tracker import *
 from os import path
 
-if not path.exists("custom.hike"):
-	execfile("populate.py")
+if not path.exists("test.hike"):
+	conf=True
 
-start()
+start('test')
+if conf: configure('test')
 
 b0 = Base.get(0)
 b1 = Base.get(1)
