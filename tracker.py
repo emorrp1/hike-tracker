@@ -2,11 +2,12 @@
 from elixir import *
 from model import *
 
-def start(filename="custom.hike"):
+def start(hike="custom"):
+	hike += ".hike"
 	from os.path import exists
-	metadata.bind = "sqlite:///" + filename # connect
+	metadata.bind = "sqlite:///%s" % hike
 	setup_all()
-	if not exists(filename):
+	if not exists(hike):
 		create_all()
 
 save = session.commit
