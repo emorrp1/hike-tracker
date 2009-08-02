@@ -1,6 +1,7 @@
 #!/usr/bin/python -iW ignore::DeprecationWarning
 from elixir import *
 from model import *
+from configobj import ConfigObj
 
 def start(hike="custom"):
 	hike += ".hike"
@@ -11,3 +12,14 @@ def start(hike="custom"):
 		create_all()
 
 save = session.commit
+
+def configure(hike="custom"):
+	hike += ".conf"
+	config = ConfigObj(hike)
+	for b in config['bases']:
+		Base(b, config['bases'][b])
+	for r in config['routes']:
+		Route(r, config['routes'][r])
+	for t in config['teams']:
+		Team(t, config['teams'][t])
+	save()
