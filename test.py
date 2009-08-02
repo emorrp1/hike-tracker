@@ -8,18 +8,18 @@ if not path.exists("test.hike"):
 start('test')
 if conf: configure('test')
 
-b0 = Base.get(0)
-b1 = Base.get(1)
-b2 = Base.get(2)
-b3 = Base.get(3)
+b0 = Base.get_by(name='0')
+b1 = Base.get_by(name='1')
+b2 = Base.get_by(name='2')
+b3 = Base.get_by(name='3')
 
-r1 = Route.get(1)
-r2 = Route.get(2)
+r1 = Route.get_by(name='1')
+r2 = Route.get_by(name='2')
 
-t1 = Team.get(1)
-t2 = Team.get(2)
-t3 = Team.get(3)
-t4 = Team.get(4)
+t1 = Team.get_by(name='1')
+t2 = Team.get_by(name='2')
+t3 = Team.get_by(name='3')
+t4 = Team.get_by(name='4')
 
 assert b0.done() is True
 assert b1.done() is False
