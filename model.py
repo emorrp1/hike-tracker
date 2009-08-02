@@ -15,8 +15,11 @@ class Base(Entity):
 	def __repr__(self):
 		return '<Base %s>' % self.name
 
-	def report(self, team, arr, dep=None, date=None):
-		Report(self, team, arr, dep, date)
+	def report(self):
+		from sys import stdin
+		for line in stdin.readlines():
+			args = [self] + line.split()
+			Report(*args)
 
 	def done(self):
 		for route in self.routes:
