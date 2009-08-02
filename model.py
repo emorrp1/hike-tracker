@@ -1,19 +1,19 @@
 from elixir import *
 
 class Base(Entity):
-	id = Field(Integer, primary_key=True)
+	name = Field(Text)
 	e = Field(Integer)
 	n = Field(Integer)
 	reports = OneToMany('Report')
 	routes = ManyToMany('Route')
 
-	def __init__(self, id, ref):
+	def __init__(self, name, ref):
 		e = int(ref[:3])
 		n = int(ref[-3:])
-		Entity.__init__(self, id=id, e=e, n=n)
+		Entity.__init__(self, name=name, e=e, n=n)
 
 	def __repr__(self):
-		return '<Base %s>' % self.id
+		return '<Base %s>' % self.name
 
 	def report(self, team, arr, dep=None, date=None):
 		Report(self, team, arr, dep, date)
@@ -26,8 +26,8 @@ class Base(Entity):
 		return True
 
 	def next(self, route):
-		if type(route).__name__ == 'int':
-			route = Route.get(route)
+		if type(route).__name__ == 'str':
+			route = Route.get_by(name=route)
 		n = route.bases.index(self)
 		if len(route.bases) == n+1:
 			return None
@@ -36,8 +36,8 @@ class Base(Entity):
 
 	def distance(self, other):
 		from math import fabs, pow, sqrt
-		if type(other).__name__ == 'int':
-			other = Base.get(other)
+		if type(other).__name__ == 'str':
+			other = Base.get_by(name=other)
 		rollover = 1000
 		ediff = fabs(self.e - other.e)
 		if ediff > rollover/2:
@@ -49,13 +49,13 @@ class Base(Entity):
 		return int(hyp)
 
 	def distance_along(self, route, other=None):
-		if type(route).__name__ == 'int':
-			route = Route.get(route)
+		if type(route).__name__ == 'str':
+			route = Route.get_by(name=route)
 		if not other:
 			other = self.next(route)
 		else:
-			if type(other).__name__ == 'int':
-				other = Base.get(other)
+			if type(other).__name__ == 'str':
+				other = Base.get_by(name=other)
 		sum = 0
 		start = route.bases.index(self)
 		stop = route.bases.index(other)
@@ -64,20 +64,20 @@ class Base(Entity):
 		return sum
 
 class Route(Entity):
-	id = Field(Integer, primary_key=True)
+	name = Field(Text)
 	bases = ManyToMany('Base')
 	teams = OneToMany('Team')
 
-	def __init__(self, id, bases=None):
-		Entity.__init__(self, id=id)
+	def __init__(self, name, bases=None):
+		Entity.__init__(self, name=name)
 		if bases:
 			for base in bases:
-				if type(base).__name__ == 'int':
-					base = Base.get(base)
+				if type(base).__name__ == 'str':
+					base = Base.get_by(name=base)
 				self.bases.append(base)
 
 	def __repr__(self):
-		return '<Route %s>' % self.id
+		return '<Route %s>' % self.name
 
 	def __len__(self):
 		sum = 0
@@ -90,28 +90,28 @@ class Route(Entity):
 		return self.bases[last]
 
 class Team(Entity):
-	id = Field(Integer, primary_key=True)
+	name = Field(Text)
 	reports = OneToMany('Report')
 	route = ManyToOne('Route')
 
-	def __init__(self, id, route=None):
-		Entity.__init__(self, id=id)
+	def __init__(self, name, route=None):
+		Entity.__init__(self, name=name)
 		if route:
-			if type(route).__name__ == 'int':
-				route = Route.get(route)
+			if type(route).__name__ == 'str':
+				route = Route.get_by(name=route)
 			self.route = route
 
 	def __repr__(self):
-		return '<Team %s>' % self.id
+		return '<Team %s>' % self.name
 
 	def __cmp__(self, other):
-		if self.id <  other.id: return -1
-		if self.id == other.id: return 0
-		if self.id >  other.id: return 1
+		if self.name <  other.name: return -1
+		if self.name == other.name: return 0
+		if self.name >  other.name: return 1
 
 	def visited(self, base):
-		if type(base).__name__ == 'int':
-			base = Base.get(base)
+		if type(base).__name__ == 'str':
+			base = Base.get_by(name=base)
 		reports = Report.query.filter(Report.team == self)
 		return reports.filter(Report.base == base).all()
 
@@ -179,11 +179,11 @@ class Report(Entity):
 		arr = self.mkdt(arr, date)
 		dep = self.mkdt(dep, date)
 		Entity.__init__(self, arr=arr, dep=dep)
-		if type(team).__name__ == 'int':
-			team = Team.get(team)
+		if type(team).__name__ == 'str':
+			team = Team.get_by(name=team)
 		self.team = team
-		if type(base).__name__ == 'int':
-			base = Base.get(base)
+		if type(base).__name__ == 'str':
+			base = Base.get_by(name=base)
 		self.base = base
 
 	def __repr__(self):
