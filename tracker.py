@@ -10,6 +10,8 @@ def start(hike="custom"):
 	setup_all()
 	if not exists(hike):
 		create_all()
+		configure(hike[:-5])
+		save()
 
 save = session.commit
 
