@@ -2,11 +2,12 @@
 from tracker import *
 from os import path
 
-if not path.exists("test.hike"):
-	conf=True
+configured = path.exists("test.hike")
 
 start('test')
-if conf: configure('test')
+if not configured:
+	configure('test')
+	execfile('test.reports')
 
 b0 = Base.get_by(name='0')
 b1 = Base.get_by(name='1')
