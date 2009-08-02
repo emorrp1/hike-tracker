@@ -1,10 +1,5 @@
 from elixir import *
 
-def mkdt(time, date=None):
-	from datetime import datetime
-	if not date: date = datetime.today().strftime('%y%m%d')
-	return datetime.strptime(date + time, '%y%m%d%H:%M')
-
 class Base(Entity):
 	id = Field(Integer, primary_key=True)
 	e = Field(Integer)
@@ -181,8 +176,8 @@ class Report(Entity):
 
 	def __init__(self, base, team, arr, dep=None, date=None):
 		if not dep: dep = arr
-		arr = mkdt(arr, date)
-		dep = mkdt(dep, date)
+		arr = self.mkdt(arr, date)
+		dep = self.mkdt(dep, date)
 		Entity.__init__(self, arr=arr, dep=dep)
 		if type(team).__name__ == 'int':
 			team = Team.get(team)
@@ -198,6 +193,11 @@ class Report(Entity):
 		if self.arr <  other.arr: return -1
 		if self.arr == other.arr: return 0
 		if self.arr >  other.arr: return 1
+
+	def mkdt(self, time, date=None):
+		from datetime import datetime
+		if not date: date = datetime.today().strftime('%y%m%d')
+		return datetime.strptime(date + time, '%y%m%d%H:%M')
 
 	def stoppage(self):
 		return self.dep - self.arr
