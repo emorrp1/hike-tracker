@@ -1,3 +1,16 @@
+hike-tracker (0.5.2) jaunty; urgency=low
+
+  * adding hike pre-configuration with tracker.configure
+  * adding corresponding python-configobj dependency
+  * adding tracker.get shortcut to retrieval by name
+  * making model.Base.report more useful with stdin
+  * making ids dataless, using names instead
+  * adding basic docstrings
+  * using a hike name rather than path to db
+  * privatising model.mkdt to model.Report.mkdt
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Wed, 05 Aug 2009 11:14:21 +0100
+
 hike-tracker (0.5.1) jaunty; urgency=low
 
   * adding hike-tracker launcher
