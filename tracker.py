@@ -29,6 +29,7 @@ def configure(hike="custom"):
 			Team(t, config['teams'][t])
 
 def get(tname):
+	'''Shortcut to getting hike objects by name'''
 	type = tname[0]
 	name = tname[1:]
 	types = {'b':Base, 'r':Route, 't':Team}
