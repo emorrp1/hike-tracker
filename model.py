@@ -1,6 +1,7 @@
 from elixir import *
 
 class Base(Entity):
+	'''The database representation of a manned base'''
 	name = Field(Text)
 	e = Field(Integer)
 	n = Field(Integer)
@@ -67,6 +68,7 @@ class Base(Entity):
 		return sum
 
 class Route(Entity):
+	'''The database representation of a series of bases teams have to pass through'''
 	name = Field(Text)
 	bases = ManyToMany('Base')
 	teams = OneToMany('Team')
@@ -93,6 +95,7 @@ class Route(Entity):
 		return self.bases[last]
 
 class Team(Entity):
+	'''The database representation of a competing team'''
 	name = Field(Text)
 	reports = OneToMany('Report')
 	route = ManyToOne('Route')
@@ -172,6 +175,7 @@ class Team(Entity):
 		return dep + timedelta(0,t)
 
 class Report(Entity):
+	'''The database representation of a team's arr/dep times at a base'''
 	arr = Field(DateTime)
 	dep = Field(DateTime)
 	base = ManyToOne('Base')
