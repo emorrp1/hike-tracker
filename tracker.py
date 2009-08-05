@@ -5,6 +5,7 @@ from configobj import ConfigObj
 from os.path import exists
 
 def start(hike="custom"):
+	'''Start the database connection, creating the tables and configuring if necessary'''
 	hike += ".hike"
 	metadata.bind = "sqlite:///%s" % hike
 	setup_all()
@@ -16,6 +17,7 @@ def start(hike="custom"):
 save = session.commit
 
 def configure(hike="custom"):
+	'''Create the hike definition if the config exists'''
 	hike += ".conf"
 	if exists(hike):
 		config = ConfigObj(hike)
