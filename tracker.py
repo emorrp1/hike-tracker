@@ -27,3 +27,9 @@ def configure(hike="custom"):
 			Route(r, config['routes'][r])
 		for t in config['teams']:
 			Team(t, config['teams'][t])
+
+def get(tname):
+	type = tname[0]
+	name = tname[1:]
+	types = {'b':Base, 'r':Route, 't':Team}
+	return types[type].get_by(name=name)
