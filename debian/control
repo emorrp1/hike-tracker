@@ -7,6 +7,6 @@ Standards-Version: 3.7.3
 
 Package: hike-tracker
 Architecture: any
-Depends: python (>=2.5), python-sqlite, python-elixir
+Depends: python (>=2.5), python-sqlite, python-elixir, python-configobj
 Description: A program for tracking people on scout hikes.
  A program for tracking people on scout hikes.
