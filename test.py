@@ -46,3 +46,6 @@ class Testing(unittest.TestCase):
 		Report('1', '4', '13:00')
 		self.assertTrue(get('t4').completed())
 		self.assertTrue(get('b1').done())
+
+if __name__ == '__main__':
+	unittest.main()
