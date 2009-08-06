@@ -29,6 +29,15 @@ class Testing(unittest.TestCase):
 		self.assertEqual(get('b2').next('2'), get('b3'))
 		self.assertEqual(get('b3').next('2'), None)
 
+	def testBaseDistAlong(self):
+		b0 = get('b0')
+		b1 = get('b1')
+		b3 = get('b3')
+		d01 = b0.distance(b1)
+		d13 = b1.distance(b3)
+		along = b0.distance_along('1',b3)
+		self.assertEqual(d01+d13, along)
+
 	def testRouteEnd(self):
 		b = Base('testend', '000000')
 		r = get('r1')
