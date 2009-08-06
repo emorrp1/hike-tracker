@@ -12,23 +12,11 @@ class Testing(unittest.TestCase):
 		from os import system
 		system('rm test.hike')
 
-b0 = Base.get_by(name='0')
-b1 = Base.get_by(name='1')
-b2 = Base.get_by(name='2')
-b3 = Base.get_by(name='3')
-
-r1 = Route.get_by(name='1')
-r2 = Route.get_by(name='2')
-
-t1 = Team.get_by(name='1')
-t2 = Team.get_by(name='2')
-t3 = Team.get_by(name='3')
-t4 = Team.get_by(name='4')
-
-assert b0.done() is True
-assert b1.done() is False
-assert b2.done() is True
-assert b3.done() is False
+	def testBaseDone(self):
+		self.assertTrue(get('b0').done())
+		self.assertFalse(get('b1').done())
+		self.assertTrue(get('b2').done())
+		self.assertFalse(get('b3').done())
 
 assert b0.next(r1) is b1
 assert b1.next('1') is b3
