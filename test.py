@@ -29,6 +29,12 @@ class Testing(unittest.TestCase):
 		self.assertEqual(get('b2').next('2'), get('b3'))
 		self.assertEqual(get('b3').next('2'), None)
 
+	def testRouteEnd(self):
+		b = Base('testend', '000000')
+		r = get('r1')
+		r.bases.append(b)
+		self.assertEqual(b, r.end())
+
 	def testTeamCompleted(self):
 		self.assertFalse(get('t1').completed())
 		self.assertTrue(get('t2').completed())
