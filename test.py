@@ -18,16 +18,17 @@ class Testing(unittest.TestCase):
 		self.assertTrue(get('b2').done())
 		self.assertFalse(get('b3').done())
 
+	def testBaseNext1(self):
+		self.assertEqual(get('b0').next('1'), get('b1'))
+		self.assertEqual(get('b1').next('1'), get('b3'))
+		self.assertEqual(get('b3').next('1'), get('b2'))
+		self.assertEqual(get('b2').next('1'), None)
+
 	def testTeamCompleted(self):
 		self.assertFalse(get('t1').completed())
 		self.assertTrue(get('t2').completed())
 		self.assertTrue(get('t3').completed())
 		self.assertFalse(get('t4').completed())
-
-assert b0.next(r1) is b1
-assert b1.next('1') is b3
-assert b3.next(r1) is b2
-assert b2.next('1') is None
 
 assert b0.next(r2) is b2
 assert b2.next('2') is b3
