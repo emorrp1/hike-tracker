@@ -18,18 +18,20 @@ class Testing(unittest.TestCase):
 		self.assertTrue(get('b2').done())
 		self.assertFalse(get('b3').done())
 
+	def testTeamCompleted(self):
+		self.assertFalse(get('t1').completed())
+		self.assertTrue(get('t2').completed())
+		self.assertTrue(get('t3').completed())
+		self.assertFalse(get('t4').completed())
+
 assert b0.next(r1) is b1
 assert b1.next('1') is b3
 assert b3.next(r1) is b2
 assert b2.next('1') is None
+
 assert b0.next(r2) is b2
 assert b2.next('2') is b3
 assert b3.next(r2) is None
-
-assert t1.completed() is False
-assert t2.completed() is True
-assert t3.completed() is True
-assert t4.completed() is False
 
 assert t1.visited('3') == []
 Report(b3, t1, '13:00')
