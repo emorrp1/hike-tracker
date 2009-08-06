@@ -1,51 +1,80 @@
 #!/usr/bin/python -W ignore::DeprecationWarning
 from tracker import *
-from os import path
+import unittest
 
-configured = path.exists("test.hike")
+class Testing(unittest.TestCase):
+	def setUp(self):
+		start('test')
+		execfile('test.reports')
 
-start('test')
-if not configured:
-	configure('test')
-	execfile('test.reports')
+	def tearDown(self):
+		session.close()
+		from os import system
+		system('rm test.hike')
 
-b0 = Base.get_by(name='0')
-b1 = Base.get_by(name='1')
-b2 = Base.get_by(name='2')
-b3 = Base.get_by(name='3')
+	def testBaseDone(self):
+		self.assertTrue(get('b0').done())
+		self.assertFalse(get('b1').done())
+		self.assertTrue(get('b2').done())
+		self.assertFalse(get('b3').done())
 
-r1 = Route.get_by(name='1')
-r2 = Route.get_by(name='2')
+	def testBaseNext1(self):
+		self.assertEqual(get('b0').next('1'), get('b1'))
+		self.assertEqual(get('b1').next('1'), get('b3'))
+		self.assertEqual(get('b3').next('1'), get('b2'))
+		self.assertEqual(get('b2').next('1'), None)
 
-t1 = Team.get_by(name='1')
-t2 = Team.get_by(name='2')
-t3 = Team.get_by(name='3')
-t4 = Team.get_by(name='4')
+	def testBaseNext2(self):
+		self.assertEqual(get('b0').next('2'), get('b2'))
+		self.assertEqual(get('b2').next('2'), get('b3'))
+		self.assertEqual(get('b3').next('2'), None)
 
-assert b0.done() is True
-assert b1.done() is False
-assert b2.done() is True
-assert b3.done() is False
+	def testBaseDist(self):
+		b0 = get('b0')
+		b1 = get('b1')
+		b75 = Base('75', '072056')
+		self.assertEqual(b0.distance(b1), 10)
+		self.assertEqual(b1.distance(b0), 10)
+		self.assertEqual(b0.distance(get('b3')), 14)
+		self.assertEqual(b0.distance(b75), 91)
 
-assert b0.next(r1) is b1
-assert b1.next('1') is b3
-assert b3.next(r1) is b2
-assert b2.next('1') is None
-assert b0.next(r2) is b2
-assert b2.next('2') is b3
-assert b3.next(r2) is None
+	def testBaseDistAlong(self):
+		b0 = get('b0')
+		b1 = get('b1')
+		b3 = get('b3')
+		d01 = b0.distance(b1)
+		d13 = b1.distance(b3)
+		along = b0.distance_along('1',b3)
+		self.assertEqual(d01+d13, along)
 
-assert t1.completed() is False
-assert t2.completed() is True
-assert t3.completed() is True
-assert t4.completed() is False
+	def testRouteEnd(self):
+		b = Base('testend', '000000')
+		r = get('r1')
+		r.bases.append(b)
+		self.assertEqual(b, r.end())
 
-assert t1.visited('3') == []
-Report(b3, t1, '13:00')
-assert t1.completed() is True
-assert b3.done() is True
+	def testRouteLen(self):
+		r = get('r1')
+		length = r.bases[0].distance_along(r, r.end())
+		self.assertEqual(length, len(r))
 
-assert t4.visited(b1) == []
-Report(b1, '4', '13:00')
-assert t4.completed() is True
-assert b1.done() is True
+	def testTeamCompleted(self):
+		self.assertFalse(get('t1').completed())
+		self.assertTrue(get('t2').completed())
+		self.assertTrue(get('t3').completed())
+		self.assertFalse(get('t4').completed())
+
+	def testTeam1Finishing(self):
+		self.assertEqual(get('t1').visited('3'), [])
+		Report('3', '1', '13:00')
+		self.assertTrue(get('t1').completed())
+		self.assertTrue(get('b3').done())
+
+	def testTeam4Finishing(self):
+		self.assertEqual(get('t4').visited('1'), [])
+		Report('1', '4', '13:00')
+		self.assertTrue(get('t4').completed())
+		self.assertTrue(get('b1').done())
+
+if __name__ == '__main__':
+	unittest.main()
