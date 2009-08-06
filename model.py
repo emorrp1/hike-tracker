@@ -149,6 +149,8 @@ class Team(Entity):
 		return sum
 
 	def timings(self):
+		if len(self.reports) == 0:
+			return 0, 0
 		from datetime import timedelta
 		walking = timedelta()
 		self.reports.sort(reverse=True)
