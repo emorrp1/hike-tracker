@@ -168,9 +168,12 @@ class Team(Entity):
 			return 0, 0
 
 	def speed(self):
-		d = self.traversed()
 		t = self.timings()[0]
-		return ( d*60 ) // t
+		if t:
+			d = self.traversed()
+			return ( d*60 ) // t
+		else:
+			return None
 
 	def eta(self, base=None, sp=None):
 		if self.finished() or not self.on_route():
