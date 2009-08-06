@@ -39,18 +39,18 @@ class Base(Entity):
 			return route.bases[n+1]
 
 	def distance(self, other):
-		from math import fabs, pow, sqrt
 		if type(other).__name__ == 'str':
 			other = Base.get_by(name=other)
-		rollover = 1000
-		ediff = fabs(self.e - other.e)
-		if ediff > rollover/2:
-			ediff = rollover - ediff
-		ndiff = fabs(self.n - other.n)
-		if ndiff > rollover/2:
-			ndiff = rollover - ndiff
-		hyp =  sqrt( pow(ediff, 2) + pow(ndiff, 2))
-		return int(hyp)
+		from math import fabs, pow, sqrt
+		def normalise(diff, rollover=1000):
+			diff = fabs(diff)
+			if diff > rollover/2:
+				diff = rollover - diff
+			return diff
+		ediff = normalise(self.e - other.e)
+		ndiff = normalise(self.n - other.n)
+		hyp2 = pow(ediff, 2) + pow(ndiff, 2)
+		return int(sqrt(hyp2))
 
 	def distance_along(self, route, other=None):
 		if type(route).__name__ == 'str':
