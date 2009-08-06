@@ -123,7 +123,7 @@ class Team(Entity):
 		return False
 
 	def last_visited(self):
-		if len(self.reports) == 0:
+		if not self.started():
 			return None, None
 		self.reports.sort(reverse=True)
 		return self.reports[0].base, self.reports[0].dep
