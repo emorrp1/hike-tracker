@@ -122,6 +122,8 @@ class Team(Entity):
 		return reports.filter(Report.base == base).all()
 
 	def last_visited(self):
+		if len(self.reports) == 0:
+			return None, None
 		self.reports.sort(reverse=True)
 		return self.reports[0].base, self.reports[0].dep
 
