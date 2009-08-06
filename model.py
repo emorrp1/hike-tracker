@@ -205,7 +205,8 @@ class Report(Entity):
 
 	def mkdt(self, time, date=None):
 		from datetime import datetime
-		if not date: date = datetime.today().strftime('%y%m%d')
+		if not date:
+			date = datetime.today().strftime('%y%m%d')
 		return datetime.strptime(date + time, '%y%m%d%H:%M')
 
 	def stoppage(self):
