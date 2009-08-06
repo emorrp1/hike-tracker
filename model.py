@@ -175,16 +175,17 @@ class Team(Entity):
 		else:
 			return None
 
-	def eta(self, base=None, sp=None):
-		if self.finished() or not self.on_route():
+	def eta(self, base=None, speed=None):
+		if not speed:
+			speed = self.speed()
+		if self.started() and not self.finished() and self.on_route() and speed:
+			from datetime import timedelta
+			last, dep = self.last_visited()
+			d = last.distance_along(self.route, base)
+			t = ( d*3600 ) // speed
+			return dep + timedelta(0,t)
+		else:
 			return None
-		from datetime import timedelta
-		last, dep = self.last_visited()
-		if not sp:
-			sp = self.speed()
-		d = last.distance_along(self.route, base)
-		t = ( d*3600 ) // sp
-		return dep + timedelta(0,t)
 
 class Report(Entity):
 	'''The database representation of a team's arr/dep times at a base'''
