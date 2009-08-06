@@ -152,18 +152,19 @@ class Team(Entity):
 		return sum
 
 	def timings(self):
-		if len(self.reports) == 0:
+		if self.started():
+			from datetime import timedelta
+			walking = timedelta()
+			self.reports.sort(reverse=True)
+			stoppage = self.reports[0].stoppage()
+			self.reports.sort()
+			for i in range(len(self.reports)-1):
+				r = self.reports[i]
+				stoppage += r.stoppage()
+				walking += self.reports[i+1].arr - r.dep
+			return walking.seconds // 60, stoppage.seconds // 60
+		else:
 			return 0, 0
-		from datetime import timedelta
-		walking = timedelta()
-		self.reports.sort(reverse=True)
-		stoppage = self.reports[0].stoppage()
-		self.reports.sort()
-		for i in range(len(self.reports)-1):
-			r = self.reports[i]
-			stoppage += r.stoppage()
-			walking += self.reports[i+1].arr - r.dep
-		return walking.seconds // 60, stoppage.seconds // 60
 
 	def speed(self):
 		d = self.traversed()
