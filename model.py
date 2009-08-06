@@ -55,11 +55,10 @@ class Base(Entity):
 	def distance_along(self, route, other=None):
 		if type(route).__name__ == 'str':
 			route = Route.get_by(name=route)
+		if type(other).__name__ == 'str':
+			other = Base.get_by(name=other)
 		if not other:
 			other = self.next(route)
-		else:
-			if type(other).__name__ == 'str':
-				other = Base.get_by(name=other)
 		sum = 0
 		start = route.bases.index(self)
 		stop = route.bases.index(other)
