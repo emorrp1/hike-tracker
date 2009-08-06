@@ -8,6 +8,7 @@ class Testing(unittest.TestCase):
 		execfile('test.reports')
 
 	def tearDown(self):
+		session.close()
 		from os import system
 		system('rm test.hike')
 
