@@ -123,10 +123,11 @@ class Team(Entity):
 		return False
 
 	def last_visited(self):
-		if not self.started():
+		if self.started():
+			self.reports.sort(reverse=True)
+			return self.reports[0].base, self.reports[0].dep
+		else:
 			return None, None
-		self.reports.sort(reverse=True)
-		return self.reports[0].base, self.reports[0].dep
 
 	def on_route(self):
 		not_started = not self.started()
