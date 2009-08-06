@@ -199,9 +199,9 @@ class Report(Entity):
 		return '<%s Report: %s arrived %s departed %s>' % (self.base, self.team, self.arr.time(), self.dep.time())
 
 	def __cmp__(self, other):
-		if self.arr <  other.arr: return -1
-		if self.arr == other.arr: return 0
-		if self.arr >  other.arr: return 1
+		if self.dep <  other.dep: return -1
+		if self.dep == other.dep: return 0
+		if self.dep >  other.dep: return 1
 
 	def mkdt(self, time, date=None):
 		from datetime import datetime
