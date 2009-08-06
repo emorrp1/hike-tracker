@@ -111,6 +111,9 @@ class Team(Entity):
 		if self.name == other.name: return 0
 		if self.name >  other.name: return 1
 
+	def started(self):
+		return bool(self.reports)
+
 	def visited(self, base):
 		if type(base).__name__ == 'str':
 			base = Base.get_by(name=base)
