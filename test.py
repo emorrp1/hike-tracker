@@ -1,13 +1,15 @@
 #!/usr/bin/python -W ignore::DeprecationWarning
 from tracker import *
-from os import path
+import unittest
 
-configured = path.exists("test.hike")
+class Testing(unittest.TestCase):
+	def setUp(self):
+		start('test')
+		execfile('test.reports')
 
-start('test')
-if not configured:
-	configure('test')
-	execfile('test.reports')
+	def tearDown(self):
+		from os import system
+		system('rm test.hike')
 
 b0 = Base.get_by(name='0')
 b1 = Base.get_by(name='1')
