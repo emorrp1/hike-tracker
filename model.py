@@ -129,7 +129,9 @@ class Team(Entity):
 		return self.reports[0].base, self.reports[0].dep
 
 	def on_route(self):
-		return self.last_visited()[0] in self.route.bases
+		not_started = not self.started()
+		last_visited_on_route = self.last_visited()[0] in self.route.bases
+		return not_started or last_visited_on_route
 
 	def finished(self):
 		return self.last_visited()[0] == self.route.end()
