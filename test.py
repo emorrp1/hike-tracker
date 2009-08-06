@@ -29,6 +29,15 @@ class Testing(unittest.TestCase):
 		self.assertEqual(get('b2').next('2'), get('b3'))
 		self.assertEqual(get('b3').next('2'), None)
 
+	def testBaseDist(self):
+		b0 = get('b0')
+		b1 = get('b1')
+		b75 = Base('75', '072056')
+		self.assertEqual(b0.distance(b1), 10)
+		self.assertEqual(b1.distance(b0), 10)
+		self.assertEqual(b0.distance(get('b3')), 14)
+		self.assertEqual(b0.distance(b75), 91)
+
 	def testBaseDistAlong(self):
 		b0 = get('b0')
 		b1 = get('b1')
