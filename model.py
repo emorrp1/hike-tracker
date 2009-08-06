@@ -16,6 +16,11 @@ class Base(Entity):
 	def __repr__(self):
 		return '<Base %s>' % self.name
 
+	def __cmp__(self, other):
+		if self.name <  other.name: return -1
+		if self.name == other.name: return 0
+		if self.name >  other.name: return 1
+
 	def report(self, file=None):
 		if not file:
 			from sys import stdin
