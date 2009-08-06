@@ -1,3 +1,15 @@
+hike-tracker (0.5.3) jaunty; urgency=low
+
+  * using unittest framework
+  * mega code cleanup
+  * allowing override of stdin in Base.report
+  * allowing uppercase type prefix in get
+  * adding todo jotter
+  * enabling Route and Base sorting
+  * sorting Reports by departure time
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Thu, 06 Aug 2009 23:50:47 +0100
+
 hike-tracker (0.5.2) jaunty; urgency=low
 
   * adding hike pre-configuration with tracker.configure
