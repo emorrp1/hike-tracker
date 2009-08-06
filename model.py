@@ -16,9 +16,11 @@ class Base(Entity):
 	def __repr__(self):
 		return '<Base %s>' % self.name
 
-	def report(self):
-		from sys import stdin
-		for line in stdin.readlines():
+	def report(self, file=None):
+		if not file:
+			from sys import stdin
+			file = stdin
+		for line in file.readlines():
 			args = [self] + line.split()
 			Report(*args)
 
