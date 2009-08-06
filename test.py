@@ -24,15 +24,16 @@ class Testing(unittest.TestCase):
 		self.assertEqual(get('b3').next('1'), get('b2'))
 		self.assertEqual(get('b2').next('1'), None)
 
+	def testBaseNext2(self):
+		self.assertEqual(get('b0').next('2'), get('b2'))
+		self.assertEqual(get('b2').next('2'), get('b3'))
+		self.assertEqual(get('b3').next('2'), None)
+
 	def testTeamCompleted(self):
 		self.assertFalse(get('t1').completed())
 		self.assertTrue(get('t2').completed())
 		self.assertTrue(get('t3').completed())
 		self.assertFalse(get('t4').completed())
-
-assert b0.next(r2) is b2
-assert b2.next('2') is b3
-assert b3.next(r2) is None
 
 assert t1.visited('3') == []
 Report(b3, t1, '13:00')
