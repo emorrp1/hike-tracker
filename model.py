@@ -85,10 +85,7 @@ class Route(Entity):
 		return '<Route %s>' % self.name
 
 	def __len__(self):
-		sum = 0
-		for base in self.bases[:-1]:
-			sum += base.distance(base.next(self))
-		return sum
+		return self.bases[0].distance_along(self, self.end())
 
 	def end(self):
 		last = len(self.bases) - 1
