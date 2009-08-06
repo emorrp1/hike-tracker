@@ -39,34 +39,33 @@ class Base(Entity):
 	def next(self, route):
 		if type(route).__name__ == 'str':
 			route = Route.get_by(name=route)
-		n = route.bases.index(self)
-		if len(route.bases) == n+1:
+		if route.end() is self:
 			return None
 		else:
+			n = route.bases.index(self)
 			return route.bases[n+1]
 
 	def distance(self, other):
-		from math import fabs, pow, sqrt
 		if type(other).__name__ == 'str':
 			other = Base.get_by(name=other)
-		rollover = 1000
-		ediff = fabs(self.e - other.e)
-		if ediff > rollover/2:
-			ediff = rollover - ediff
-		ndiff = fabs(self.n - other.n)
-		if ndiff > rollover/2:
-			ndiff = rollover - ndiff
-		hyp =  sqrt( pow(ediff, 2) + pow(ndiff, 2))
-		return int(hyp)
+		from math import fabs, pow, sqrt
+		def normalise(diff, rollover=1000):
+			diff = fabs(diff)
+			if diff > rollover/2:
+				diff = rollover - diff
+			return diff
+		ediff = normalise(self.e - other.e)
+		ndiff = normalise(self.n - other.n)
+		hyp2 = pow(ediff, 2) + pow(ndiff, 2)
+		return int(sqrt(hyp2))
 
 	def distance_along(self, route, other=None):
 		if type(route).__name__ == 'str':
 			route = Route.get_by(name=route)
+		if type(other).__name__ == 'str':
+			other = Base.get_by(name=other)
 		if not other:
 			other = self.next(route)
-		else:
-			if type(other).__name__ == 'str':
-				other = Base.get_by(name=other)
 		sum = 0
 		start = route.bases.index(self)
 		stop = route.bases.index(other)
@@ -97,10 +96,7 @@ class Route(Entity):
 		if len(self) >  len(other): return 1
 
 	def __len__(self):
-		sum = 0
-		for base in self.bases[:-1]:
-			sum += base.distance(base.next(self))
-		return sum
+		return self.bases[0].distance_along(self, self.end())
 
 	def end(self):
 		last = len(self.bases) - 1
@@ -127,21 +123,31 @@ class Team(Entity):
 		if self.name == other.name: return 0
 		if self.name >  other.name: return 1
 
+	def started(self):
+		return bool(self.reports)
+
 	def visited(self, base):
 		if type(base).__name__ == 'str':
 			base = Base.get_by(name=base)
-		reports = Report.query.filter(Report.team == self)
-		return reports.filter(Report.base == base).all()
+		for r in self.reports:
+			if r.base is base:
+				return True
+		return False
 
 	def last_visited(self):
-		self.reports.sort(reverse=True)
-		return self.reports[0].base, self.reports[0].dep
+		if self.started():
+			self.reports.sort(reverse=True)
+			return self.reports[0].base, self.reports[0].dep
+		else:
+			return None, None
 
 	def on_route(self):
-		return self.last_visited()[0] in self.route.bases
+		not_started = not self.started()
+		last_visited_on_route = self.last_visited()[0] in self.route.bases
+		return not_started or last_visited_on_route
 
 	def finished(self):
-		return self.last_visited()[0] == self.route.end()
+		return self.last_visited()[0] is self.route.end()
 
 	def completed(self):
 		for base in self.route.bases:
@@ -159,32 +165,39 @@ class Team(Entity):
 		return sum
 
 	def timings(self):
-		from datetime import timedelta
-		walking = timedelta()
-		self.reports.sort(reverse=True)
-		stoppage = self.reports[0].stoppage()
-		self.reports.sort()
-		for i in range(len(self.reports)-1):
-			r = self.reports[i]
-			stoppage += r.stoppage()
-			walking += self.reports[i+1].arr - r.dep
-		return walking.seconds // 60, stoppage.seconds // 60
+		if self.started():
+			from datetime import timedelta
+			walking = timedelta()
+			self.reports.sort(reverse=True)
+			stoppage = self.reports[0].stoppage()
+			self.reports.sort()
+			for i in range(len(self.reports)-1):
+				r = self.reports[i]
+				stoppage += r.stoppage()
+				walking += self.reports[i+1].arr - r.dep
+			return walking.seconds // 60, stoppage.seconds // 60
+		else:
+			return 0, 0
 
 	def speed(self):
-		d = self.traversed()
 		t = self.timings()[0]
-		return ( d*60 ) // t
-
-	def eta(self, base=None, sp=None):
-		if self.finished() or not self.on_route():
+		if t:
+			d = self.traversed()
+			return ( d*60 ) // t
+		else:
 			return None
-		from datetime import timedelta
-		last, dep = self.last_visited()
-		if not sp:
-			sp = self.speed()
-		d = last.distance_along(self.route, base)
-		t = ( d*3600 ) // sp
-		return dep + timedelta(0,t)
+
+	def eta(self, base=None, speed=None):
+		if not speed:
+			speed = self.speed()
+		if self.started() and not self.finished() and self.on_route() and speed:
+			from datetime import timedelta
+			last, dep = self.last_visited()
+			d = last.distance_along(self.route, base)
+			t = ( d*3600 ) // speed
+			return dep + timedelta(0,t)
+		else:
+			return None
 
 class Report(Entity):
 	'''The database representation of a team's arr/dep times at a base'''
@@ -194,28 +207,31 @@ class Report(Entity):
 	team = ManyToOne('Team')
 
 	def __init__(self, base, team, arr, dep=None, date=None):
-		if not dep: dep = arr
-		arr = self.mkdt(arr, date)
-		dep = self.mkdt(dep, date)
-		Entity.__init__(self, arr=arr, dep=dep)
-		if type(team).__name__ == 'str':
-			team = Team.get_by(name=team)
-		self.team = team
 		if type(base).__name__ == 'str':
 			base = Base.get_by(name=base)
+		if type(team).__name__ == 'str':
+			team = Team.get_by(name=team)
+		arr = self.mkdt(arr, date)
+		if dep:
+			dep = self.mkdt(dep, date)
+		else:
+			dep = arr
+		Entity.__init__(self, arr=arr, dep=dep)
+		self.team = team
 		self.base = base
 
 	def __repr__(self):
 		return '<%s Report: %s arrived %s departed %s>' % (self.base, self.team, self.arr.time(), self.dep.time())
 
 	def __cmp__(self, other):
-		if self.arr <  other.arr: return -1
-		if self.arr == other.arr: return 0
-		if self.arr >  other.arr: return 1
+		if self.dep <  other.dep: return -1
+		if self.dep == other.dep: return 0
+		if self.dep >  other.dep: return 1
 
 	def mkdt(self, time, date=None):
 		from datetime import datetime
-		if not date: date = datetime.today().strftime('%y%m%d')
+		if not date:
+			date = datetime.today().strftime('%y%m%d')
 		return datetime.strptime(date + time, '%y%m%d%H:%M')
 
 	def stoppage(self):
