@@ -114,8 +114,10 @@ class Team(Entity):
 	def visited(self, base):
 		if type(base).__name__ == 'str':
 			base = Base.get_by(name=base)
-		reports = Report.query.filter(Report.team == self)
-		return reports.filter(Report.base == base).all()
+		for r in self.reports:
+			if r.base is base:
+				return True
+		return False
 
 	def last_visited(self):
 		if len(self.reports) == 0:
