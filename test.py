@@ -65,13 +65,13 @@ class Testing(unittest.TestCase):
 		self.assertFalse(get('t4').completed())
 
 	def testTeam1Finishing(self):
-		self.assertEqual(get('t1').visited('3'), [])
+		self.assertFalse(get('t1').visited('3'))
 		Report('3', '1', '13:00')
 		self.assertTrue(get('t1').completed())
 		self.assertTrue(get('b3').done())
 
 	def testTeam4Finishing(self):
-		self.assertEqual(get('t4').visited('1'), [])
+		self.assertFalse(get('t4').visited('1'))
 		Report('1', '4', '13:00')
 		self.assertTrue(get('t4').completed())
 		self.assertTrue(get('b1').done())
