@@ -2,6 +2,7 @@ distance lookup table
 team start time
 team scores (through base report)
 base expected closing time
+get_all meta-programming to retrieve all objects by tname
 
 graphs:
 estimated current team locations
