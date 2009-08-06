@@ -182,15 +182,17 @@ class Report(Entity):
 	team = ManyToOne('Team')
 
 	def __init__(self, base, team, arr, dep=None, date=None):
-		if not dep: dep = arr
-		arr = self.mkdt(arr, date)
-		dep = self.mkdt(dep, date)
-		Entity.__init__(self, arr=arr, dep=dep)
-		if type(team).__name__ == 'str':
-			team = Team.get_by(name=team)
-		self.team = team
 		if type(base).__name__ == 'str':
 			base = Base.get_by(name=base)
+		if type(team).__name__ == 'str':
+			team = Team.get_by(name=team)
+		arr = self.mkdt(arr, date)
+		if dep:
+			dep = self.mkdt(dep, date)
+		else:
+			dep = arr
+		Entity.__init__(self, arr=arr, dep=dep)
+		self.team = team
 		self.base = base
 
 	def __repr__(self):
