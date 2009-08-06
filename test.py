@@ -41,7 +41,8 @@ class Testing(unittest.TestCase):
 		self.assertTrue(get('t1').completed())
 		self.assertTrue(get('b3').done())
 
-assert t4.visited(b1) == []
-Report(b1, '4', '13:00')
-assert t4.completed() is True
-assert b1.done() is True
+	def testTeam4Finishing(self):
+		self.assertEqual(get('t4').visited('1'), [])
+		Report('1', '4', '13:00')
+		self.assertTrue(get('t4').completed())
+		self.assertTrue(get('b1').done())
