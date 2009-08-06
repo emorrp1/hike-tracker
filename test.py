@@ -35,6 +35,11 @@ class Testing(unittest.TestCase):
 		r.bases.append(b)
 		self.assertEqual(b, r.end())
 
+	def testRouteLen(self):
+		r = get('r1')
+		length = r.bases[0].distance_along(r, r.end())
+		self.assertEqual(length, len(r))
+
 	def testTeamCompleted(self):
 		self.assertFalse(get('t1').completed())
 		self.assertTrue(get('t2').completed())
