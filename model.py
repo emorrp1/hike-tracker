@@ -86,6 +86,11 @@ class Route(Entity):
 	def __repr__(self):
 		return '<Route %s>' % self.name
 
+	def __cmp__(self, other):
+		if len(self) <  len(other): return -1
+		if len(self) == len(other): return 0
+		if len(self) >  len(other): return 1
+
 	def __len__(self):
 		sum = 0
 		for base in self.bases[:-1]:
