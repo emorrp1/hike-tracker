@@ -32,10 +32,10 @@ class Base(Entity):
 	def next(self, route):
 		if type(route).__name__ == 'str':
 			route = Route.get_by(name=route)
-		n = route.bases.index(self)
-		if len(route.bases) == n+1:
+		if route.end() is self:
 			return None
 		else:
+			n = route.bases.index(self)
 			return route.bases[n+1]
 
 	def distance(self, other):
