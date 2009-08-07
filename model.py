@@ -192,9 +192,13 @@ class Team(Entity):
 	def eta(self, base=None, speed=None):
 		if not speed:
 			speed = self.speed()
-		if self.started() and not self.finished() and self.on_route() and speed:
+		if not self.finished() and self.on_route() and speed:
 			from datetime import timedelta
-			last, dep = self.last_visited()
+			if self.started():
+				last, dep = self.last_visited()
+			else:
+				last = self.route.bases[0]
+				dep = self.start
 			d = last.distance_along(self.route, base)
 			t = ( d*3600 ) // speed
 			return dep + timedelta(0,t)
