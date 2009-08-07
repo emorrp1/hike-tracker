@@ -22,7 +22,7 @@ def configure(hike='custom'):
 	if exists(hike):
 		from configobj import ConfigObj
 		config = ConfigObj(hike)
-		if start in config:
+		if 'start' in config:
 			s = config['start']
 			model.START = model.mkdt(s[-5:], s[:-5])
 		if 'distances' in config:
