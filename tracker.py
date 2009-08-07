@@ -34,3 +34,16 @@ def get(tname):
 	name = tname[1:]
 	types = {'b':Base, 'r':Route, 't':Team}
 	return types[type].get_by(name=name)
+
+def get_all(type=None):
+	'''Load all objects into global namespace'''
+	types = {'b':Base, 'r':Route, 't':Team}
+	if type:
+		t = type[0].lower()
+		for i in types[t].query.all():
+			tname = t + i.name
+			line = '%s = get("%s")' % (tname, tname)
+			exec line in globals()
+	else:
+		for t in types:
+			get_all(t)

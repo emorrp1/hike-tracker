@@ -1,7 +1,6 @@
 distance lookup table
 team scores (through base report)
 base expected closing time
-get_all meta-programming to retrieve all objects by tname
 auto team creation
 
 graphs:
