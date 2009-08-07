@@ -5,12 +5,9 @@ import unittest
 class Testing(unittest.TestCase):
 	def setUp(self):
 		start('test')
-		execfile('test.reports')
 
 	def tearDown(self):
 		elixir.session.close()
-		from os import system
-		system('rm test.hike')
 
 	def testBaseDone(self):
 		self.assertTrue(get('b0').done())
@@ -81,4 +78,8 @@ class Testing(unittest.TestCase):
 		self.assertTrue(t.on_route())
 
 if __name__ == '__main__':
+	start('test')
+	execfile('test.reports')
 	unittest.main()
+	from os import system
+	system('rm test.hike')
