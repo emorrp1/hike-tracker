@@ -38,6 +38,19 @@ class Base(Entity):
 					return False
 		return True
 
+	def active(self, speed=None):
+		open = None
+		close = None
+		for route in self.routes:
+			for team in route.teams:
+				eta = team.eta(self, speed)
+				if open:
+					open = min(open, eta)
+					close = max(close, eta)
+				else:
+					open, close = eta, eta
+		return open, close
+
 	def next(self, route):
 		if type(route).__name__ == 'str':
 			route = Route.get_by(name=route)
