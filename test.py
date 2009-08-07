@@ -8,7 +8,7 @@ class Testing(unittest.TestCase):
 		execfile('test.reports')
 
 	def tearDown(self):
-		session.close()
+		elixir.session.close()
 		from os import system
 		system('rm test.hike')
 
