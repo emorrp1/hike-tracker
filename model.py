@@ -112,7 +112,7 @@ class Team(Entity):
 	reports = OneToMany('Report')
 	route = ManyToOne('Route')
 
-	def __init__(self, name, start=None, route=None):
+	def __init__(self, name, route=None, start=None):
 		Entity.__init__(self, name=name)
 		if start:
 			self.start = mkdt(start)
