@@ -32,7 +32,7 @@ class Testing(unittest.TestCase):
 	def testBaseDist(self):
 		b0 = get('b0')
 		b1 = get('b1')
-		b75 = Base('75', '072056')
+		b75 = model.Base('75', '072056')
 		self.assertEqual(b0.distance(b1), 10)
 		self.assertEqual(b1.distance(b0), 10)
 		self.assertEqual(b0.distance(get('b3')), 14)
@@ -48,7 +48,7 @@ class Testing(unittest.TestCase):
 		self.assertEqual(d01+d13, along)
 
 	def testRouteEnd(self):
-		b = Base('testend', '000000')
+		b = model.Base('testend', '000000')
 		r = get('r1')
 		r.bases.append(b)
 		self.assertEqual(b, r.end())
@@ -66,18 +66,18 @@ class Testing(unittest.TestCase):
 
 	def testTeam1Finishing(self):
 		self.assertFalse(get('t1').visited('3'))
-		Report('3', '1', '13:00')
+		model.Report('3', '1', '13:00')
 		self.assertTrue(get('t1').completed())
 		self.assertTrue(get('b3').done())
 
 	def testTeam4Finishing(self):
 		self.assertFalse(get('t4').visited('1'))
-		Report('1', '4', '13:00')
+		model.Report('1', '4', '13:00')
 		self.assertTrue(get('t4').completed())
 		self.assertTrue(get('b1').done())
 
 	def testTeamOnRoute(self):
-		t = Team('testonroute', '15:00', '1')
+		t = model.Team('testonroute', '15:00', '1')
 		self.assertTrue(t.on_route())
 
 if __name__ == '__main__':
