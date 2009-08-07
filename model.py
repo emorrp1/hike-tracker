@@ -68,18 +68,20 @@ class Base(Entity):
 		if type(other).__name__ == 'str':
 			other = Base.get_by(name=other)
 		if lookup:
-			return lookup[self.name][other.name]
-		else:
-			from math import sqrt
-			def normalise(diff, rollover=1000):
-				diff = abs(diff)
-				if diff > rollover/2:
-					diff = rollover - diff
-				return diff
-			ediff = normalise(self.e - other.e)
-			ndiff = normalise(self.n - other.n)
-			hyp2 = pow(ediff, 2) + pow(ndiff, 2)
-			return int(sqrt(hyp2))
+			try: return lookup[self.name][other.name]
+			except:
+				try: return lookup[other.name][self.name]
+				except: pass
+		from math import sqrt
+		def normalise(diff, rollover=1000):
+			diff = abs(diff)
+			if diff > rollover/2:
+				diff = rollover - diff
+			return diff
+		ediff = normalise(self.e - other.e)
+		ndiff = normalise(self.n - other.n)
+		hyp2 = pow(ediff, 2) + pow(ndiff, 2)
+		return int(sqrt(hyp2))
 
 	def distance_along(self, route, other=None):
 		if type(route).__name__ == 'str':
