@@ -226,8 +226,11 @@ class Team(Entity):
 				last = self.route.bases[0]
 				dep = self.start
 			d = last.distance_along(self.route, base)
-			t = ( d*3600 ) // speed
-			return dep + timedelta(0,t)
+			if d:
+				t = ( d*3600 ) // speed
+				return dep + timedelta(0,t)
+			else:
+				return None
 		else:
 			return None
 
