@@ -77,7 +77,7 @@ class Testing(unittest.TestCase):
 		self.assertTrue(get('b1').done())
 
 	def testTeamOnRoute(self):
-		t = model.Team('testonroute', '15:00', '1')
+		t = model.Team('testonroute', '1')
 		self.assertTrue(t.on_route())
 
 if __name__ == '__main__':

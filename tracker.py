@@ -22,6 +22,9 @@ def configure(hike='custom'):
 	if exists(hike):
 		from configobj import ConfigObj
 		config = ConfigObj(hike)
+		if start in config:
+			s = config['start']
+			model.START = model.mkdt(s[-5:], s[:-5])
 		for b in config['bases']:
 			model.Base(b, config['bases'][b])
 		for r in config['routes']:
