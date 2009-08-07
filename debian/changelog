@@ -1,3 +1,17 @@
+hike-tracker (0.6) jaunty; urgency=low
+
+  * massively bumfed Team.eta to be useful in many cases
+  * adding Base.active timing calcs
+  * adding distance lookup table
+  * limiting the namespaces
+  * adding get_all global retrieval shortcut
+  * adding start times
+  * speeding up tests
+  * fixing build rules bug
+  * fixing Team.on_route
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Fri, 07 Aug 2009 20:46:43 +0100
+
 hike-tracker (0.5.3) jaunty; urgency=low
 
   * using unittest framework
