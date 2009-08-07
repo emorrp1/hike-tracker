@@ -76,5 +76,9 @@ class Testing(unittest.TestCase):
 		self.assertTrue(get('t4').completed())
 		self.assertTrue(get('b1').done())
 
+	def testTeamOnRoute(self):
+		t = Team('testonroute', '1')
+		self.assertTrue(t.on_route())
+
 if __name__ == '__main__':
 	unittest.main()
