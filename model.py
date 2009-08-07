@@ -6,6 +6,7 @@ class Base(Entity):
 	name = Field(Text)
 	e = Field(Integer)
 	n = Field(Integer)
+	distances = {}
 	reports = OneToMany('Report')
 	routes = ManyToMany('Route')
 
@@ -64,13 +65,13 @@ class Base(Entity):
 			n = route.bases.index(self)
 			return route.bases[n+1]
 
-	def distance(self, other, lookup=None):
+	def distance(self, other):
 		if type(other).__name__ == 'str':
 			other = Base.get_by(name=other)
-		if lookup:
-			try: return lookup[self.name][other.name]
+		if self.distances:
+			try: return self.distances[self.name][other.name]
 			except:
-				try: return lookup[other.name][self.name]
+				try: return self.distances[other.name][self.name]
 				except: pass
 		from math import sqrt
 		def normalise(diff, rollover=1000):
