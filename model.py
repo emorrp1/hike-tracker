@@ -67,9 +67,9 @@ class Base(Entity):
 	def distance(self, other):
 		if type(other).__name__ == 'str':
 			other = Base.get_by(name=other)
-		from math import fabs, pow, sqrt
+		from math import sqrt
 		def normalise(diff, rollover=1000):
-			diff = fabs(diff)
+			diff = abs(diff)
 			if diff > rollover/2:
 				diff = rollover - diff
 			return diff
