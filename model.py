@@ -233,7 +233,7 @@ class Report(Entity):
 	def stoppage(self):
 		return self.dep - self.arr
 
-def mkdt(self, time, date=None):
+def mkdt(time, date=None):
 	from datetime import datetime
 	if not date:
 		date = datetime.today().strftime('%y%m%d')
