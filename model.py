@@ -17,6 +17,7 @@ class Base(Entity):
 		return '<Base %s>' % self.name
 
 	def __cmp__(self, other):
+		if other is None: return 2
 		if self.name <  other.name: return -1
 		if self.name == other.name: return 0
 		if self.name >  other.name: return 1
@@ -91,6 +92,7 @@ class Route(Entity):
 		return '<Route %s>' % self.name
 
 	def __cmp__(self, other):
+		if other is None: return 2
 		if len(self) <  len(other): return -1
 		if len(self) == len(other): return 0
 		if len(self) >  len(other): return 1
@@ -119,6 +121,7 @@ class Team(Entity):
 		return '<Team %s>' % self.name
 
 	def __cmp__(self, other):
+		if other is None: return 2
 		if self.name <  other.name: return -1
 		if self.name == other.name: return 0
 		if self.name >  other.name: return 1
@@ -224,6 +227,7 @@ class Report(Entity):
 		return '<%s Report: %s arrived %s departed %s>' % (self.base, self.team, self.arr.time(), self.dep.time())
 
 	def __cmp__(self, other):
+		if other is None: return 2
 		if self.dep <  other.dep: return -1
 		if self.dep == other.dep: return 0
 		if self.dep >  other.dep: return 1
