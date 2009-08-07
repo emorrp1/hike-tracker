@@ -1,4 +1,5 @@
 from elixir import *
+import datetime
 
 class Base(Entity):
 	'''The database representation of a manned base'''
@@ -171,8 +172,7 @@ class Team(Entity):
 
 	def timings(self):
 		if self.started():
-			from datetime import timedelta
-			walking = timedelta()
+			walking = datetime.timedelta()
 			self.reports.sort(reverse=True)
 			stoppage = self.reports[0].stoppage()
 			self.reports.sort()
@@ -196,7 +196,6 @@ class Team(Entity):
 		if not speed:
 			speed = self.speed()
 		if not self.finished() and self.on_route() and speed:
-			from datetime import timedelta
 			if self.started():
 				last, dep = self.last_visited()
 			else:
@@ -204,7 +203,7 @@ class Team(Entity):
 				dep = self.start
 			d = last.distance_along(self.route, base)
 			t = ( d*3600 ) // speed
-			return dep + timedelta(0,t)
+			return dep + datetime.timedelta(0,t)
 		else:
 			return None
 
@@ -242,7 +241,6 @@ class Report(Entity):
 		return self.dep - self.arr
 
 def mkdt(time, date=None):
-	from datetime import datetime
 	if not date:
-		date = datetime.today().strftime('%y%m%d')
-	return datetime.strptime(date + time, '%y%m%d%H:%M')
+		date = datetime.datetime.today().strftime('%y%m%d')
+	return datetime.datetime.strptime(date + time, '%y%m%d%H:%M')
