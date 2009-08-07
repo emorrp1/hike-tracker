@@ -105,11 +105,13 @@ class Route(Entity):
 class Team(Entity):
 	'''The database representation of a competing team'''
 	name = Field(Text)
+	start = Field(DateTime)
 	reports = OneToMany('Report')
 	route = ManyToOne('Route')
 
-	def __init__(self, name, route=None):
+	def __init__(self, name, start, route=None):
 		Entity.__init__(self, name=name)
+		self.start = mkdt(start)
 		if route:
 			if type(route).__name__ == 'str':
 				route = Route.get_by(name=route)
