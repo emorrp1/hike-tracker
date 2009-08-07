@@ -211,9 +211,9 @@ class Report(Entity):
 			base = Base.get_by(name=base)
 		if type(team).__name__ == 'str':
 			team = Team.get_by(name=team)
-		arr = self.mkdt(arr, date)
+		arr = mkdt(arr, date)
 		if dep:
-			dep = self.mkdt(dep, date)
+			dep = mkdt(dep, date)
 		else:
 			dep = arr
 		Entity.__init__(self, arr=arr, dep=dep)
@@ -228,11 +228,11 @@ class Report(Entity):
 		if self.dep == other.dep: return 0
 		if self.dep >  other.dep: return 1
 
-	def mkdt(self, time, date=None):
-		from datetime import datetime
-		if not date:
-			date = datetime.today().strftime('%y%m%d')
-		return datetime.strptime(date + time, '%y%m%d%H:%M')
-
 	def stoppage(self):
 		return self.dep - self.arr
+
+def mkdt(self, time, date=None):
+	from datetime import datetime
+	if not date:
+		date = datetime.today().strftime('%y%m%d')
+	return datetime.strptime(date + time, '%y%m%d%H:%M')
