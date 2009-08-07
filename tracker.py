@@ -26,7 +26,7 @@ def configure(hike='custom'):
 		for r in config['routes']:
 			Route(r, config['routes'][r])
 		for t in config['teams']:
-			Team(t, config['teams'][t])
+			Team(t, *config['teams'][t])
 
 def get(tname):
 	'''Shortcut to getting hike objects by name'''
