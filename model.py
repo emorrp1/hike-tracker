@@ -112,9 +112,12 @@ class Team(Entity):
 	reports = OneToMany('Report')
 	route = ManyToOne('Route')
 
-	def __init__(self, name, start, route=None):
+	def __init__(self, name, start=None, route=None):
 		Entity.__init__(self, name=name)
-		self.start = mkdt(start)
+		if start:
+			self.start = mkdt(start)
+		else:
+			self.start = START
 		if route:
 			if type(route).__name__ == 'str':
 				route = Route.get_by(name=route)
