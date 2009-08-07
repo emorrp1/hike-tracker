@@ -41,15 +41,19 @@ class Base(Entity):
 	def active(self, speed=None):
 		open = None
 		close = None
+		unknowns = []
 		for route in self.routes:
 			for team in route.teams:
 				eta = team.eta(self, speed)
-				if open:
-					open = min(open, eta)
-					close = max(close, eta)
+				if eta:
+					if open:
+						open = min(open, eta)
+						close = max(close, eta)
+					else:
+						open, close = eta, eta
 				else:
-					open, close = eta, eta
-		return open, close
+					unknowns.append(team)
+		return open, close, unknowns
 
 	def next(self, route):
 		if type(route).__name__ == 'str':
