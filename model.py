@@ -140,7 +140,7 @@ class Team(Entity):
 			base = Base.get_by(name=base)
 		for r in self.reports:
 			if r.base is base:
-				return True
+				return r.dep
 		return False
 
 	def last_visited(self):
@@ -196,6 +196,10 @@ class Team(Entity):
 			return None
 
 	def eta(self, base=None, speed=None):
+		if base:
+			t = self.visited(base)
+			if t:
+				return t
 		if not speed:
 			speed = self.speed()
 		if not self.finished() and self.on_route() and speed:
