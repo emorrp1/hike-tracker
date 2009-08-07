@@ -1,3 +1,5 @@
+from model import Report
+
 Report('0', '1', '12:00')
 Report('0', '2', '12:00')
 Report('0', '3', '12:00')

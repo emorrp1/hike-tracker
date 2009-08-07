@@ -1,3 +1,5 @@
+from model import Report
+
 Report('00', '501', '12:00')
 Report('00', '101', '12:00')
 Report('00', '502', '12:00')
