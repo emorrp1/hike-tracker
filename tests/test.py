@@ -79,7 +79,7 @@ class Testing(unittest.TestCase):
 
 if __name__ == '__main__':
 	start('test')
-	execfile('test.reports')
+	exec(open('test.reports').read())
 	unittest.main()
 	from os import system
 	system('rm test.hike')

@@ -76,7 +76,7 @@ class Base(Entity):
 		from math import sqrt
 		def normalise(diff, rollover=1000):
 			diff = abs(diff)
-			if diff > rollover/2:
+			if diff > rollover//2:
 				diff = rollover - diff
 			return diff
 		ediff = normalise(self.e - other.e)
