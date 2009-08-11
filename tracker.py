@@ -43,7 +43,7 @@ def set_distances(config):
 			for i in range(len(ds)):
 				d = ds[i]
 				base,next = route.bases[i:i+1]
-				if b1 not in model.Base.distances:
+				if base.name not in model.Base.distances:
 					model.Base.distances[base.name] = {}
 				model.Base.distances[base.name][next.name] = int(d)
 		del config['routes']
