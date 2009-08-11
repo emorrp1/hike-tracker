@@ -9,41 +9,6 @@ class Testing(unittest.TestCase):
 	def tearDown(self):
 		elixir.session.close()
 
-	def testBaseDone(self):
-		self.assertTrue(get('b0').done())
-		self.assertFalse(get('b1').done())
-		self.assertTrue(get('b2').done())
-		self.assertFalse(get('b3').done())
-
-	def testBaseNext1(self):
-		self.assertEqual(get('b0').next('1'), get('b1'))
-		self.assertEqual(get('b1').next('1'), get('b3'))
-		self.assertEqual(get('b3').next('1'), get('b2'))
-		self.assertEqual(get('b2').next('1'), None)
-
-	def testBaseNext2(self):
-		self.assertEqual(get('b0').next('2'), get('b2'))
-		self.assertEqual(get('b2').next('2'), get('b3'))
-		self.assertEqual(get('b3').next('2'), None)
-
-	def testBaseDist(self):
-		b0 = get('b0')
-		b1 = get('b1')
-		b75 = model.Base('75', '072056')
-		self.assertEqual(b0.distance(b1), 10)
-		self.assertEqual(b1.distance(b0), 10)
-		self.assertEqual(b0.distance(get('b3')), 14)
-		self.assertEqual(b0.distance(b75), 91)
-
-	def testBaseDistAlong(self):
-		b0 = get('b0')
-		b1 = get('b1')
-		b3 = get('b3')
-		d01 = b0.distance(b1)
-		d13 = b1.distance(b3)
-		along = b0.distance_along('1',b3)
-		self.assertEqual(d01+d13, along)
-
 	def testRouteEnd(self):
 		b = model.Base('testend', '000000')
 		r = get('r1')
@@ -78,7 +43,10 @@ class Testing(unittest.TestCase):
 		self.assertTrue(t.on_route())
 
 def suite():
-	return unittest.TestLoader().loadTestsFromTestCase(Testing)
+	import test_base
+	testing = unittest.TestLoader().loadTestsFromTestCase(Testing)
+	base_suite = test_base.suite()
+	return unittest.TestSuite([testing, base_suite])
 
 if __name__ == '__main__':
 	start('test')
