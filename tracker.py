@@ -25,18 +25,34 @@ def configure(hike='custom'):
 		if 'start' in config:
 			s = config['start']
 			model.START = model.mkdt(s[-5:], s[:-5])
-		if 'distances' in config:
-			for b1 in config['distances']:
-				model.Base.distances[b1] = {}
-				for b2d in config['distances'][b1]:
-					b2,d = b2d.split(':')
-					model.Base.distances[b1][b2] = int(d)
 		for b in config['bases']:
 			model.Base(b, config['bases'][b])
 		for r in config['routes']:
 			model.Route(r, config['routes'][r])
 		for t in config['teams']:
 			model.Team(t, *config['teams'][t])
+		if 'distances' in config:
+			set_distances(config['distances'])
+
+def set_distances(config):
+	'''Set the distances between bases'''
+	if 'routes' in config:
+		for r in config['routes']:
+			ds = config['routes'][r]
+			route = model.Route.get_by(name=name)
+			for i in range(len(ds)):
+				d = ds[i]
+				base,next = route.bases[i:i+1]
+				if base.name not in model.Base.distances:
+					model.Base.distances[base.name] = {}
+				model.Base.distances[base.name][next.name] = int(d)
+		del config['routes']
+	for b1 in config:
+		if b1 not in model.Base.distances:
+			model.Base.distances[b1] = {}
+		for b2d in config[b1]:
+			b2,d = b2d.split(':')
+			model.Base.distances[b1][b2] = int(d)
 
 def get(tname):
 	'''Shortcut to getting hike objects by name'''
