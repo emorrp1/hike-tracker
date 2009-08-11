@@ -9,17 +9,6 @@ class Testing(unittest.TestCase):
 	def tearDown(self):
 		elixir.session.close()
 
-	def testRouteEnd(self):
-		b = model.Base('testend', '000000')
-		r = get('r1')
-		r.bases.append(b)
-		self.assertEqual(b, r.end())
-
-	def testRouteLen(self):
-		r = get('r1')
-		length = r.bases[0].distance_along(r, r.end())
-		self.assertEqual(length, len(r))
-
 	def testTeamCompleted(self):
 		self.assertFalse(get('t1').completed())
 		self.assertTrue(get('t2').completed())
@@ -43,10 +32,11 @@ class Testing(unittest.TestCase):
 		self.assertTrue(t.on_route())
 
 def suite():
-	import test_base
+	import test_base, test_route
 	testing = unittest.TestLoader().loadTestsFromTestCase(Testing)
 	base_suite = test_base.suite()
-	return unittest.TestSuite([testing, base_suite])
+	route_suite = test_route.suite()
+	return unittest.TestSuite([testing, base_suite, route_suite])
 
 if __name__ == '__main__':
 	start('test')
