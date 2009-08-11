@@ -40,10 +40,11 @@ def set_distances(config):
 		for r in config['routes']:
 			ds = config['routes'][r]
 			route = model.Route.get_by(name=name)
-			for i in range(len(route.bases)):
+			for i in range(len(route.bases)-1):
 				d = ds[i]
 				base,next = route.bases[i:i+1]
-				model.Base.distances[base.name] = {}
+				if b1 not in model.Base.distances:
+					model.Base.distances[base.name] = {}
 				model.Base.distances[base.name][next.name] = int(d)
 		del config['routes']
 	for b1 in config:
