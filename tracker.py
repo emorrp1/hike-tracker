@@ -47,7 +47,8 @@ def set_distances(config):
 				model.Base.distances[base.name][next.name] = int(d)
 		del config['routes']
 	for b1 in config:
-		model.Base.distances[b1] = {}
+		if b1 not in model.Base.distances:
+			model.Base.distances[b1] = {}
 		for b2d in config[b1]:
 			b2,d = b2d.split(':')
 			model.Base.distances[b1][b2] = int(d)
