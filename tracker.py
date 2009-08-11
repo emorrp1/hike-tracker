@@ -26,11 +26,7 @@ def configure(hike='custom'):
 			s = config['start']
 			model.START = model.mkdt(s[-5:], s[:-5])
 		if 'distances' in config:
-			for b1 in config['distances']:
-				model.Base.distances[b1] = {}
-				for b2d in config['distances'][b1]:
-					b2,d = b2d.split(':')
-					model.Base.distances[b1][b2] = int(d)
+			set_distances(config['distances'])
 		for b in config['bases']:
 			model.Base(b, config['bases'][b])
 		for r in config['routes']:
