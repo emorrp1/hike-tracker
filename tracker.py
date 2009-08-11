@@ -36,6 +36,16 @@ def configure(hike='custom'):
 
 def set_distances(config):
 	'''Set the distances between bases'''
+	if 'routes' in config:
+		for r in config['routes']:
+			ds = config['routes'][r]
+			route = model.Route.get_by(name=name)
+			for i in range(len(route.bases)):
+				d = ds[i]
+				base,next = route.bases[i:i+1]
+				model.Base.distances[base.name] = {}
+				model.Base.distances[base.name][next.name] = int(d)
+		del config['routes']
 	for b1 in config:
 		model.Base.distances[b1] = {}
 		for b2d in config[b1]:
