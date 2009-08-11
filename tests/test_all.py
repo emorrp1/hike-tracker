@@ -1,21 +1,13 @@
 #!/usr/bin/python -W ignore::DeprecationWarning
-from tracker import *
+from tracker import start
 import unittest
-
-class Testing(unittest.TestCase):
-	def setUp(self):
-		start('test')
-
-	def tearDown(self):
-		elixir.session.close()
+import test_base, test_route, test_team
 
 def suite():
-	import test_base, test_route, test_team
-	testing = unittest.TestLoader().loadTestsFromTestCase(Testing)
 	base_suite = test_base.suite()
 	route_suite = test_route.suite()
 	team_suite = test_team.suite()
-	return unittest.TestSuite([testing, base_suite, route_suite, team_suite])
+	return unittest.TestSuite([base_suite, route_suite, team_suite])
 
 if __name__ == '__main__':
 	start('test')
