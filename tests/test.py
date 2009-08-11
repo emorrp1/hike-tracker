@@ -77,6 +77,9 @@ class Testing(unittest.TestCase):
 		t = model.Team('testonroute', '1')
 		self.assertTrue(t.on_route())
 
+def suite():
+	return unittest.TestLoader().loadTestsFromTestCase(Testing)
+
 if __name__ == '__main__':
 	start('test')
 	exec(open('test.reports').read())
