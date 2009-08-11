@@ -9,13 +9,13 @@ class TestRoute(unittest.TestCase):
 	def tearDown(self):
 		elixir.session.close()
 
-	def testRouteEnd(self):
+	def testEnd(self):
 		b = model.Base('testend', '000000')
 		r = get('r1')
 		r.bases.append(b)
 		self.assertEqual(b, r.end())
 
-	def testRouteLen(self):
+	def testLen(self):
 		r = get('r1')
 		length = r.bases[0].distance_along(r, r.end())
 		self.assertEqual(length, len(r))
