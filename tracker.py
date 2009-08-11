@@ -25,14 +25,14 @@ def configure(hike='custom'):
 		if 'start' in config:
 			s = config['start']
 			model.START = model.mkdt(s[-5:], s[:-5])
-		if 'distances' in config:
-			set_distances(config['distances'])
 		for b in config['bases']:
 			model.Base(b, config['bases'][b])
 		for r in config['routes']:
 			model.Route(r, config['routes'][r])
 		for t in config['teams']:
 			model.Team(t, *config['teams'][t])
+		if 'distances' in config:
+			set_distances(config['distances'])
 
 def set_distances(config):
 	'''Set the distances between bases'''
