@@ -38,6 +38,14 @@ def configure(hike='custom'):
 		for t in config['teams']:
 			model.Team(t, *config['teams'][t])
 
+def set_distances(config):
+	'''Set the distances between bases'''
+	for b1 in config:
+		model.Base.distances[b1] = {}
+		for b2d in config[b1]:
+			b2,d = b2d.split(':')
+			model.Base.distances[b1][b2] = int(d)
+
 def get(tname):
 	'''Shortcut to getting hike objects by name'''
 	type = tname[0].lower()
