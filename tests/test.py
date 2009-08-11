@@ -9,34 +9,13 @@ class Testing(unittest.TestCase):
 	def tearDown(self):
 		elixir.session.close()
 
-	def testTeamCompleted(self):
-		self.assertFalse(get('t1').completed())
-		self.assertTrue(get('t2').completed())
-		self.assertTrue(get('t3').completed())
-		self.assertFalse(get('t4').completed())
-
-	def testTeam1Finishing(self):
-		self.assertFalse(get('t1').visited('3'))
-		model.Report('3', '1', '13:00')
-		self.assertTrue(get('t1').completed())
-		self.assertTrue(get('b3').done())
-
-	def testTeam4Finishing(self):
-		self.assertFalse(get('t4').visited('1'))
-		model.Report('1', '4', '13:00')
-		self.assertTrue(get('t4').completed())
-		self.assertTrue(get('b1').done())
-
-	def testTeamOnRoute(self):
-		t = model.Team('testonroute', '1')
-		self.assertTrue(t.on_route())
-
 def suite():
-	import test_base, test_route
+	import test_base, test_route, test_team
 	testing = unittest.TestLoader().loadTestsFromTestCase(Testing)
 	base_suite = test_base.suite()
 	route_suite = test_route.suite()
-	return unittest.TestSuite([testing, base_suite, route_suite])
+	team_suite = test_team.suite()
+	return unittest.TestSuite([testing, base_suite, route_suite, team_suite])
 
 if __name__ == '__main__':
 	start('test')
