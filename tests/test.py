@@ -83,6 +83,6 @@ def suite():
 if __name__ == '__main__':
 	start('test')
 	exec(open('test.reports').read())
-	unittest.main()
+	unittest.TextTestRunner().run(suite())
 	from os import system
 	system('rm test.hike')
