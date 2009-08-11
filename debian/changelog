@@ -1,3 +1,11 @@
+hike-tracker (0.6.1) jaunty; urgency=low
+
+  * adding tracker.set_distances to allow by_route defines
+  * separating tests into suites
+  * ready for py3k once elixir is
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Tue, 11 Aug 2009 12:49:25 +0100
+
 hike-tracker (0.6) jaunty; urgency=low
 
   * massively bumfed Team.eta to be useful in many cases
