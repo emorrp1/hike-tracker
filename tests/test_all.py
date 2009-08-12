@@ -6,9 +6,11 @@ import test_base, test_route, test_team
 class TestTracker(unittest.TestCase):
 	def setUp(self):
 		start('test')
+		self.orig_dists = model.Base.distances.copy()
 
 	def tearDown(self):
 		elixir.session.close()
+		model.Base.distances = self.orig_dists
 
 	def testGet(self):
 		self.assertEqual(get('b0'), model.Base.get_by(name='0'))
@@ -17,16 +19,16 @@ class TestTracker(unittest.TestCase):
 
 	def testSetDistances(self):
 		from configobj import ConfigObj
-		c = ConfigObj({'0':['1:56','2:37'], '1':['3:45'], '2':['0:73','1:37']})
+		c = ConfigObj({'0':['1:56','2:37'], '1':['3:45']})
 		set_distances(c)
 		b0 = get('b0')
 		b1 = get('b1')
 		b2 = get('b2')
 		b3 = get('b3')
-		assertEqual(b0.distance(b0), 0)
-		assertEqual(b0.distance(b1), 56)
-		assertEqual(b0.distance(b2), 73)
-		assertEqual(b3.distance(b1), 45)
+		self.assertEqual(b0.distance(b0), 0)
+		self.assertEqual(b0.distance(b1), 56)
+		self.assertEqual(b0.distance(b2), 37)
+		self.assertEqual(b3.distance(b1), 45)
 
 def suite():
 	tracker_suite = unittest.TestLoader().loadTestsFromTestCase(TestTracker)
