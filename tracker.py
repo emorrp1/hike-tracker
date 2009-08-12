@@ -25,6 +25,8 @@ def configure(hike='custom'):
 		if 'start' in config:
 			s = config['start']
 			model.START = model.mkdt(s[-5:], s[:-5])
+		if 'wiggle' in config:
+			model.Base.wfact = int(config['wiggle'])
 		for b in config['bases']:
 			model.Base(b, config['bases'][b])
 		for r in config['routes']:
