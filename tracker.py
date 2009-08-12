@@ -43,16 +43,23 @@ def set_distances(config):
 			for i in range(len(ds)):
 				d = ds[i]
 				base,next = route.bases[i:i+2]
-				if base.name not in model.Base.distances:
-					model.Base.distances[base.name] = {}
-				model.Base.distances[base.name][next.name] = int(d)
+				b1, b2 = base.name, next.name
+				if b1 not in model.Base.distances:
+					model.Base.distances[b1] = {}
+				if b2 not in model.Base.distances:
+					model.Base.distances[b2] = {}
+				model.Base.distances[b1][b2] = int(d)
+				model.Base.distances[b2][b1] = int(d)
 		del config['routes']
 	for b1 in config:
 		if b1 not in model.Base.distances:
 			model.Base.distances[b1] = {}
 		for b2d in config[b1]:
 			b2,d = b2d.split(':')
+			if b2 not in model.Base.distances:
+				model.Base.distances[b2] = {}
 			model.Base.distances[b1][b2] = int(d)
+			model.Base.distances[b2][b1] = int(d)
 
 def get(tname):
 	'''Shortcut to getting hike objects by name'''
