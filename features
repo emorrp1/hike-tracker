@@ -1,0 +1,21 @@
+v0.4
+understands the concepts of Bases, Routes (a simple series of Bases), Teams and (Base) Reports.
+can tell if a Team has been through a given Base, and hence if every Team on applicable Routes has gone through a given Base (ready to pack up), or if a given Team has been through every Base on its Route (i.e. completed) or even a simple timeline of a Team's movement.
+
+v0.5
+calculates the distance between two Bases, either direct or along the length of a given Route; gives the total length of a Route
+can tell whether a Team has finished (arrived at final Base) or gone off Route (last known location not on Route) or give its last known location
+gives a Team's statistics including walked distance, walking time, waiting at a Base time and average walking speed
+All of the above bits and pieces culminate in the first actually useful function: determining the ETA of a Team at a given Base (next in route by default) by either using its average walking speed, or a set walking speed (for when a guaranteed underestimate is needed)
+
+v0.6
+easily configurable hike setups
+Base distances can be set precisely
+determines earliest and latest etas at a Base
+can specify team start times
+sorts Reports based on departure time
+the Team's eta calculation is more configurable
+
+v0.7
+can define Base distances by route
+uses a configurable wiggle factor to determine unknown distances
