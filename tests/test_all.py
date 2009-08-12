@@ -30,6 +30,17 @@ class TestTracker(unittest.TestCase):
 		self.assertEqual(b0.distance(b2), 37)
 		self.assertEqual(b3.distance(b1), 45)
 
+	def testSetDistancesOverwrite(self):
+		from configobj import ConfigObj
+		c = ConfigObj({'0':['1:56','2:37','1:23'], '2':['0:45']})
+		set_distances(c)
+		b0 = get('b0')
+		b1 = get('b1')
+		b2 = get('b2')
+		self.assertEqual(b0.distance(b1), 23)
+		self.assertEqual(b0.distance(b2), b2.distance(b0))
+		self.assertEqual(b0.distance(b2), 45)
+
 def suite():
 	tracker_suite = unittest.TestLoader().loadTestsFromTestCase(TestTracker)
 	base_suite = test_base.suite()
