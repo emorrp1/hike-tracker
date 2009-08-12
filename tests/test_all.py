@@ -54,6 +54,11 @@ class TestTracker(unittest.TestCase):
 		self.assertEqual(b1.distance(b3), 54)
 		self.assertEqual(b3.distance(b2), 14)
 
+	def testReportStoppage(self):
+		from datetime import timedelta
+		r = model.Report('0','1','15:34','16:17')
+		self.assertEqual(r.stoppage(), timedelta(0,43*60))
+
 def suite():
 	tracker_suite = unittest.TestLoader().loadTestsFromTestCase(TestTracker)
 	base_suite = test_base.suite()
