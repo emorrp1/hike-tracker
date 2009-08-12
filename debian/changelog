@@ -1,3 +1,12 @@
+hike-tracker (0.6.2) jaunty; urgency=low
+
+  * forcing Base.distances to be square
+  * adding configurable wiggle factor to Base.wfact
+  * adding blakfoot distances configuration
+  * adding test cases for get, set_distances and Report.stoppage
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Wed, 12 Aug 2009 12:39:41 +0100
+
 hike-tracker (0.6.1) jaunty; urgency=low
 
   * adding tracker.set_distances to allow by_route defines
