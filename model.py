@@ -65,7 +65,7 @@ class Base(Entity):
 			n = route.bases.index(self)
 			return route.bases[n+1]
 
-	def distance(self, other):
+	def distance(self, other, wfact=1.3):
 		if type(other).__name__ == 'str':
 			other = Base.get_by(name=other)
 		if self.distances:
@@ -82,7 +82,7 @@ class Base(Entity):
 		ediff = normalise(self.e - other.e)
 		ndiff = normalise(self.n - other.n)
 		hyp2 = pow(ediff, 2) + pow(ndiff, 2)
-		return int(sqrt(hyp2))
+		return int(sqrt(hyp2)*wfact)
 
 	def distance_along(self, route, other=None):
 		if type(route).__name__ == 'str':
