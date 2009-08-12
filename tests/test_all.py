@@ -1,5 +1,5 @@
 #!/usr/bin/python -W ignore::DeprecationWarning
-from tracker import start
+from tracker import *
 import unittest
 import test_base, test_route, test_team
 
@@ -9,6 +9,11 @@ class TestTracker(unittest.TestCase):
 
 	def tearDown(self):
 		elixir.session.close()
+
+	def testGet(self):
+		self.assertEqual(get('b0'), model.Base.get_by(name='0'))
+		self.assertEqual(get('r1'), model.Route.get_by(name='1'))
+		self.assertEqual(get('t3'), model.Team.get_by(name='3'))
 
 def suite():
 	tracker_suite = unittest.TestLoader().loadTestsFromTestCase(TestTracker)
