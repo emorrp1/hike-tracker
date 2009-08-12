@@ -41,6 +41,19 @@ class TestTracker(unittest.TestCase):
 		self.assertEqual(b0.distance(b2), b2.distance(b0))
 		self.assertEqual(b0.distance(b2), 45)
 
+	def testSetDistancesByRoute(self):
+		from configobj import ConfigObj
+		c = ConfigObj({'0':['3:27', '1:45'],'routes':{'2':['23'], '1':['32','54','14']}})
+		set_distances(c)
+		b0 = get('b0')
+		b1 = get('b1')
+		b2 = get('b2')
+		b3 = get('b3')
+		self.assertEqual(b0.distance(b2), 23)
+		self.assertEqual(b0.distance(b1), 45)
+		self.assertEqual(b1.distance(b3), 54)
+		self.assertEqual(b3.distance(b2), 14)
+
 def suite():
 	tracker_suite = unittest.TestLoader().loadTestsFromTestCase(TestTracker)
 	base_suite = test_base.suite()
