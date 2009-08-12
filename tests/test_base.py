@@ -30,10 +30,10 @@ class TestBase(unittest.TestCase):
 		b0 = get('b0')
 		b1 = get('b1')
 		b75 = model.Base('75', '072056')
-		self.assertEqual(b0.distance(b1), 10)
-		self.assertEqual(b1.distance(b0), 10)
-		self.assertEqual(b0.distance(get('b3')), 14)
-		self.assertEqual(b0.distance(b75), 91)
+		self.assertEqual(b0.distance(b1, 1), 10)
+		self.assertEqual(b1.distance(b0, 1.5), 15)
+		self.assertEqual(b0.distance(get('b3'), 1), 14)
+		self.assertEqual(b0.distance(b75, 1), 91)
 
 	def testDistAlong(self):
 		b0 = get('b0')
