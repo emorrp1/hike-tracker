@@ -57,7 +57,7 @@ class Base(Entity):
 						open, close = eta, eta
 				else:
 					unknowns.append(team)
-		return open, close, unknowns
+		return {'open':open, 'close':close, 'unknown':unknowns}
 
 	def next(self, route):
 		if type(route).__name__ == 'str':
@@ -170,21 +170,21 @@ class Team(Entity):
 	def last_visited(self):
 		if self.started():
 			self.reports.sort(reverse=True)
-			return self.reports[0].base, self.reports[0].dep
+			return {'base':self.reports[0].base, 'dep':self.reports[0].dep}
 		else:
-			return None, None
+			return {'base':None, 'dep':None}
 
 	def on_route(self):
 		if self.route:
 			not_started = not self.started()
-			last_visited_on_route = self.last_visited()[0] in self.route.bases
+			last_visited_on_route = self.last_visited()['base'] in self.route.bases
 			return not_started or last_visited_on_route
 		else:
 			return None
 
 	def finished(self):
 		if self.route:
-			return self.last_visited()[0] is self.route.end()
+			return self.last_visited()['base'] is self.route.end()
 		else:
 			return None
 
@@ -215,12 +215,12 @@ class Team(Entity):
 				r = self.reports[i]
 				stoppage += r.stoppage()
 				walking += self.reports[i+1].arr - r.dep
-			return walking.seconds // 60, stoppage.seconds // 60
+			return {'walking':walking.seconds // 60, 'stopped':stoppage.seconds // 60}
 		else:
-			return 0, 0
+			return {'walking':0, 'stopped':0}
 
 	def speed(self):
-		t = self.timings()[0]
+		t = self.timings()['walking']
 		if t:
 			d = self.traversed()
 			return ( d*60 ) // t
@@ -236,7 +236,8 @@ class Team(Entity):
 			speed = self.speed()
 		if not self.finished() and self.on_route() and speed:
 			if self.started():
-				last, dep = self.last_visited()
+				last = self.last_visited()['base']
+				dep = self.last_visited()['dep']
 			else:
 				last = self.route.bases[0]
 				dep = self.start
