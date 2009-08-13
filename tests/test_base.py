@@ -24,7 +24,7 @@ class TestBase(unittest.TestCase):
 	def testNext2(self):
 		self.assertEqual(get('b0').next('2'), get('b2'))
 		self.assertEqual(get('b2').next('2'), get('b3'))
-		self.assertEqual(get('b3').next('2'), None)
+		self.assertFalse(get('b3').next('2'))
 
 	def testDist(self):
 		b0 = get('b0')
