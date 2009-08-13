@@ -82,6 +82,12 @@ class TestTeam(unittest.TestCase):
 			self.assertTrue(ts[1] >= 0)
 			self.assertTrue(ts[0] >= ts[1])
 
+	def testSpeed(self):
+		for t in model.Team.query.all():
+			sp = t.speed()
+			self.assertTrue(sp >= 0)
+			self.assertTrue(sp <= 70)
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestTeam)
 
