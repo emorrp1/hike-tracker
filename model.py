@@ -177,14 +177,14 @@ class Team(Entity):
 	def on_route(self):
 		if self.route:
 			not_started = not self.started()
-			last_visited_on_route = self.last_visited()[0] in self.route.bases
+			last_visited_on_route = self.last_visited()['base'] in self.route.bases
 			return not_started or last_visited_on_route
 		else:
 			return None
 
 	def finished(self):
 		if self.route:
-			return self.last_visited()[0] is self.route.end()
+			return self.last_visited()['base'] is self.route.end()
 		else:
 			return None
 
@@ -236,7 +236,8 @@ class Team(Entity):
 			speed = self.speed()
 		if not self.finished() and self.on_route() and speed:
 			if self.started():
-				last, dep = self.last_visited()
+				last = self.last_visited()['base']
+				dep = self.last_visited()['dep']
 			else:
 				last = self.route.bases[0]
 				dep = self.start
