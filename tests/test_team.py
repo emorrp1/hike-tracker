@@ -68,6 +68,7 @@ class TestTeam(unittest.TestCase):
 		self.assertEqual(type(get('t1').traversed()).__name__, 'int')
 		for t in model.Team.query.all():
 			self.assertTrue(t.traversed() >= 0)
+			self.assertTrue(t.traversed() <= 300)
 		self.assertEqual(get('t2').traversed(), 39)
 		self.assertEqual(get('t4').traversed(), 31)
 
