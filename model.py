@@ -57,7 +57,7 @@ class Base(Entity):
 						open, close = eta, eta
 				else:
 					unknowns.append(team)
-		return open, close, unknowns
+		return {'open':open, 'close':close, 'unknown':unknowns}
 
 	def next(self, route):
 		if type(route).__name__ == 'str':
