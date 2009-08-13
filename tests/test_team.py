@@ -51,6 +51,14 @@ class TestTeam(unittest.TestCase):
 		self.assertEqual(type(t).__name__, 'datetime')
 		self.assertEqual(model.mkdt('12:00'), t)
 
+	def testLastVisited(self):
+		lv = get('t1').last_visited()
+		self.assertEqual(type(lv[0]).__name__, 'Base')
+		self.assertEqual(type(lv[1]).__name__, 'datetime')
+		self.assertEqual(get('t1').visited(lv[0]), lv[1])
+		t = model.Team('test')
+		self.assertEqual((None, None), t.last_visited())
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestTeam)
 
