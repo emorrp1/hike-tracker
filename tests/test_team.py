@@ -73,6 +73,15 @@ class TestTeam(unittest.TestCase):
 		self.assertEqual(get('t2').traversed(), 39)
 		self.assertEqual(get('t4').traversed(), 31)
 
+	def testTimings(self):
+		t = model.Team('test')
+		self.assertEqual((0, 0), t.timings())
+		for t in model.Team.query.all():
+			ts = t.timings()
+			self.assertTrue(ts[0] >= 0)
+			self.assertTrue(ts[1] >= 0)
+			self.assertTrue(ts[0] >= ts[1])
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestTeam)
 
