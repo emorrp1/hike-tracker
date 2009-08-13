@@ -55,12 +55,12 @@ class TestBase(unittest.TestCase):
 		self.assertEqual(float(d2)/d1, wf2/wf1)
 
 	def testReport(self):
-		from datetime import datetime, timedelta
+		from datetime import timedelta
 		b0 = get('b0')
 		b0.report('b0.report')
 		b0.reports.sort(reverse=True)
 		r = b0.reports
-		self.assertEqual(r[0].stoppage(), timedelta(0,30*60))
+		self.assertEqual(r[0].stoppage(), timedelta(0,15*60))
 		self.assertEqual(r[1].team, get('t4'))
 		self.assertEqual(r[2].arr, model.mkdt('12:55'))
 		self.assertEqual(r[3].base, b0)
