@@ -56,11 +56,12 @@ class TestTeam(unittest.TestCase):
 
 	def testLastVisited(self):
 		lv = get('t1').last_visited()
-		self.assertEqual(type(lv[0]).__name__, 'Base')
-		self.assertEqual(type(lv[1]).__name__, 'datetime')
-		self.assertEqual(get('t1').visited(lv[0]), lv[1])
+		self.assertEqual(type(lv['base']).__name__, 'Base')
+		self.assertEqual(type(lv['dep']).__name__, 'datetime')
+		self.assertEqual(get('t1').visited(lv['base']), lv['dep'])
 		t = model.Team('test')
-		self.assertEqual((None, None), t.last_visited())
+		empty = {'dep':None, 'base':None}
+		self.assertEqual(empty, t.last_visited())
 
 	def testTraversed(self):
 		self.assertEqual(model.Base.wfact, 1.3)
