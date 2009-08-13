@@ -79,10 +79,10 @@ class TestBase(unittest.TestCase):
 		self.assertEqual(get('b3').active()[2][0], get('t1'))
 
 	def testActive(self):
-		self.assertEqual(get('b0').active()[0], get('b0').active()[1])
-		self.assertTrue(model.mkdt('12:00') in get('b0').active())
-		self.assertEqual(get('b2').active()[1], model.mkdt('12:45'))
-		self.assertEqual(get('b3').active()[0], model.mkdt('12:15'))
+		self.assertEqual(get('b0').active()['open'], get('b0').active()['close'])
+		self.assertEqual(model.mkdt('12:00'), get('b0').active()['open'])
+		self.assertEqual(get('b2').active()['close'], model.mkdt('12:45'))
+		self.assertEqual(get('b3').active()['open'], model.mkdt('12:15'))
 
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestBase)
