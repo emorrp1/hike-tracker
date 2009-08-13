@@ -215,12 +215,12 @@ class Team(Entity):
 				r = self.reports[i]
 				stoppage += r.stoppage()
 				walking += self.reports[i+1].arr - r.dep
-			return walking.seconds // 60, stoppage.seconds // 60
+			return {'walking':walking.seconds // 60, 'stopped':stoppage.seconds // 60}
 		else:
-			return 0, 0
+			return {'walking':0, 'stopped':0}
 
 	def speed(self):
-		t = self.timings()[0]
+		t = self.timings()['walking']
 		if t:
 			d = self.traversed()
 			return ( d*60 ) // t
