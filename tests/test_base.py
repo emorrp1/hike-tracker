@@ -74,9 +74,9 @@ class TestBase(unittest.TestCase):
 		self.assertEqual(r[3].base, b0)
 
 	def testActiveUnknowns(self):
-		self.assertFalse(get('b0').active()[2])
-		self.assertTrue(get('t4') in get('b1').active()[2])
-		self.assertEqual(get('b3').active()[2][0], get('t1'))
+		self.assertFalse(get('b0').active()['unknown'])
+		self.assertTrue(get('t4') in get('b1').active()['unknown'])
+		self.assertEqual(get('b3').active()['unknown'][0], get('t1'))
 
 	def testActive(self):
 		self.assertEqual(get('b0').active()['open'], get('b0').active()['close'])
