@@ -45,6 +45,15 @@ class TestBase(unittest.TestCase):
 		along = b0.distance_along('1',b3)
 		self.assertEqual(d01+d13, along)
 
+	def testWiggleFactor(self):
+		wf1 = 1.5
+		wf2 = 3.0
+		model.Base.wfact = wf1
+		d1 = get('b0').distance(get('b1'))
+		model.Base.wfact = wf2
+		d2 = get('b0').distance(get('b1'))
+		self.assertEqual(float(d2)/d1, wf2/wf1)
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestBase)
 
