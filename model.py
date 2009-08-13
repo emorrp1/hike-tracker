@@ -25,11 +25,13 @@ class Base(Entity):
 		if self.name == other.name: return 0
 		if self.name >  other.name: return 1
 
-	def report(self, file=None):
-		if not file:
+	def report(self, filename=None):
+		if filename:
+			f = open(filename)
+		else:
 			from sys import stdin
-			file = stdin
-		for line in file.readlines():
+			f = stdin
+		for line in f.readlines():
 			args = [self] + line.split()
 			Report(*args)
 
