@@ -30,6 +30,9 @@ class TestTeam(unittest.TestCase):
 	def testOnRoute(self):
 		t = model.Team('testonroute', '1')
 		self.assertTrue(t.on_route())
+		self.assertFalse(get('t1').on_route())
+		self.assertTrue(get('t2').on_route())
+		self.assertTrue(get('t3').on_route())
 
 	def testStarted(self):
 		t = model.Team('test')
