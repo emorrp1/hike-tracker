@@ -31,6 +31,12 @@ class TestTeam(unittest.TestCase):
 		t = model.Team('testonroute', '1')
 		self.assertTrue(t.on_route())
 
+	def testStarted(self):
+		t = model.Team('test')
+		self.assertFalse(t.started())
+		model.Report('1', t, '13:00')
+		self.assertTrue(t.started())
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestTeam)
 
