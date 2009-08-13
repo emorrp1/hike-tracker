@@ -70,6 +70,12 @@ class TestBase(unittest.TestCase):
 		self.assertTrue(get('t4') in get('b1').active()[2])
 		self.assertEqual(get('b3').active()[2][0], get('t1'))
 
+	def testActive(self):
+		self.assertEqual(get('b0').active()[0], get('b0').active()[1])
+		self.assertTrue(model.mkdt('12:00') in get('b0').active())
+		self.assertEqual(get('b2').active()[1], model.mkdt('12:45'))
+		self.assertEqual(get('b3').active()[0], model.mkdt('12:15'))
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestBase)
 
