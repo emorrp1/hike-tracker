@@ -5,8 +5,10 @@ import unittest
 class TestBase(unittest.TestCase):
 	def setUp(self):
 		start('test')
+		self.orig_wfact = model.Base.wfact
 
 	def tearDown(self):
+		model.Base.wfact = self.orig_wfact
 		elixir.session.close()
 
 	def testDone(self):
@@ -24,7 +26,7 @@ class TestBase(unittest.TestCase):
 	def testNext2(self):
 		self.assertEqual(get('b0').next('2'), get('b2'))
 		self.assertEqual(get('b2').next('2'), get('b3'))
-		self.assertEqual(get('b3').next('2'), None)
+		self.assertFalse(get('b3').next('2'))
 
 	def testDist(self):
 		b0 = get('b0')
@@ -44,6 +46,43 @@ class TestBase(unittest.TestCase):
 		d13 = b1.distance(b3)
 		along = b0.distance_along('1',b3)
 		self.assertEqual(d01+d13, along)
+
+	def testDistAlongOther(self):
+		b0 = get('b0')
+		d1 = b0.distance_along('1')
+		d2 = b0.distance_along('1', get('b1'))
+		self.assertEqual(d1, d2)
+
+	def testWiggleFactor(self):
+		wf1 = 1.5
+		wf2 = 3.0
+		model.Base.wfact = wf1
+		d1 = get('b0').distance(get('b1'))
+		model.Base.wfact = wf2
+		d2 = get('b0').distance(get('b1'))
+		self.assertEqual(float(d2)/d1, wf2/wf1)
+
+	def testReport(self):
+		from datetime import timedelta
+		b0 = get('b0')
+		b0.report('b0.report')
+		b0.reports.sort(reverse=True)
+		r = b0.reports
+		self.assertEqual(r[0].stoppage(), timedelta(0,15*60))
+		self.assertEqual(r[1].team, get('t4'))
+		self.assertEqual(r[2].arr, model.mkdt('12:55'))
+		self.assertEqual(r[3].base, b0)
+
+	def testActiveUnknowns(self):
+		self.assertFalse(get('b0').active()[2])
+		self.assertTrue(get('t4') in get('b1').active()[2])
+		self.assertEqual(get('b3').active()[2][0], get('t1'))
+
+	def testActive(self):
+		self.assertEqual(get('b0').active()[0], get('b0').active()[1])
+		self.assertTrue(model.mkdt('12:00') in get('b0').active())
+		self.assertEqual(get('b2').active()[1], model.mkdt('12:45'))
+		self.assertEqual(get('b3').active()[0], model.mkdt('12:15'))
 
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestBase)

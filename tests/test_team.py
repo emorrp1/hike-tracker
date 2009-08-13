@@ -30,6 +30,63 @@ class TestTeam(unittest.TestCase):
 	def testOnRoute(self):
 		t = model.Team('testonroute', '1')
 		self.assertTrue(t.on_route())
+		self.assertFalse(get('t1').on_route())
+		self.assertTrue(get('t2').on_route())
+		self.assertTrue(get('t3').on_route())
+
+	def testStarted(self):
+		t = model.Team('test')
+		self.assertFalse(t.started())
+		model.Report('1', t, '13:00')
+		self.assertTrue(t.started())
+
+	def testNotStartedNotFinished(self):
+		model.Team('test')
+		for t in model.Team.query.all():
+			if not t.started():
+				self.assertFalse(t.finished())
+
+	def testVisited(self):
+		self.assertTrue(get('t1').visited('1'))
+		self.assertFalse(get('t1').visited('3'))
+		self.assertTrue(get('t3').visited('2'))
+		t = get('t2').visited('0')
+		self.assertEqual(type(t).__name__, 'datetime')
+		self.assertEqual(model.mkdt('12:00'), t)
+
+	def testLastVisited(self):
+		lv = get('t1').last_visited()
+		self.assertEqual(type(lv[0]).__name__, 'Base')
+		self.assertEqual(type(lv[1]).__name__, 'datetime')
+		self.assertEqual(get('t1').visited(lv[0]), lv[1])
+		t = model.Team('test')
+		self.assertEqual((None, None), t.last_visited())
+
+	def testTraversed(self):
+		self.assertEqual(model.Base.wfact, 1.3)
+		t = model.Team('test')
+		self.assertEqual(t.traversed(), 0)
+		self.assertEqual(type(get('t1').traversed()).__name__, 'int')
+		for t in model.Team.query.all():
+			self.assertTrue(t.traversed() >= 0)
+			self.assertTrue(t.traversed() <= 300)
+		self.assertEqual(get('t2').traversed(), 39)
+		self.assertEqual(get('t4').traversed(), 31)
+
+	def testTimings(self):
+		t = model.Team('test')
+		self.assertEqual((0, 0), t.timings())
+		for t in model.Team.query.all():
+			ts = t.timings()
+			self.assertTrue(ts[0] >= 0)
+			self.assertTrue(ts[1] >= 0)
+			self.assertTrue(ts[0] >= ts[1])
+
+	def testSpeed(self):
+		for t in model.Team.query.all():
+			sp = t.speed()
+			self.assertTrue(sp >= 0)
+			self.assertTrue(sp <= 70)
 
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestTeam)
