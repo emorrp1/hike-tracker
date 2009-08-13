@@ -76,12 +76,13 @@ class TestTeam(unittest.TestCase):
 
 	def testTimings(self):
 		t = model.Team('test')
-		self.assertEqual((0, 0), t.timings())
+		empty = {'walking':0, 'stopped':0}
+		self.assertEqual(empty, t.timings())
 		for t in model.Team.query.all():
 			ts = t.timings()
-			self.assertTrue(ts[0] >= 0)
-			self.assertTrue(ts[1] >= 0)
-			self.assertTrue(ts[0] >= ts[1])
+			self.assertTrue(ts['walking'] >= 0)
+			self.assertTrue(ts['stopped'] >= 0)
+			self.assertTrue(ts['walking'] >= ts['stopped'])
 
 	def testSpeed(self):
 		for t in model.Team.query.all():
