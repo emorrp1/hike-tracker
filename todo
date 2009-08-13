@@ -2,6 +2,7 @@ team scores (through base report)
 auto team creation
 save hike configuration
 use dictionary output for named results, e.g. Base.active
+allow caching of base distances for faster retrieval
 
 graphs:
 estimated current team locations
