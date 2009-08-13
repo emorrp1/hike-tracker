@@ -175,18 +175,26 @@ class Team(Entity):
 			return None, None
 
 	def on_route(self):
-		not_started = not self.started()
-		last_visited_on_route = self.last_visited()[0] in self.route.bases
-		return not_started or last_visited_on_route
+		if self.route:
+			not_started = not self.started()
+			last_visited_on_route = self.last_visited()[0] in self.route.bases
+			return not_started or last_visited_on_route
+		else:
+			return None
 
 	def finished(self):
-		return self.last_visited()[0] is self.route.end()
+		if self.route:
+			return self.last_visited()[0] is self.route.end()
+		else:
+			return None
 
 	def completed(self):
-		for base in self.route.bases:
-			if not self.visited(base):
-				return False
-		return True
+		if self.route:
+			for base in self.route.bases:
+				if not self.visited(base):
+					return False
+			return True
+		return None
 
 	def traversed(self):
 		sum = 0
