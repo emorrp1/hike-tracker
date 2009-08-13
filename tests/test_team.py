@@ -37,6 +37,12 @@ class TestTeam(unittest.TestCase):
 		model.Report('1', t, '13:00')
 		self.assertTrue(t.started())
 
+	def testNotStartedNotFinished(self):
+		model.Team('test')
+		for t in model.Team.query.all():
+			if not t.started():
+				self.assertFalse(t.finished())
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestTeam)
 
