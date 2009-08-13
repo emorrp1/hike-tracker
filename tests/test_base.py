@@ -60,10 +60,10 @@ class TestBase(unittest.TestCase):
 		b0.report('b0.report')
 		b0.reports.sort(reverse=True)
 		r = b0.reports
-		assertEqual(r[0].stoppage(), timedelta(0,30*60))
-		assertEqual(r[1].team, get('t4'))
-		assertEqual(r[2].arr, model.mkdt('12:55'))
-		assertEqual(r[3].base, b0)
+		self.assertEqual(r[0].stoppage(), timedelta(0,30*60))
+		self.assertEqual(r[1].team, get('t4'))
+		self.assertEqual(r[2].arr, model.mkdt('12:55'))
+		self.assertEqual(r[3].base, b0)
 
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestBase)
