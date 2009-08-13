@@ -170,9 +170,9 @@ class Team(Entity):
 	def last_visited(self):
 		if self.started():
 			self.reports.sort(reverse=True)
-			return self.reports[0].base, self.reports[0].dep
+			return {'base':self.reports[0].base, 'dep':self.reports[0].dep}
 		else:
-			return None, None
+			return {'base':None, 'dep':None}
 
 	def on_route(self):
 		if self.route:
