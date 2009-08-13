@@ -5,8 +5,10 @@ import unittest
 class TestBase(unittest.TestCase):
 	def setUp(self):
 		start('test')
+		self.orig_wfact = model.Base.wfact
 
 	def tearDown(self):
+		model.Base.wfact = self.orig_wfact
 		elixir.session.close()
 
 	def testDone(self):

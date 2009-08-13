@@ -63,6 +63,7 @@ class TestTeam(unittest.TestCase):
 		self.assertEqual((None, None), t.last_visited())
 
 	def testTraversed(self):
+		self.assertEqual(model.Base.wfact, 1.3)
 		t = model.Team('test')
 		self.assertEqual(t.traversed(), 0)
 		self.assertEqual(type(get('t1').traversed()).__name__, 'int')
