@@ -43,6 +43,14 @@ class TestTeam(unittest.TestCase):
 			if not t.started():
 				self.assertFalse(t.finished())
 
+	def testVisited(self):
+		self.assertTrue(get('t1').visited('1'))
+		self.assertFalse(get('t1').visited('3'))
+		self.assertTrue(get('t3').visited('2'))
+		t = get('t2').visited('0')
+		self.assertEqual(type(t).__name__, 'datetime')
+		self.assertEqual(model.mkdt('12:00'), t)
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestTeam)
 
