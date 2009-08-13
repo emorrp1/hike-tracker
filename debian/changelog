@@ -1,3 +1,12 @@
+hike-tracker (0.6.3) jaunty; urgency=low
+
+  * many more unittests
+  * fixing Base.report reading from file
+  * fixing Team assumption of route
+  * multiple returns handled by dictionaries
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Thu, 13 Aug 2009 12:50:44 +0100
+
 hike-tracker (0.6.2) jaunty; urgency=low
 
   * forcing Base.distances to be square
