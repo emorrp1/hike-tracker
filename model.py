@@ -250,6 +250,9 @@ class Team(Entity):
 		else:
 			return None
 
+	def late(self, base=None, speed=None):
+		return self.eta(base, speed) < datetime.now()
+
 class Report(Entity):
 	'''The database representation of a team's arr/dep times at a base'''
 	arr = Field(DateTime)
