@@ -63,6 +63,12 @@ def set_distances(config):
 			model.Base.distances[b1][b2] = int(d)
 			model.Base.distances[b2][b1] = int(d)
 
+def all(type):
+	'''Shortcut to a list of specified hike objects'''
+	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
+	t = type[0].lower()
+	return types[t].query.all()
+
 def get(tname):
 	'''Shortcut to getting hike objects by name'''
 	type = tname[0].lower()
