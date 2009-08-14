@@ -250,8 +250,10 @@ class Team(Entity):
 		else:
 			return None
 
-	def late(self, base=None, speed=None):
-		return self.eta(base, speed) < datetime.now()
+	def late(self, base=None, speed=None, leeway=0):
+		eta = self.eta(base, speed)
+		leeway = timedelta(minutes=leeway)
+		return eta + leeway < datetime.now()
 
 class Report(Entity):
 	'''The database representation of a team's arr/dep times at a base'''
