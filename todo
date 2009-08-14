@@ -3,6 +3,7 @@ auto team creation
 save hike configuration
 allow caching of base distances for faster retrieval
 
-graphs:
-estimated current team locations
-area of possible team location
+maps:
+estimated current locations
+area of possible locations
+last known locations
