@@ -82,7 +82,7 @@ class Base(Entity):
 			return diff
 		ediff = normalise(self.e - other.e)
 		ndiff = normalise(self.n - other.n)
-		hyp2 = pow(ediff, 2) + pow(ndiff, 2)
+		hyp2 = ediff**2 + ndiff**2
 		return int(sqrt(hyp2)*self.wfact)
 
 	def distance_along(self, route, other=None):
