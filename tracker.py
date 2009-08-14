@@ -63,6 +63,15 @@ def set_distances(config):
 			model.Base.distances[b1][b2] = int(d)
 			model.Base.distances[b2][b1] = int(d)
 
+def set_distance(b1, b2, d):
+	dists = model.Base.distances
+	if b1 not in dists:
+		dists[b1] = {}
+	if b2 not in dists:
+		dists[b2] = {}
+	dists[b1][b2] = int(d)
+	dists[b2][b1] = int(d)
+
 def all(type):
 	'''Shortcut to a list of specified hike objects'''
 	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
