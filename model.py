@@ -98,6 +98,15 @@ class Base(Entity):
 			sum += base.distance(base.next(route))
 		return sum
 
+	@classmethod
+	def set_distance(cls, b1, b2, d):
+		if b1 not in cls.distances:
+			cls.distances[b1] = {}
+		if b2 not in cls.distances:
+			cls.distances[b2] = {}
+		cls.distances[b1][b2] = int(d)
+		cls.distances[b2][b1] = int(d)
+
 class Route(Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	name = Field(Text)
