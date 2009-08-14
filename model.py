@@ -250,7 +250,7 @@ class Team(Entity):
 		else:
 			return None
 
-	def late(self, base=None, speed=None, leeway=0):
+	def late(self, leeway=0, speed=None, base=None):
 		eta = self.eta(base, speed)
 		leeway = timedelta(minutes=leeway)
 		return eta + leeway < datetime.now()
