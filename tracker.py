@@ -81,7 +81,7 @@ def get_all(type=None):
 	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
 	if type:
 		t = type[0].lower()
-		for i in types[t].query.all():
+		for i in all(t):
 			tname = t + i.name
 			line = '%s = get("%s")' % (tname, tname)
 			exec line in globals()
