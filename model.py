@@ -71,9 +71,8 @@ class Base(Entity):
 	def distance(self, other):
 		if type(other).__name__ == 'str':
 			other = Base.get_by(name=other)
-		if self.distances:
-			try:    return self.distances[self.name][other.name]
-			except: pass
+		try:    return self.distances[self.name][other.name]
+		except: pass
 		from math import sqrt
 		def normalise(diff, rollover=1000):
 			diff = abs(diff)
