@@ -4,6 +4,7 @@ save hike configuration
 allow caching of base distances for faster retrieval
 early warning of non-arrival
 allow Base.report to use keywords for passing more info to Report
+an all(*) retrieval method for model.*.query.all
 
 maps:
 estimated current locations
