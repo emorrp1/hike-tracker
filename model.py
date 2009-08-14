@@ -32,8 +32,15 @@ class Base(Entity):
 			from sys import stdin
 			f = stdin
 		for line in f.readlines():
-			args = [self] + line.split()
-			Report(*args)
+			kwargs = {}
+			args = [self]
+			for arg in line.split():
+				if '=' in arg:
+					k,v = arg.split('=')
+					kwargs[k] = v
+				else:
+					args += [arg]
+			Report(*args, **kwargs)
 
 	def done(self):
 		for route in self.routes:
