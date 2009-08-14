@@ -1,7 +1,6 @@
 team scores (through base report)
 auto team creation
 save hike configuration
-allow caching of base distances for faster retrieval
 early warning of non-arrival
 allow Base.report to use keywords for passing more info to Report
 
