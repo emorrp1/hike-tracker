@@ -243,8 +243,8 @@ class Team(Entity):
 				dep = self.start
 			d = last.distance_along(self.route, base)
 			if d:
-				t = ( d*3600 ) // speed
-				return dep + timedelta(0,t)
+				t = ( d*60 ) // speed
+				return dep + timedelta(minutes=t)
 			else:
 				return None
 		else:
@@ -292,5 +292,9 @@ class Report(Entity):
 START = datetime.today()
 def mkdt(time, date=None):
 	if not date:
-		date = START.strftime('%y%m%d')
-	return datetime.strptime(date + time, '%y%m%d%H:%M')
+		date = START.date()
+	elif type(date).__name__ == 'str':
+		date = datetime.strptime(date,'%y%m%d').date()
+	if type(time).__name__ == 'str':
+		time = datetime.strptime(time,'%H:%M').time()
+	return datetime.combine(date, time)
