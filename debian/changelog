@@ -1,3 +1,13 @@
+hike-tracker (0.6.4) jaunty; urgency=low
+
+  * adding tracker.all retrieval shortcut
+  * Base.report can now interpret keyword args
+  * Team.eta now rounds to nearest minute
+  * date/time objects can be used where string repr are
+  * Base.distance cleanups
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Sat, 15 Aug 2009 00:23:21 +0100
+
 hike-tracker (0.6.3) jaunty; urgency=low
 
   * many more unittests
