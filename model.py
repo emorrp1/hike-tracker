@@ -78,9 +78,8 @@ class Base(Entity):
 	def distance(self, other):
 		if type(other).__name__ == 'str':
 			other = Base.get_by(name=other)
-		if self.distances:
-			try:    return self.distances[self.name][other.name]
-			except: pass
+		try:    return self.distances[self.name][other.name]
+		except: pass
 		from math import sqrt
 		def normalise(diff, rollover=1000):
 			diff = abs(diff)
@@ -89,7 +88,7 @@ class Base(Entity):
 			return diff
 		ediff = normalise(self.e - other.e)
 		ndiff = normalise(self.n - other.n)
-		hyp2 = pow(ediff, 2) + pow(ndiff, 2)
+		hyp2 = ediff**2 + ndiff**2
 		return int(sqrt(hyp2)*self.wfact)
 
 	def distance_along(self, route, other=None):
@@ -105,6 +104,15 @@ class Base(Entity):
 		for base in route.bases[start:stop]:
 			sum += base.distance(base.next(route))
 		return sum
+
+	@classmethod
+	def set_distance(cls, b1, b2, d):
+		if b1 not in cls.distances:
+			cls.distances[b1] = {}
+		if b2 not in cls.distances:
+			cls.distances[b2] = {}
+		cls.distances[b1][b2] = int(d)
+		cls.distances[b2][b1] = int(d)
 
 class Route(Entity):
 	'''The database representation of a series of bases teams have to pass through'''
