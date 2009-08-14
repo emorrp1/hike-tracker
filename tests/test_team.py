@@ -91,13 +91,15 @@ class TestTeam(unittest.TestCase):
 			self.assertTrue(sp <= 70)
 
 	def testLate(self):
-		from datetime import timedelta
-		orig = model.START
-		model.START = model.START - timedelta(1)
-		t = model.Team('testing','1')
-		model.START = orig
+		from datetime import datetime, timedelta
+		diff = 40
+		tdiff = timedelta(minutes=diff)
+		tstart = datetime.now() - tdiff
+		start = tstart.strftime('%H:%M')
+		t = model.Team('testing','1',start)
 		self.assertTrue(t.late(speed=30))
-		t.start = orig
+		self.assertFalse(t.late(speed=30, leeway=diff/2))
+		t.start += tdiff/2
 		self.assertFalse(t.late(speed=30))
 
 def suite():
