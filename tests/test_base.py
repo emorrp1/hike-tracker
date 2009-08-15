@@ -4,7 +4,7 @@ import unittest
 
 class TestBase(unittest.TestCase):
 	def setUp(self):
-		start('test')
+		start('tests/test')
 		self.orig_wfact = model.Base.wfact
 
 	def tearDown(self):
@@ -65,7 +65,7 @@ class TestBase(unittest.TestCase):
 	def testReport(self):
 		from datetime import timedelta
 		b0 = get('b0')
-		b0.report('b0.report')
+		b0.report('tests/b0.report')
 		b0.reports.sort(reverse=True)
 		r = b0.reports
 		self.assertEqual(r[0].stoppage(), timedelta(0,15*60))
@@ -93,8 +93,8 @@ def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestBase)
 
 if __name__ == '__main__':
-	start('test')
-	exec(open('test.reports').read())
+	start('tests/test')
+	exec(open('tests/test.reports').read())
 	unittest.TextTestRunner().run(suite())
 	from os import system
-	system('rm test.hike')
+	system('rm tests/test.hike')
