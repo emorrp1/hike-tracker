@@ -37,6 +37,8 @@ def configure(hike='custom'):
 			for t in config['teams']:
 				model.Team(t, *config['teams'][t])
 		if 'distances' in config:
+			if 'routes' in config['distances'] and 'routes' not in config:
+				config['distances'].pop('routes')
 			set_distances(config['distances'])
 
 def set_distances(config):
