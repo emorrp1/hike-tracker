@@ -35,14 +35,13 @@ def configure(hike='custom'):
 					model.Route(r, config['routes'][r])
 		if 'teams' in config:
 			c = config['teams']
-			def auto(route, prefix, first, last, start=None, interval=None):
+			def auto(route, prefix, first, last, interval=None, offset=0):
 				from datetime import timedelta
 				if not interval:
 					interval = 5
-				interval = timedelta(minutes=interval)
-				if start: start = model.mkdt(start)
-				else:     start = model.START
-				start -= interval
+				interval = timedelta(minutes=int(interval))
+				offset = timedelta(minutes=int(offset))
+				start = model.START + offset - int(first)*interval
 				for i in range(int(first),int(last)+1):
 					starttime = start + i*interval
 					name = prefix + str(i).rjust(2,'0')
