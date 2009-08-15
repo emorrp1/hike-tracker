@@ -45,7 +45,8 @@ def configure(hike='custom'):
 				start -= interval
 				for i in range(int(first),int(last)+1):
 					starttime = start + i*interval
-					model.Team(prefix + str(i), route, starttime)
+					name = prefix + str(i).rjust(2,'0')
+					model.Team(name, route, starttime)
 			if 'routes' in c:
 				if 'routes' in config:
 					for r in c['routes']:
