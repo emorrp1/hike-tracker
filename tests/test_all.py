@@ -59,6 +59,17 @@ class TestTracker(unittest.TestCase):
 		r = model.Report('0','1','15:34','16:17')
 		self.assertEqual(r.stoppage(), timedelta(0,43*60))
 
+	def testSave(self):
+		try:
+			save('tests/temp')
+			elixir.session.close()
+			start('tests/temp')
+		except:
+			self.fail()
+		finally:
+			from os import system
+			system('rm tests/temp.*')
+
 def suite():
 	tracker_suite = unittest.TestLoader().loadTestsFromTestCase(TestTracker)
 	base_suite = test_base.suite()
