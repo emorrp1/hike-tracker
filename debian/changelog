@@ -5,6 +5,7 @@ hike-tracker (0.7) jaunty; urgency=low
   * can save current hike configuration
   * all configuration optional
   * simpler initiation of tests
+  * Base methods which change the model are now "private"
   * fixing reading of wfact from config
 
  -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Sat, 15 Aug 2009 12:41:49 +0100
