@@ -10,12 +10,15 @@ All of the above bits and pieces culminate in the first actually useful function
 
 v0.6
 easily configurable hike setups
-Base distances can be set precisely
+distances between Bases can be set precisely
 determines earliest and latest etas at a Base
 can specify team start times
-sorts Reports based on departure time
+sorts (Base) Reports based on departure time
 the Team's eta calculation is more configurable
 
 v0.7
 can define Base distances by route
 uses a configurable wiggle factor to determine unknown distances
+can automatically create Teams from minimal configuration
+provides early warning of Team non-arrival
+current hike configuration can be saved for future use
