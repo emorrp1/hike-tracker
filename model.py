@@ -265,6 +265,12 @@ class Team(Entity):
 		else:
 			return None
 
+	def late(self, leeway=0, speed=None, base=None):
+		eta = self.eta(base, speed)
+		if type(leeway).__name__ == 'int':
+			leeway = timedelta(minutes=leeway)
+		return eta + leeway < datetime.now()
+
 class Report(Entity):
 	'''The database representation of a team's arr/dep times at a base'''
 	arr = Field(DateTime)

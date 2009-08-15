@@ -90,6 +90,16 @@ class TestTeam(unittest.TestCase):
 			self.assertTrue(sp >= 0)
 			self.assertTrue(sp <= 70)
 
+	def testLate(self):
+		from datetime import datetime, timedelta
+		diff = timedelta(minutes=40)
+		start = datetime.now() - diff
+		t = model.Team('testing','1',start.time())
+		self.assertTrue(t.late(speed=30))
+		self.assertFalse(t.late(diff/2, 30))
+		t.start += diff/2
+		self.assertFalse(t.late(speed=30))
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestTeam)
 
