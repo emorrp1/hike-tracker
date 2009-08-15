@@ -84,6 +84,11 @@ class TestBase(unittest.TestCase):
 		self.assertEqual(get('b2').active()['close'], model.mkdt('12:45'))
 		self.assertEqual(get('b3').active()['open'], model.mkdt('12:15'))
 
+	def testRef(self):
+		self.assertEqual(get('b0').ref(), '000000')
+		self.assertEqual(get('b1').ref(), '000010')
+		self.assertEqual(get('b3').ref(), '010010')
+
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestBase)
 
