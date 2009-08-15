@@ -34,6 +34,13 @@ def save(config=False):
 			config['bases'] = {}
 			for b in bs:
 				config['bases'][b.name] = b.ref()
+			rs = all('routes')
+			if rs:
+				config['routes'] = {}
+				for r in rs:
+					config['routes'][r.name] = []
+					for b in r.bases:
+						config['routes'][r.name].append(b.name)
 		config.write()
 
 def configure(hike='custom'):
