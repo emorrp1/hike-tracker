@@ -4,7 +4,7 @@ import unittest
 
 class TestRoute(unittest.TestCase):
 	def setUp(self):
-		start('test')
+		start('tests/test')
 
 	def tearDown(self):
 		elixir.session.close()
@@ -24,8 +24,8 @@ def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestRoute)
 
 if __name__ == '__main__':
-	start('test')
-	exec(open('test.reports').read())
+	start('tests/test')
+	exec(open('tests/test.reports').read())
 	unittest.TextTestRunner().run(suite())
 	from os import system
-	system('rm test.hike')
+	system('rm tests/test.hike')

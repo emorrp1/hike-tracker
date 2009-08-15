@@ -5,7 +5,7 @@ import test_base, test_route, test_team
 
 class TestTracker(unittest.TestCase):
 	def setUp(self):
-		start('test')
+		start('tests/test')
 		self.orig_dists = model.Base.distances.copy()
 
 	def tearDown(self):
@@ -67,8 +67,8 @@ def suite():
 	return unittest.TestSuite([tracker_suite, base_suite, route_suite, team_suite])
 
 if __name__ == '__main__':
-	start('test')
-	exec(open('test.reports').read())
+	start('tests/test')
+	exec(open('tests/test.reports').read())
 	unittest.TextTestRunner().run(suite())
 	from os import system
-	system('rm test.hike')
+	system('rm tests/test.hike')
