@@ -29,6 +29,12 @@ def save(config=False):
 			for b2 in d[b1]:
 				item = '%s:%d' % (b2, d[b1][b2])
 				c[b1].append(item)
+		bs = all('bases')
+		if bs:
+			config['bases'] = {}
+			for b in bs:
+				ref = str(b.e).rjust(3,'0') + str(b.n).rjust(3,'0')
+				config['bases'][b.name] = ref
 		config.write()
 
 def configure(hike='custom'):
