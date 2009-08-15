@@ -25,6 +25,11 @@ class Base(Entity):
 		if self.name == other.name: return 0
 		if self.name >  other.name: return 1
 
+	def ref(self):
+		e = str(self.e).rjust(3,'0')
+		n = str(self.n).rjust(3,'0')
+		return e + n
+
 	def report(self, filename=None):
 		if filename:
 			f = open(filename)
