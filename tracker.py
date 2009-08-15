@@ -13,7 +13,41 @@ def start(hike='custom'):
 		configure(hike[:-5])
 		save()
 
-save = elixir.session.commit
+def save(config=False):
+	elixir.session.commit()
+	if config:
+		from configobj import ConfigObj
+		config += '.conf'
+		config = ConfigObj(config)
+		config['start'] = model.START.strftime('%y%m%d%H:%M')
+		config['wiggle'] = model.Base.wfact
+		bs = all('bases')
+		if bs:
+			config['bases'] = {}
+			for b in bs:
+				config['bases'][b.name] = b.ref()
+			rs = all('routes')
+			if rs:
+				config['routes'] = {}
+				for r in rs:
+					config['routes'][r.name] = []
+					for b in r.bases:
+						config['routes'][r.name].append(b.name)
+		ts = all('teams')
+		if ts:
+			config['teams'] = {}
+			for t in ts:
+				time = t.start.strftime('%H:%M')
+				config['teams'][t.name] = [t.route.name, time]
+		config['distances'] = {}
+		c = config['distances']
+		d = model.Base.distances
+		for b1 in d:
+			c[b1] = []
+			for b2 in d[b1]:
+				item = '%s:%d' % (b2, d[b1][b2])
+				c[b1].append(item)
+		config.write()
 
 def configure(hike='custom'):
 	'''Create the hike definition if the config exists'''
