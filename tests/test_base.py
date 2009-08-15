@@ -65,7 +65,7 @@ class TestBase(unittest.TestCase):
 	def testReport(self):
 		from datetime import timedelta
 		b0 = get('b0')
-		b0.report('tests/b0.report')
+		b0._report('tests/b0.report')
 		b0.reports.sort(reverse=True)
 		r = b0.reports
 		self.assertEqual(r[0].stoppage(), timedelta(0,15*60))

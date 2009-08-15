@@ -101,12 +101,12 @@ def set_distances(config):
 			for i in range(len(ds)):
 				d = ds[i]
 				base,next = route.bases[i:i+2]
-				model.Base.set_distance(base.name, next.name, d)
+				model.Base._set_distance(base.name, next.name, d)
 		del config['routes']
 	for b1 in config:
 		for b2d in config[b1]:
 			b2,d = b2d.split(':')
-			model.Base.set_distance(b1, b2, d)
+			model.Base._set_distance(b1, b2, d)
 
 def all(type):
 	'''Shortcut to a list of specified hike objects'''

@@ -30,7 +30,7 @@ class Base(Entity):
 		n = str(self.n).rjust(3,'0')
 		return e + n
 
-	def report(self, filename=None):
+	def _report(self, filename=None):
 		if filename:
 			f = open(filename)
 		else:
@@ -111,7 +111,7 @@ class Base(Entity):
 		return sum
 
 	@classmethod
-	def set_distance(cls, b1, b2, d):
+	def _set_distance(cls, b1, b2, d):
 		if b1 not in cls.distances:
 			cls.distances[b1] = {}
 		if b2 not in cls.distances:
