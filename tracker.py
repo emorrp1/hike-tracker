@@ -33,8 +33,7 @@ def save(config=False):
 		if bs:
 			config['bases'] = {}
 			for b in bs:
-				ref = str(b.e).rjust(3,'0') + str(b.n).rjust(3,'0')
-				config['bases'][b.name] = ref
+				config['bases'][b.name] = b.ref()
 		config.write()
 
 def configure(hike='custom'):
