@@ -1,3 +1,14 @@
+hike-tracker (0.7) jaunty; urgency=low
+
+  * early warning of non-arrival with Team.late
+  * auto team creation
+  * can save current hike configuration
+  * all configuration optional
+  * simpler initiation of tests
+  * fixing reading of wfact from config
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Sat, 15 Aug 2009 12:41:49 +0100
+
 hike-tracker (0.6.4) jaunty; urgency=low
 
   * adding tracker.all retrieval shortcut
