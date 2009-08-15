@@ -41,6 +41,12 @@ def save(config=False):
 					config['routes'][r.name] = []
 					for b in r.bases:
 						config['routes'][r.name].append(b.name)
+		ts = all('teams')
+		if ts:
+			config['teams'] = {}
+			for t in ts:
+				time = t.start.strftime('%H:%M')
+				config['teams'][t.name] = [t.route.name, time]
 		config.write()
 
 def configure(hike='custom'):
