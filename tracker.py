@@ -21,14 +21,6 @@ def save(config=False):
 		config = ConfigObj(config)
 		config['start'] = model.START.strftime('%y%m%d%H:%M')
 		config['wiggle'] = model.Base.wfact
-		config['distances'] = {}
-		c = config['distances']
-		d = model.Base.distances
-		for b1 in d:
-			c[b1] = []
-			for b2 in d[b1]:
-				item = '%s:%d' % (b2, d[b1][b2])
-				c[b1].append(item)
 		bs = all('bases')
 		if bs:
 			config['bases'] = {}
@@ -47,6 +39,14 @@ def save(config=False):
 			for t in ts:
 				time = t.start.strftime('%H:%M')
 				config['teams'][t.name] = [t.route.name, time]
+		config['distances'] = {}
+		c = config['distances']
+		d = model.Base.distances
+		for b1 in d:
+			c[b1] = []
+			for b2 in d[b1]:
+				item = '%s:%d' % (b2, d[b1][b2])
+				c[b1].append(item)
 		config.write()
 
 def configure(hike='custom'):
