@@ -19,7 +19,7 @@ def save(config=False):
 		from configobj import ConfigObj
 		config += '.conf'
 		config = ConfigObj(config)
-		config['start'] = model.START
+		config['start'] = model.START.strftime('%y%m%d%H:%M')
 		config['wiggle'] = model.Base.wfact
 		config['distances'] = {}
 		c = config['distances']
