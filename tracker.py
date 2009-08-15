@@ -43,13 +43,18 @@ def configure(hike='custom'):
 			model.START = model.mkdt(s[-5:], s[:-5])
 		if 'wiggle' in config:
 			model.Base.wfact = float(config['wiggle'])
-		for b in config['bases']:
-			model.Base(b, config['bases'][b])
-		for r in config['routes']:
-			model.Route(r, config['routes'][r])
-		for t in config['teams']:
-			model.Team(t, *config['teams'][t])
+		if 'bases' in config:
+			for b in config['bases']:
+				model.Base(b, config['bases'][b])
+			if 'routes' in config:
+				for r in config['routes']:
+					model.Route(r, config['routes'][r])
+		if 'teams' in config:
+			for t in config['teams']:
+				model.Team(t, *config['teams'][t])
 		if 'distances' in config:
+			if 'routes' in config['distances'] and 'routes' not in config:
+				config['distances'].pop('routes')
 			set_distances(config['distances'])
 
 def set_distances(config):
