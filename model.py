@@ -54,19 +54,23 @@ class Base(Entity):
 					return False
 		return True
 
-	def active(self, speed=None):
+	def active(self, speed=None, maxspeed=None):
 		open = None
 		close = None
 		unknowns = []
 		for route in self.routes:
 			for team in route.teams:
-				eta = team.eta(self, speed)
-				if eta:
-					if open:
-						open = min(open, eta)
-						close = max(close, eta)
+				slow_eta = team.eta(self, speed)
+				if slow_eta:
+					if maxspeed:
+						fast_eta = team.eta(self, maxspeed)
 					else:
-						open, close = eta, eta
+						fast_eta = slow_eta
+					if open:
+						open = min(open, fast_eta)
+						close = max(close, slow_eta)
+					else:
+						open, close = fast_eta, slow_eta
 				else:
 					unknowns.append(team)
 		return {'open':open, 'close':close, 'unknown':unknowns}
