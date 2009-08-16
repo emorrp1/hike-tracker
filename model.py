@@ -309,7 +309,6 @@ class Report(Entity):
 	def stoppage(self):
 		return self.dep - self.arr
 
-START = datetime.today()
 def mkdt(time, date=None):
 	if not date:
 		date = START.date()
@@ -318,3 +317,4 @@ def mkdt(time, date=None):
 	if type(time).__name__ == 'str':
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
+START = mkdt('08:00', datetime.today().date())
