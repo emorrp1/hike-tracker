@@ -1,3 +1,12 @@
+hike-tracker (0.7.1) jaunty; urgency=low
+
+  * feature list is now easy to read, for showing to people
+  * feature list and api included in deb package
+  * Base.active more accurate with range of speeds
+  * model.START is now 8am by default
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Sun, 16 Aug 2009 10:09:58 +0100
+
 hike-tracker (0.7) jaunty; urgency=low
 
   * early warning of non-arrival with Team.late
