@@ -90,16 +90,12 @@ class TestBase(unittest.TestCase):
 		configure('tests/test')
 		exp_open = model.mkdt('08:13')
 		exp_close = model.mkdt('09:57')
-		try:
-			t = get('b2').active(20, 60)
-			self.assertEqual(t['open'], exp_open)
-			self.assertEqual(t['close'], exp_close)
-			self.assertFalse(t['unknown'])
-		except:
-			self.fail()
-		finally:
-			from os import system
-			system('rm tests/temp.*')
+		t = get('b2').active(20, 60)
+		self.assertEqual(t['open'], exp_open)
+		self.assertEqual(t['close'], exp_close)
+		self.assertFalse(t['unknown'])
+		from os import system
+		system('rm tests/temp.*')
 
 	def testRef(self):
 		self.assertEqual(get('b0').ref(), '000000')
