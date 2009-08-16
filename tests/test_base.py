@@ -84,6 +84,23 @@ class TestBase(unittest.TestCase):
 		self.assertEqual(get('b2').active()['close'], model.mkdt('12:45'))
 		self.assertEqual(get('b3').active()['open'], model.mkdt('12:15'))
 
+	def testActiveRange(self):
+		elixir.session.close()
+		start('tests/temp')
+		configure('tests/test')
+		exp_open = model.mkdt('08:13')
+		exp_close = model.mkdt('09:57')
+		try:
+			t = get('b2').active(20, 60)
+			self.assertEqual(t['open'], exp_open)
+			self.assertEqual(t['close'], exp_close)
+			self.assertFalse(t['unknown'])
+		except:
+			self.fail()
+		finally:
+			from os import system
+			system('rm tests/temp.*')
+
 	def testRef(self):
 		self.assertEqual(get('b0').ref(), '000000')
 		self.assertEqual(get('b1').ref(), '000010')
