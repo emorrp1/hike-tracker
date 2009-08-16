@@ -1,24 +1,9 @@
-v0.4
-understands the concepts of Bases, Routes (a simple series of Bases), Teams and (Base) Reports.
-can tell if a Team has been through a given Base, and hence if every Team on applicable Routes has gone through a given Base (ready to pack up), or if a given Team has been through every Base on its Route (i.e. completed) or even a simple timeline of a Team's movement.
-
-v0.5
-calculates the distance between two Bases, either direct or along the length of a given Route; gives the total length of a Route
-can tell whether a Team has finished (arrived at final Base) or gone off Route (last known location not on Route) or give its last known location
+understands the concepts of Bases, Routes (a simple series of Bases), Teams and (Base) Reports
+determines whether a Team has been through a given Base, and hence if every Team on applicable Routes has gone through a given Base (ready to pack up), or if a given Team has been through every Base on its Route (i.e. completed) or even a simple timeline of a Team's movement
+calculates the distance between two Bases, either direct or along the length of a given Route, using either given distances or displacement based on grid references and a configurable "wiggle factor"; gives the total length of a Route
+determines whether a Team has finished (arrived at final Base) or gone off Route (last known location not on Route) or give its last known location
 gives a Team's statistics including walked distance, walking time, waiting at a Base time and average walking speed
-All of the above bits and pieces culminate in the first actually useful function: determining the ETA of a Team at a given Base (next in route by default) by either using its average walking speed, or a set walking speed (for when a guaranteed underestimate is needed)
-
-v0.6
-easily configurable hike setups
-distances between Bases can be set precisely
-determines earliest and latest etas at a Base
-can specify team start times
-sorts (Base) Reports based on departure time
-the Team's eta calculation is more configurable
-
-v0.7
-can define Base distances by route
-uses a configurable wiggle factor to determine unknown distances
-can automatically create Teams from minimal configuration
-provides early warning of Team non-arrival
-current hike configuration can be saved for future use
+all of the above bits and pieces culminate in the first actually useful function: determining the ETA of a Team at a given Base (next in route by default) by either using its average walking speed, or a set walking speed (for when a guaranteed underestimate is needed); ETA is continually updated with all the necessary information e.g. it will always calculate from the last known location and will give the ATA if the Team has already visited the given base
+determines the earliest and latest etas at a Base (useful for determining opening/closing times)
+provides early warning of a Team's tardiness, with a configurable leeway, e.g. you might want a list of all Teams that are more than 30 mins overdue
+stores the hike setup information for re-use, or for setting up in advance ready to use on the hike day;  the information can be given in multiple ways, e.g. the distances between Bases can be simply defined along a Route, or automatic Team generation such as 12 teams on this route starting 6 minutes apart
