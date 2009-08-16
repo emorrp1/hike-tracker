@@ -54,6 +54,8 @@ install: build
 	mkdir -p $(CURDIR)/debian/hike-tracker/usr/lib/hike-tracker
 	cp $(CURDIR)/hike-tracker $(CURDIR)/debian/hike-tracker/usr/bin/
 	cp $(CURDIR)/*.py $(CURDIR)/debian/hike-tracker/usr/lib/hike-tracker/
+	cp $(CURDIR)/features $(CURDIR)/debian/hike-tracker/usr/lib/hike-tracker/
+	cp $(CURDIR)/api $(CURDIR)/debian/hike-tracker/usr/lib/hike-tracker/
 
 # Build architecture-independent files here.
 binary-indep: build install
