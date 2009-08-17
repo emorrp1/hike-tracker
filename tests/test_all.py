@@ -6,11 +6,9 @@ import test_base, test_route, test_team
 class TestTracker(unittest.TestCase):
 	def setUp(self):
 		start('tests/test')
-		self.orig_dists = model.Base.distances.copy()
 
 	def tearDown(self):
 		elixir.session.close()
-		model.Base.distances = self.orig_dists
 
 	def testGet(self):
 		self.assertEqual(get('b0'), model.Base.get('0'))
