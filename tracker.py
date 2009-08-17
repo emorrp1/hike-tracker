@@ -24,8 +24,16 @@ def save(config=False):
 		bs = all('bases')
 		if bs:
 			config['bases'] = {}
+			if model.Distance.query.all():
+				config['distances'] = {}
 			for b in bs:
 				config['bases'][b.name] = b.ref()
+				ds = model.Distance.query.filter_by(start=b)
+				if ds.count():
+					config['distances'][b.name] = []
+					for d in ds:
+						item = '%s:%d' % (d.end.name, d.distance)
+						config['distances'][b.name].append(item)
 			rs = all('routes')
 			if rs:
 				config['routes'] = {}
@@ -39,14 +47,6 @@ def save(config=False):
 			for t in ts:
 				time = t.start.strftime('%H:%M')
 				config['teams'][t.name] = [t.route.name, time]
-		config['distances'] = {}
-		c = config['distances']
-		d = model.Base.distances
-		for b1 in d:
-			c[b1] = []
-			for b2 in d[b1]:
-				item = '%s:%d' % (b2, d[b1][b2])
-				c[b1].append(item)
 		config.write()
 
 def configure(hike='custom'):
