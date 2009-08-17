@@ -13,9 +13,9 @@ class TestTracker(unittest.TestCase):
 		model.Base.distances = self.orig_dists
 
 	def testGet(self):
-		self.assertEqual(get('b0'), model.Base.get_by(name='0'))
-		self.assertEqual(get('r1'), model.Route.get_by(name='1'))
-		self.assertEqual(get('t3'), model.Team.get_by(name='3'))
+		self.assertEqual(get('b0'), model.Base.get('0'))
+		self.assertEqual(get('r1'), model.Route.get('1'))
+		self.assertEqual(get('t3'), model.Team.get('3'))
 
 	def testSetDistances(self):
 		from configobj import ConfigObj

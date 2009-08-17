@@ -74,8 +74,7 @@ class Base(Entity):
 		return {'open':open, 'close':close, 'unknown':unknowns}
 
 	def next(self, route):
-		if type(route).__name__ == 'str':
-			route = Route.get_by(name=route)
+		route = Route.get(route)
 		if route.end() is self:
 			return None
 		else:
@@ -83,8 +82,7 @@ class Base(Entity):
 			return route.bases[n+1]
 
 	def distance(self, other):
-		if type(other).__name__ == 'str':
-			other = Base.get_by(name=other)
+		other = Base.get(other)
 		try:    return self.distances[self.name][other.name]
 		except: pass
 		from math import sqrt
@@ -99,10 +97,8 @@ class Base(Entity):
 		return int(sqrt(hyp2)*self.wfact)
 
 	def distance_along(self, route, other=None):
-		if type(route).__name__ == 'str':
-			route = Route.get_by(name=route)
-		if type(other).__name__ == 'str':
-			other = Base.get_by(name=other)
+		route = Route.get(route)
+		other = Base.get(other)
 		if not other:
 			other = self.next(route)
 		sum = 0
@@ -131,8 +127,7 @@ class Route(Entity):
 		Entity.__init__(self, name=name)
 		if bases:
 			for base in bases:
-				if type(base).__name__ == 'str':
-					base = Base.get_by(name=base)
+				base = Base.get(base)
 				self.bases.append(base)
 
 	def __repr__(self):
@@ -163,8 +158,7 @@ class Team(Entity):
 		else:
 			self.start = START
 		if route:
-			if type(route).__name__ == 'str':
-				route = Route.get_by(name=route)
+			route = Route.get(route)
 			self.route = route
 
 	def __repr__(self):
@@ -178,8 +172,7 @@ class Team(Entity):
 		return bool(self.reports)
 
 	def visited(self, base):
-		if type(base).__name__ == 'str':
-			base = Base.get_by(name=base)
+		base = Base.get(base)
 		for r in self.reports:
 			if r.base is base:
 				return r.dep
@@ -282,10 +275,8 @@ class Report(Entity):
 	team = ManyToOne('Team')
 
 	def __init__(self, base, team, arr, dep=None, date=None):
-		if type(base).__name__ == 'str':
-			base = Base.get_by(name=base)
-		if type(team).__name__ == 'str':
-			team = Team.get_by(name=team)
+		base = Base.get(base)
+		team = Team.get(team)
 		arr = mkdt(arr, date)
 		if dep:
 			dep = mkdt(dep, date)
@@ -347,6 +338,11 @@ class Distance(Entity):
 			d.distance = distance
 		else:
 			cls(start, end, distance)
+
+def _get(cls, name):
+	if type(name) == cls: return name
+	else: return cls.get_by(name=name)
+Entity.get = classmethod(_get)
 
 def mkdt(time, date=None):
 	if not date:
