@@ -299,7 +299,8 @@ class Distance(Entity):
 
 	def __init__(self, start, end, distance=0):
 		self.distance = int(distance)
-		self.start, self.end = self._getsort(start, end)
+		self.start = Base.get(start)
+		self.end = Base.get(end)
 
 	def __repr__(self):
 		return '<Distance from %s to %s is %d>' % (self.start, self.end, self.distance)
@@ -309,23 +310,17 @@ class Distance(Entity):
 		return cmp(self.distance, other.distance)
 
 	@classmethod
-	def _getsort(cls, start, end):
+	def get(cls, start, end):
 		start = Base.get(start)
 		end = Base.get(end)
-		if start > end:
-			start, end = end, start
-		return start, end
-
-	@classmethod
-	def get(cls, start, end):
-		start, end = cls._getsort(start, end)
 		d = cls.get_by(start=start, end=end)
 		if d: return d.distance
 		else: return None
 
 	@classmethod
 	def set(cls, start, end, distance):
-		start, end = cls._getsort(start, end)
+		start = Base.get(start)
+		end = Base.get(end)
 		d = cls.get_by(start=start, end=end)
 		if d:
 			d.distance = distance
