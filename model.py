@@ -111,6 +111,7 @@ class Base(Entity):
 
 	def _set_distance(self, other, d):
 		Distance.set(self, other, d)
+		Distance.set(other, self, d)
 
 class Route(Entity):
 	'''The database representation of a series of bases teams have to pass through'''
