@@ -302,8 +302,8 @@ class Distance(Entity):
 	end = ManyToOne('Base')
 	distance = Field(Integer)
 
-	def __init__(self, start, end, distance=0):
-		self.distance = int(distance)
+	def __init__(self, start, end, dist=0):
+		Entity.__init__(self, distance=int(dist))
 		self.start = Base.get(start)
 		self.end = Base.get(end)
 
