@@ -1,3 +1,16 @@
+hike-tracker (0.8) jaunty; urgency=low
+
+  * storing Configs in and loading from key/value table
+  * storing Distances in a Base relationship table
+  * allowing more than 6-figure grid references
+  * using expanduser for paths
+  * overriding Entity.get/repr/cmp
+  * removing bf99 hike configs
+  * fixing Team.late for finished teams
+  * typing leniencies in Team
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Mon, 17 Aug 2009 18:54:34 +0100
+
 hike-tracker (0.7.1) jaunty; urgency=low
 
   * feature list is now easy to read, for showing to people
