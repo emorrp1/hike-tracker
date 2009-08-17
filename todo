@@ -8,4 +8,3 @@ linear route schematic
 
 think about multi-day hikes
 more than 6-figure grid references
-store necessary configuration in database e.g. start, distances, so database is self-contained (key/value pairs)

@@ -305,3 +305,22 @@ config = {
 		'start':mkdt('08:00', datetime.today().date()),
 		'wfact':1.3
 		}
+
+class Config(Entity):
+	key = Field(Text)
+	value = Field(Text)
+
+	@classmethod
+	def store(cls):
+		for c in cls.query.all():
+			del c
+		start = config['start'].strftime('%y%m%d%H:%M')
+		cls(key='start', value=start)
+		cls(key='wfact', value=str(config['wfact']))
+
+	@classmethod
+	def load(cls):
+		config.clear()
+		start = str(cls.get_by(key='start').value)
+		config['start'] = mkdt(start[-5:], start[:-5])
+		config['wfact'] = float(cls.get_by(key='wfact').value)
