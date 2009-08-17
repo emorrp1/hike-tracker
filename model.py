@@ -324,3 +324,7 @@ config = {
 		'start':mkdt('08:00', datetime.today().date()),
 		'wfact':1.3
 		}
+
+class Config(Entity):
+	key = Field(Text)
+	value = Field(Text)
