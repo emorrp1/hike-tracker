@@ -6,7 +6,6 @@ class Base(Entity):
 	name = Field(Text)
 	e = Field(Integer)
 	n = Field(Integer)
-	distances = {}
 	reports = OneToMany('Report')
 	routes = ManyToMany('Route')
 
@@ -75,18 +74,20 @@ class Base(Entity):
 
 	def distance(self, other):
 		other = Base.get(other)
-		try:    return self.distances[self.name][other.name]
-		except: pass
-		from math import sqrt
-		def normalise(diff, rollover=1000):
-			diff = abs(diff)
-			if diff > rollover//2:
-				diff = rollover - diff
-			return diff
-		ediff = normalise(self.e - other.e)
-		ndiff = normalise(self.n - other.n)
-		hyp2 = ediff**2 + ndiff**2
-		return int(sqrt(hyp2)*config['wfact'])
+		d = Distance.get_by(start=self, end=other)
+		if d:
+			return d.distance
+		else:
+			from math import sqrt
+			def normalise(diff, rollover=1000):
+				diff = abs(diff)
+				if diff > rollover//2:
+					diff = rollover - diff
+				return diff
+			ediff = normalise(self.e - other.e)
+			ndiff = normalise(self.n - other.n)
+			hyp2 = ediff**2 + ndiff**2
+			return int(sqrt(hyp2)*config['wfact'])
 
 	def distance_along(self, route, other=None):
 		route = Route.get(route)
@@ -100,14 +101,13 @@ class Base(Entity):
 			sum += base.distance(base.next(route))
 		return sum
 
-	@classmethod
-	def _set_distance(cls, b1, b2, d):
-		if b1 not in cls.distances:
-			cls.distances[b1] = {}
-		if b2 not in cls.distances:
-			cls.distances[b2] = {}
-		cls.distances[b1][b2] = int(d)
-		cls.distances[b2][b1] = int(d)
+	def _set_distance(self, other, d):
+		def set(start, end, distance):
+			d = Distance.get_by(start=start, end=end)
+			if d: d.distance = distance
+			else: Distance(start, end, distance)
+		set(self, other, d)
+		set(other, self, d)
 
 class Route(Entity):
 	'''The database representation of a series of bases teams have to pass through'''
@@ -280,6 +280,24 @@ class Report(Entity):
 
 	def stoppage(self):
 		return self.dep - self.arr
+
+class Distance(Entity):
+	'''Records the distances between two bases'''
+	start = ManyToOne('Base')
+	end = ManyToOne('Base')
+	distance = Field(Integer)
+
+	def __init__(self, start, end, dist=0):
+		Entity.__init__(self, distance=int(dist))
+		self.start = Base.get(start)
+		self.end = Base.get(end)
+
+	def __repr__(self):
+		return '<Distance from %s to %s is %d>' % (self.start, self.end, self.distance)
+
+	def __cmp__(self, other):
+		if other is None: return 2
+		return cmp(self.distance, other.distance)
 
 def _get(cls, name):
 	if type(name) == cls or not name: return name

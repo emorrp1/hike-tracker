@@ -29,8 +29,16 @@ def save(config=False):
 		bs = all('bases')
 		if bs:
 			config['bases'] = {}
+			if model.Distance.query.all():
+				config['distances'] = {}
 			for b in bs:
 				config['bases'][b.name] = b.ref()
+				ds = model.Distance.query.filter_by(start=b)
+				if ds.count():
+					config['distances'][b.name] = []
+					for d in ds:
+						item = '%s:%d' % (d.end.name, d.distance)
+						config['distances'][b.name].append(item)
 			rs = all('routes')
 			if rs:
 				config['routes'] = {}
@@ -44,14 +52,6 @@ def save(config=False):
 			for t in ts:
 				time = t.start.strftime('%H:%M')
 				config['teams'][t.name] = [t.route.name, time]
-		config['distances'] = {}
-		c = config['distances']
-		d = model.Base.distances
-		for b1 in d:
-			c[b1] = []
-			for b2 in d[b1]:
-				item = '%s:%d' % (b2, d[b1][b2])
-				c[b1].append(item)
 		config.write()
 
 def configure(hike='custom'):
@@ -74,6 +74,10 @@ def configure(hike='custom'):
 			if 'routes' in config:
 				for r in config['routes']:
 					model.Route(r, config['routes'][r])
+			if 'distances' in config:
+				if 'routes' in config['distances'] and 'routes' not in config:
+					config['distances'].pop('routes')
+				set_distances(config['distances'])
 		if 'teams' in config:
 			c = config['teams']
 			def auto(route, prefix, first, last, interval=None, offset=0):
@@ -94,10 +98,6 @@ def configure(hike='custom'):
 				c.pop('routes')
 			for t in c:
 				model.Team(t, *c[t])
-		if 'distances' in config:
-			if 'routes' in config['distances'] and 'routes' not in config:
-				config['distances'].pop('routes')
-			set_distances(config['distances'])
 
 def set_distances(config):
 	'''Set the distances between bases'''
@@ -108,12 +108,14 @@ def set_distances(config):
 			for i in range(len(ds)):
 				d = ds[i]
 				base,next = route.bases[i:i+2]
-				model.Base._set_distance(base.name, next.name, d)
+				base._set_distance(next, d)
 		del config['routes']
 	for b1 in config:
+		base = model.Base.get(b1)
 		for b2d in config[b1]:
 			b2,d = b2d.split(':')
-			model.Base._set_distance(b1, b2, d)
+			other = model.Base.get(b2)
+			base._set_distance(other, d)
 
 def all(type):
 	'''Shortcut to a list of specified hike objects'''
