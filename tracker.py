@@ -97,7 +97,7 @@ def set_distances(config):
 	if 'routes' in config:
 		for r in config['routes']:
 			ds = config['routes'][r]
-			route = model.Route.get_by(name=r)
+			route = model.Route.get(r)
 			for i in range(len(ds)):
 				d = ds[i]
 				base,next = route.bases[i:i+2]
@@ -119,7 +119,7 @@ def get(tname):
 	type = tname[0].lower()
 	name = tname[1:]
 	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
-	return types[type].get_by(name=name)
+	return types[type].get(name)
 
 def get_all(type=None):
 	'''Load all objects into global namespace'''
