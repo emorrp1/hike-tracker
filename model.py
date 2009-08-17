@@ -328,3 +328,11 @@ config = {
 class Config(Entity):
 	key = Field(Text)
 	value = Field(Text)
+
+	@classmethod
+	def store(cls):
+		for c in cls.query.all():
+			del c
+		start = config['start'].strftime('%y%m%d%H:%M')
+		cls(key='start', value=start)
+		cls(key='wfact', value=str(config['wfact']))
