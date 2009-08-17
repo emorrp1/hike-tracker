@@ -311,6 +311,16 @@ class Distance(Entity):
 	end = ManyToOne('Base')
 	distance = Field(Integer)
 
+	def __init__(self, start, end, distance=0):
+		if type(start).__name__ == 'str':
+			start = Base.get_by(name=start)
+		if type(end).__name__ == 'str':
+			end = Base.get_by(name=end)
+		if start > end:
+			start, end = end, start
+		self.distance = int(distance)
+		self.start, self.end = start, end
+
 	def __repr__(self):
 		return '<Distance from %s to %s is %d>' % (self.start, self.end, d)
 
