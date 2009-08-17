@@ -21,6 +21,7 @@ def save(config=False):
 		config = ConfigObj(config)
 		config['start'] = model.config['start'].strftime('%y%m%d%H:%M')
 		config['wiggle'] = model.config['wfact']
+		config['refs'] = model.config['figs']*2
 		bs = all('bases')
 		if bs:
 			config['bases'] = {}
@@ -61,6 +62,8 @@ def configure(hike='custom'):
 			model.config['start'] = model.mkdt(s[-5:], s[:-5])
 		if 'wiggle' in config:
 			model.config['wfact'] = float(config['wiggle'])
+		if 'refs' in config:
+			model.config['figs'] = int(config['refs'])//2
 		if 'bases' in config:
 			for b in config['bases']:
 				model.Base(b, config['bases'][b])
