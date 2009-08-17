@@ -6,7 +6,6 @@ class Base(Entity):
 	name = Field(Text)
 	e = Field(Integer)
 	n = Field(Integer)
-	distances = {}
 	wfact = 1.3
 	reports = OneToMany('Report')
 	routes = ManyToMany('Route')
