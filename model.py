@@ -283,7 +283,7 @@ class Report(Entity):
 		return self.dep - self.arr
 
 def _get(cls, name):
-	if type(name) == cls: return name
+	if type(name) == cls or not name: return name
 	else: return cls.get_by(name=name)
 def _repr(self):
 	return '<%s %s>' % (self.__class__.__name__, self.name)
