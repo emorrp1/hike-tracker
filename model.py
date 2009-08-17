@@ -305,6 +305,11 @@ class Report(Entity):
 	def stoppage(self):
 		return self.dep - self.arr
 
+def _get(cls, name):
+	if type(name) == cls: return name
+	else: return cls.get_by(name=name)
+Entity.get = classmethod(_get)
+
 def mkdt(time, date=None):
 	if not date:
 		date = START.date()
