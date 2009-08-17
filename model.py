@@ -16,13 +16,6 @@ class Base(Entity):
 		n = int(ref[-3:])
 		Entity.__init__(self, name=name, e=e, n=n)
 
-	def __repr__(self):
-		return '<Base %s>' % self.name
-
-	def __cmp__(self, other):
-		if other is None: return 2
-		return cmp(self.name, other.name)
-
 	def ref(self):
 		e = str(self.e).rjust(3,'0')
 		n = str(self.n).rjust(3,'0')
@@ -130,9 +123,6 @@ class Route(Entity):
 				base = Base.get(base)
 				self.bases.append(base)
 
-	def __repr__(self):
-		return '<Route %s>' % self.name
-
 	def __cmp__(self, other):
 		if other is None: return 2
 		return cmp(len(self), len(other))
@@ -160,13 +150,6 @@ class Team(Entity):
 		if route:
 			route = Route.get(route)
 			self.route = route
-
-	def __repr__(self):
-		return '<Team %s>' % self.name
-
-	def __cmp__(self, other):
-		if other is None: return 2
-		return cmp(self.name, other.name)
 
 	def started(self):
 		return bool(self.reports)
