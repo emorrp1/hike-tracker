@@ -67,6 +67,10 @@ def configure(hike='custom'):
 			if 'routes' in config:
 				for r in config['routes']:
 					model.Route(r, config['routes'][r])
+			if 'distances' in config:
+				if 'routes' in config['distances'] and 'routes' not in config:
+					config['distances'].pop('routes')
+				set_distances(config['distances'])
 		if 'teams' in config:
 			c = config['teams']
 			def auto(route, prefix, first, last, interval=None, offset=0):
@@ -87,10 +91,6 @@ def configure(hike='custom'):
 				c.pop('routes')
 			for t in c:
 				model.Team(t, *c[t])
-		if 'distances' in config:
-			if 'routes' in config['distances'] and 'routes' not in config:
-				config['distances'].pop('routes')
-			set_distances(config['distances'])
 
 def set_distances(config):
 	'''Set the distances between bases'''
