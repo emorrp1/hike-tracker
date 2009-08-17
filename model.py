@@ -339,6 +339,15 @@ class Distance(Entity):
 		if d: return d.distance
 		else: return None
 
+	@classmethod
+	def set(cls, start, end, distance):
+		start, end = cls._getsort(start, end)
+		d = cls.get_by(start=start, end=end)
+		if d:
+			d.distance = distance
+		else:
+			cls(start, end, distance)
+
 def mkdt(time, date=None):
 	if not date:
 		date = START.date()
