@@ -20,7 +20,7 @@ def save(config=False):
 		config += '.conf'
 		config = ConfigObj(config)
 		config['start'] = model.config['start'].strftime('%y%m%d%H:%M')
-		config['wiggle'] = model.Base.wfact
+		config['wiggle'] = model.config['wfact']
 		bs = all('bases')
 		if bs:
 			config['bases'] = {}
@@ -60,7 +60,7 @@ def configure(hike='custom'):
 			s = config['start']
 			model.config['start'] = model.mkdt(s[-5:], s[:-5])
 		if 'wiggle' in config:
-			model.Base.wfact = float(config['wiggle'])
+			model.config['wfact'] = float(config['wiggle'])
 		if 'bases' in config:
 			for b in config['bases']:
 				model.Base(b, config['bases'][b])
