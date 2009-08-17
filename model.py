@@ -321,7 +321,6 @@ def mkdt(time, date=None):
 	if type(time).__name__ == 'str':
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
-START = mkdt('08:00', datetime.today().date())
 config = {
 		'start':mkdt('08:00', datetime.today().date())
 		}
