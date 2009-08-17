@@ -8,12 +8,15 @@ def start(hike='custom'):
 	hike += '.hike'
 	elixir.metadata.bind = 'sqlite:///%s' % hike
 	elixir.setup_all()
-	if not exists(hike):
+	if exists(hike):
+		model.Config.load()
+	else:
 		elixir.create_all()
 		configure(hike[:-5])
 		save()
 
 def save(config=False):
+	model.Config.store()
 	elixir.session.commit()
 	if config:
 		from configobj import ConfigObj
