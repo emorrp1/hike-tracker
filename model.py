@@ -7,7 +7,6 @@ class Base(Entity):
 	e = Field(Integer)
 	n = Field(Integer)
 	distances = {}
-	wfact = 1.3
 	reports = OneToMany('Report')
 	routes = ManyToMany('Route')
 
@@ -87,7 +86,7 @@ class Base(Entity):
 		ediff = normalise(self.e - other.e)
 		ndiff = normalise(self.n - other.n)
 		hyp2 = ediff**2 + ndiff**2
-		return int(sqrt(hyp2)*self.wfact)
+		return int(sqrt(hyp2)*config['wfact'])
 
 	def distance_along(self, route, other=None):
 		route = Route.get(route)
@@ -146,7 +145,7 @@ class Team(Entity):
 		if start:
 			self.start = mkdt(start)
 		else:
-			self.start = START
+			self.start = config['start']
 		if route:
 			route = Route.get(route)
 			self.route = route
@@ -296,10 +295,13 @@ Entity.__cmp__ = _cmp
 
 def mkdt(time, date=None):
 	if not date:
-		date = START.date()
+		date = config['start'].date()
 	elif type(date).__name__ == 'str':
 		date = datetime.strptime(date,'%y%m%d').date()
 	if type(time).__name__ == 'str':
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
-START = mkdt('08:00', datetime.today().date())
+config = {
+		'start':mkdt('08:00', datetime.today().date()),
+		'wfact':1.3
+		}
