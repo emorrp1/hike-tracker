@@ -329,18 +329,19 @@ class Distance(Entity):
 		return cmp(self.distance, other.distance)
 
 	@classmethod
-	def _get(cls, start, end):
+	def _getsort(cls, start, end):
 		if type(start).__name__ == 'str':
 			start = Base.get_by(name=start)
 		if type(end).__name__ == 'str':
 			end = Base.get_by(name=end)
 		if start > end:
 			start, end = end, start
-		return cls.get_by(start=start, end=end)
+		return start, end
 
 	@classmethod
 	def get(cls, start, end):
-		d = cls._get(start, end)
+		start, end = cls._getsort(start, end)
+		d = cls.get_by(start=start, end=end)
 		if d: return d.distance
 		else: return None
 
