@@ -340,6 +340,6 @@ class Config(Entity):
 	@classmethod
 	def load(cls):
 		config.clear()
-		start = cls.get_by(key='start').value
+		start = str(cls.get_by(key='start').value)
 		config['start'] = mkdt(start[-5:], start[:-5])
 		config['wfact'] = float(cls.get_by(key='wfact').value)
