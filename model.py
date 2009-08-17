@@ -267,7 +267,7 @@ class Team(Entity):
 				dep = self.start
 			d = last.distance_along(self.route, base)
 			if d:
-				t = ( d*60 ) // speed
+				t = ( d*60 ) // int(speed)
 				return dep + timedelta(minutes=t)
 			else:
 				return None
