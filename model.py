@@ -21,9 +21,7 @@ class Base(Entity):
 
 	def __cmp__(self, other):
 		if other is None: return 2
-		if self.name <  other.name: return -1
-		if self.name == other.name: return 0
-		if self.name >  other.name: return 1
+		return cmp(self.name, other.name)
 
 	def ref(self):
 		e = str(self.e).rjust(3,'0')
@@ -142,9 +140,7 @@ class Route(Entity):
 
 	def __cmp__(self, other):
 		if other is None: return 2
-		if len(self) <  len(other): return -1
-		if len(self) == len(other): return 0
-		if len(self) >  len(other): return 1
+		return cmp(len(self), len(other))
 
 	def __len__(self):
 		return self.bases[0].distance_along(self, self.end())
@@ -176,9 +172,7 @@ class Team(Entity):
 
 	def __cmp__(self, other):
 		if other is None: return 2
-		if self.name <  other.name: return -1
-		if self.name == other.name: return 0
-		if self.name >  other.name: return 1
+		return cmp(self.name, other.name)
 
 	def started(self):
 		return bool(self.reports)
@@ -306,9 +300,7 @@ class Report(Entity):
 
 	def __cmp__(self, other):
 		if other is None: return 2
-		if self.dep <  other.dep: return -1
-		if self.dep == other.dep: return 0
-		if self.dep >  other.dep: return 1
+		return cmp(self.dep, other.dep)
 
 	def stoppage(self):
 		return self.dep - self.arr
