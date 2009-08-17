@@ -98,7 +98,7 @@ class Base(Entity):
 		ediff = normalise(self.e - other.e)
 		ndiff = normalise(self.n - other.n)
 		hyp2 = ediff**2 + ndiff**2
-		return int(sqrt(hyp2)*self.wfact)
+		return int(sqrt(hyp2)*config['wfact'])
 
 	def distance_along(self, route, other=None):
 		if type(route).__name__ == 'str':
