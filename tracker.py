@@ -19,7 +19,7 @@ def save(config=False):
 		from configobj import ConfigObj
 		config += '.conf'
 		config = ConfigObj(config)
-		config['start'] = model.START.strftime('%y%m%d%H:%M')
+		config['start'] = model.config['start'].strftime('%y%m%d%H:%M')
 		config['wiggle'] = model.Base.wfact
 		bs = all('bases')
 		if bs:
@@ -58,7 +58,7 @@ def configure(hike='custom'):
 		config = ConfigObj(hike)
 		if 'start' in config:
 			s = config['start']
-			model.START = model.mkdt(s[-5:], s[:-5])
+			model.config['start'] = model.mkdt(s[-5:], s[:-5])
 		if 'wiggle' in config:
 			model.Base.wfact = float(config['wiggle'])
 		if 'bases' in config:
@@ -75,7 +75,7 @@ def configure(hike='custom'):
 					interval = 5
 				interval = timedelta(minutes=int(interval))
 				offset = timedelta(minutes=int(offset))
-				st = model.START + offset - int(first)*interval
+				st = model.config['start'] + offset - int(first)*interval
 				for i in range(int(first),int(last)+1):
 					start = st + i*interval
 					name = prefix + str(i).rjust(2,'0')
