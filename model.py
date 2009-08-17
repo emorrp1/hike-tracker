@@ -81,9 +81,9 @@ class Base(Entity):
 			return route.bases[n+1]
 
 	def distance(self, other):
-		d = Distance.get(self, other)
+		d = Distance.get_by(start=self, end=other)
 		if d:
-			return d
+			return d.distance
 		else:
 			other = Base.get(other)
 			from math import sqrt
@@ -313,14 +313,6 @@ class Distance(Entity):
 	def __cmp__(self, other):
 		if other is None: return 2
 		return cmp(self.distance, other.distance)
-
-	@classmethod
-	def get(cls, start, end):
-		start = Base.get(start)
-		end = Base.get(end)
-		d = cls.get_by(start=start, end=end)
-		if d: return d.distance
-		else: return None
 
 def _get(cls, name):
 	if type(name) == cls: return name
