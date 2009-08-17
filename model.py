@@ -337,6 +337,7 @@ class Config(Entity):
 		start = config['start'].strftime('%y%m%d%H:%M')
 		cls(key='start', value=start)
 		cls(key='wfact', value=str(config['wfact']))
+		cls(key='figs', value=str(config['figs']))
 
 	@classmethod
 	def load(cls):
@@ -344,3 +345,4 @@ class Config(Entity):
 		start = str(cls.get_by(key='start').value)
 		config['start'] = mkdt(start[-5:], start[:-5])
 		config['wfact'] = float(cls.get_by(key='wfact').value)
+		config['figs'] = int(cls.get_by(key='figs').value)
