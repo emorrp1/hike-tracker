@@ -67,7 +67,7 @@ def configure(hike='custom'):
 		if 'wiggle' in config:
 			model.config['wfact'] = float(config['wiggle'])
 		if 'figs' in config:
-			model.config['figs'] = int(config['refs'])//2
+			model.config['figs'] = int(config['figs'])//2
 		if 'bases' in config:
 			for b in config['bases']:
 				model.Base(b, config['bases'][b])
