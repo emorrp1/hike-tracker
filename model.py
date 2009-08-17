@@ -75,7 +75,7 @@ class Base(Entity):
 
 	def next(self, route):
 		if type(route).__name__ == 'str':
-			route = Route.get_by(name=route)
+			route = Route.get(route)
 		if route.end() is self:
 			return None
 		else:
@@ -84,7 +84,7 @@ class Base(Entity):
 
 	def distance(self, other):
 		if type(other).__name__ == 'str':
-			other = Base.get_by(name=other)
+			other = Base.get(other)
 		try:    return self.distances[self.name][other.name]
 		except: pass
 		from math import sqrt
@@ -100,9 +100,9 @@ class Base(Entity):
 
 	def distance_along(self, route, other=None):
 		if type(route).__name__ == 'str':
-			route = Route.get_by(name=route)
+			route = Route.get(route)
 		if type(other).__name__ == 'str':
-			other = Base.get_by(name=other)
+			other = Base.get(other)
 		if not other:
 			other = self.next(route)
 		sum = 0
@@ -132,7 +132,7 @@ class Route(Entity):
 		if bases:
 			for base in bases:
 				if type(base).__name__ == 'str':
-					base = Base.get_by(name=base)
+					base = Base.get(base)
 				self.bases.append(base)
 
 	def __repr__(self):
@@ -164,7 +164,7 @@ class Team(Entity):
 			self.start = START
 		if route:
 			if type(route).__name__ == 'str':
-				route = Route.get_by(name=route)
+				route = Route.get(route)
 			self.route = route
 
 	def __repr__(self):
@@ -179,7 +179,7 @@ class Team(Entity):
 
 	def visited(self, base):
 		if type(base).__name__ == 'str':
-			base = Base.get_by(name=base)
+			base = Base.get(base)
 		for r in self.reports:
 			if r.base is base:
 				return r.dep
@@ -283,9 +283,9 @@ class Report(Entity):
 
 	def __init__(self, base, team, arr, dep=None, date=None):
 		if type(base).__name__ == 'str':
-			base = Base.get_by(name=base)
+			base = Base.get(base)
 		if type(team).__name__ == 'str':
-			team = Team.get_by(name=team)
+			team = Team.get(team)
 		arr = mkdt(arr, date)
 		if dep:
 			dep = mkdt(dep, date)
