@@ -328,6 +328,18 @@ class Distance(Entity):
 		if other is None: return 2
 		return cmp(self.distance, other.distance)
 
+	@classmethod
+	def get(cls, start, end):
+		if type(start).__name__ == 'str':
+			start = Base.get_by(name=start)
+		if type(end).__name__ == 'str':
+			end = Base.get_by(name=end)
+		if start > end:
+			start, end = end, start
+		d = cls.get_by(start=start, end=end)
+		if d: return d.distance
+		else: return None
+
 def mkdt(time, date=None):
 	if not date:
 		date = START.date()
