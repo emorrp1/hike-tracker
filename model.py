@@ -313,6 +313,15 @@ class Report(Entity):
 	def stoppage(self):
 		return self.dep - self.arr
 
+class Distance(Entity):
+	'''Records the distances between two bases'''
+	start = ManyToOne('Base')
+	end = ManyToOne('Base')
+	distance = Field(Integer)
+
+	def __repr__(self):
+		return '<Distance from %s to %s is %d>' % (self.start, self.end, d)
+
 def mkdt(time, date=None):
 	if not date:
 		date = START.date()
