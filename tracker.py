@@ -4,8 +4,8 @@ import model
 
 def start(hike='custom'):
 	'''Start the database connection, creating the tables and configuring if necessary'''
-	from os.path import exists
-	hike += '.hike'
+	from os.path import exists, expanduser
+	hike = expanduser(hike + '.hike')
 	elixir.metadata.bind = 'sqlite:///%s' % hike
 	elixir.setup_all()
 	if not exists(hike):
@@ -17,7 +17,8 @@ def save(config=False):
 	elixir.session.commit()
 	if config:
 		from configobj import ConfigObj
-		config += '.conf'
+		from os.path import expanduser
+		config = expanduser(config + '.conf')
 		config = ConfigObj(config)
 		config['start'] = model.START.strftime('%y%m%d%H:%M')
 		config['wiggle'] = model.Base.wfact
@@ -51,8 +52,8 @@ def save(config=False):
 
 def configure(hike='custom'):
 	'''Create the hike definition if the config exists'''
-	from os.path import exists
-	hike += '.conf'
+	from os.path import exists, expanduser
+	hike = expanduser(hike + '.conf')
 	if exists(hike):
 		from configobj import ConfigObj
 		config = ConfigObj(hike)
