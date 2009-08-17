@@ -310,10 +310,8 @@ class Distance(Entity):
 
 	@classmethod
 	def _getsort(cls, start, end):
-		if type(start).__name__ == 'str':
-			start = Base.get_by(name=start)
-		if type(end).__name__ == 'str':
-			end = Base.get_by(name=end)
+		start = Base.get(start)
+		end = Base.get(end)
 		if start > end:
 			start, end = end, start
 		return start, end
