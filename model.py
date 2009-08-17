@@ -314,6 +314,10 @@ class Distance(Entity):
 	def __repr__(self):
 		return '<Distance from %s to %s is %d>' % (self.start, self.end, d)
 
+	def __cmp__(self, other):
+		if other is None: return 2
+		return cmp(self.distance, other.distance)
+
 def mkdt(time, date=None):
 	if not date:
 		date = START.date()
