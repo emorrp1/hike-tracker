@@ -165,7 +165,7 @@ class Team(Entity):
 		if start:
 			self.start = mkdt(start)
 		else:
-			self.start = START
+			self.start = config['start']
 		if route:
 			if type(route).__name__ == 'str':
 				route = Route.get_by(name=route)
@@ -315,7 +315,7 @@ class Report(Entity):
 
 def mkdt(time, date=None):
 	if not date:
-		date = START.date()
+		date = config['start'].date()
 	elif type(date).__name__ == 'str':
 		date = datetime.strptime(date,'%y%m%d').date()
 	if type(time).__name__ == 'str':
