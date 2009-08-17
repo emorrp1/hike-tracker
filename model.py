@@ -11,13 +11,13 @@ class Base(Entity):
 	routes = ManyToMany('Route')
 
 	def __init__(self, name, ref):
-		e = int(ref[:3])
-		n = int(ref[-3:])
+		e = int(ref[:config['figs']])
+		n = int(ref[-config['figs']:])
 		Entity.__init__(self, name=name, e=e, n=n)
 
 	def ref(self):
-		e = str(self.e).rjust(3,'0')
-		n = str(self.n).rjust(3,'0')
+		e = str(self.e).rjust(config['figs'],'0')
+		n = str(self.n).rjust(config['figs'],'0')
 		return e + n
 
 	def _report(self, filename=None):
@@ -303,7 +303,8 @@ def mkdt(time, date=None):
 	return datetime.combine(date, time)
 config = {
 		'start':mkdt('08:00', datetime.today().date()),
-		'wfact':1.3
+		'wfact':1.3,
+		'figs':3
 		}
 
 class Config(Entity):
@@ -317,6 +318,7 @@ class Config(Entity):
 		start = config['start'].strftime('%y%m%d%H:%M')
 		cls(key='start', value=start)
 		cls(key='wfact', value=str(config['wfact']))
+		cls(key='figs', value=str(config['figs']*2))
 
 	@classmethod
 	def load(cls):
@@ -324,3 +326,4 @@ class Config(Entity):
 		start = str(cls.get_by(key='start').value)
 		config['start'] = mkdt(start[-5:], start[:-5])
 		config['wfact'] = float(cls.get_by(key='wfact').value)
+		config['figs'] = int(cls.get_by(key='figs').value)//2
