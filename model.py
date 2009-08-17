@@ -322,7 +322,7 @@ class Distance(Entity):
 		self.start, self.end = start, end
 
 	def __repr__(self):
-		return '<Distance from %s to %s is %d>' % (self.start, self.end, d)
+		return '<Distance from %s to %s is %d>' % (self.start, self.end, self.distance)
 
 	def __cmp__(self, other):
 		if other is None: return 2
