@@ -7,5 +7,4 @@ last known locations
 linear route schematic
 
 think about multi-day hikes
-store necessary configuration in database e.g. start, distances, so database is self-contained (key/value pairs)
 server/client
