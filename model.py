@@ -82,19 +82,21 @@ class Base(Entity):
 			return route.bases[n+1]
 
 	def distance(self, other):
-		other = Base.get(other)
-		try:    return self.distances[self.name][other.name]
-		except: pass
-		from math import sqrt
-		def normalise(diff, rollover=1000):
-			diff = abs(diff)
-			if diff > rollover//2:
-				diff = rollover - diff
-			return diff
-		ediff = normalise(self.e - other.e)
-		ndiff = normalise(self.n - other.n)
-		hyp2 = ediff**2 + ndiff**2
-		return int(sqrt(hyp2)*self.wfact)
+		d = Distance.get(self, other)
+		if d:
+			return d
+		else:
+			other = Base.get(other)
+			from math import sqrt
+			def normalise(diff, rollover=1000):
+				diff = abs(diff)
+				if diff > rollover//2:
+					diff = rollover - diff
+				return diff
+			ediff = normalise(self.e - other.e)
+			ndiff = normalise(self.n - other.n)
+			hyp2 = ediff**2 + ndiff**2
+			return int(sqrt(hyp2)*self.wfact)
 
 	def distance_along(self, route, other=None):
 		route = Route.get(route)
