@@ -110,8 +110,12 @@ class Base(Entity):
 		return sum
 
 	def _set_distance(self, other, d):
-		Distance.set(self, other, d)
-		Distance.set(other, self, d)
+		def set(start, end, distance):
+			d = Distance.get_by(start=start, end=end)
+			if d: d.distance = distance
+			else: Distance(start, end, distance)
+		set(self, other, d)
+		set(other, self, d)
 
 class Route(Entity):
 	'''The database representation of a series of bases teams have to pass through'''
@@ -317,16 +321,6 @@ class Distance(Entity):
 		d = cls.get_by(start=start, end=end)
 		if d: return d.distance
 		else: return None
-
-	@classmethod
-	def set(cls, start, end, distance):
-		start = Base.get(start)
-		end = Base.get(end)
-		d = cls.get_by(start=start, end=end)
-		if d:
-			d.distance = distance
-		else:
-			cls(start, end, distance)
 
 def _get(cls, name):
 	if type(name) == cls: return name
