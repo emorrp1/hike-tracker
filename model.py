@@ -246,7 +246,7 @@ class Team(Entity):
 	def late(self, leeway=0, speed=None, base=None):
 		eta = self.eta(base, speed)
 		if eta:
-			if type(leeway).__name__ in ['int', 'str']:
+			if isinstance(leeway, (int, str)):
 				leeway = timedelta(minutes=int(leeway))
 			return eta + leeway < datetime.now()
 		else:
