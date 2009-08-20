@@ -1,5 +1,6 @@
 #!/usr/bin/python -W ignore::DeprecationWarning
-from tracker import *
+import elixir
+import model
 
 def start(hike='custom'):
 	'''Start the database connection, creating the tables and configuring if necessary'''
@@ -9,10 +10,12 @@ def start(hike='custom'):
 	elixir.setup_all()
 	if exists(hike):
 		model.Config.load()
-	else:
-		elixir.create_all()
-		configure(hike[:-5])
-		save()
+
+def all(type):
+	'''Shortcut to a list of specified hike objects'''
+	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
+	t = type[0].lower()
+	return types[t].query.all()
 
 def save(config=False):
 	model.Config.store()
