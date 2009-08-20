@@ -11,12 +11,6 @@ def start(hike='custom'):
 	if exists(hike):
 		model.Config.load()
 
-def all(type):
-	'''Shortcut to a list of specified hike objects'''
-	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
-	t = type[0].lower()
-	return types[t].query.all()
-
 def save(config=False):
 	model.Config.store()
 	elixir.session.commit()
@@ -28,7 +22,7 @@ def save(config=False):
 		config['start'] = model.config['start'].strftime('%y%m%d%H:%M')
 		config['wiggle'] = model.config['wfact']
 		config['figs'] = model.config['figs']*2
-		bs = all('bases')
+		bs = model.Base.query.all()
 		if bs:
 			config['bases'] = {}
 			if model.Distance.query.all():
@@ -41,14 +35,14 @@ def save(config=False):
 					for d in ds:
 						item = '%s:%d' % (d.end.name, d.distance)
 						config['distances'][b.name].append(item)
-			rs = all('routes')
+			rs = model.Route.query.all()
 			if rs:
 				config['routes'] = {}
 				for r in rs:
 					config['routes'][r.name] = []
 					for b in r.bases:
 						config['routes'][r.name].append(b.name)
-		ts = all('teams')
+		ts = model.Team.query.all()
 		if ts:
 			config['teams'] = {}
 			for t in ts:
