@@ -19,11 +19,6 @@ def start(hike='custom'):
 def save(config=False):
 	model.Config.store()
 	elixir.session.commit()
-	if config:
-		from os.path import expanduser
-		config = expanduser(config + '.conf')
-		import convert
-		convert.save(config)
 
 def set_distances(config):
 	'''Set the distances between bases'''
