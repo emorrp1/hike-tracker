@@ -38,8 +38,6 @@ def save(config):
 
 def load(hike):
 	'''Create the hike definition if the config exists'''
-	from os.path import exists, expanduser
-	from configobj import ConfigObj
 	config = ConfigObj(hike)
 	if 'start' in config:
 		s = config['start']
