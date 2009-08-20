@@ -51,13 +51,13 @@ class TestTeam(unittest.TestCase):
 		self.assertFalse(get('t1').visited('3'))
 		self.assertTrue(get('t3').visited('2'))
 		t = get('t2').visited('0')
-		self.assertEqual(type(t).__name__, 'datetime')
+		self.assertTrue(isinstance(t, model.datetime))
 		self.assertEqual(model.mkdt('12:00'), t)
 
 	def testLastVisited(self):
 		lv = get('t1').last_visited()
-		self.assertEqual(type(lv['base']).__name__, 'Base')
-		self.assertEqual(type(lv['dep']).__name__, 'datetime')
+		self.assertTrue(isinstance(lv['base'], model.Base))
+		self.assertTrue(isinstance(lv['dep'], model.datetime))
 		self.assertEqual(get('t1').visited(lv['base']), lv['dep'])
 		t = model.Team('test')
 		empty = {'dep':None, 'base':None}
@@ -67,7 +67,7 @@ class TestTeam(unittest.TestCase):
 		self.assertEqual(model.config['wfact'], 1.3)
 		t = model.Team('test')
 		self.assertEqual(t.traversed(), 0)
-		self.assertEqual(type(get('t1').traversed()).__name__, 'int')
+		self.assertTrue(isinstance(get('t1').traversed(), int))
 		for t in model.Team.query.all():
 			self.assertTrue(t.traversed() >= 0)
 			self.assertTrue(t.traversed() <= 300)
