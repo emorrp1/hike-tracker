@@ -11,9 +11,10 @@ def start(hike='custom'):
 	if exists(hike):
 		model.Config.load()
 	else:
+		from convert import load
 		elixir.create_all()
-		configure(hike[:-5])
-		save()
+		hike = hike.replace('.hike', '.conf')
+		load(hike)
 
 def save(config=False):
 	model.Config.store()
@@ -23,14 +24,6 @@ def save(config=False):
 		config = expanduser(config + '.conf')
 		import convert
 		convert.save(config)
-
-def configure(hike='custom'):
-	'''Create the hike definition if the config exists'''
-	from os.path import exists, expanduser
-	hike = expanduser(hike + '.conf')
-	if exists(hike):
-		from convert import load
-		load(hike)
 
 def set_distances(config):
 	'''Set the distances between bases'''
