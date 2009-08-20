@@ -1,11 +1,9 @@
 #!/usr/bin/python -W ignore::DeprecationWarning
 import elixir
 import model
+from configobj import ConfigObj
 
 def save(config):
-	from configobj import ConfigObj
-	from os.path import expanduser
-	config = expanduser(config + '.conf')
 	config = ConfigObj(config)
 	config['start'] = model.Config.get_by(key='start').value
 	config['wiggle'] = model.Config.get_by(key='wfact').value
