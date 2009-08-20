@@ -87,7 +87,8 @@ class TestBase(unittest.TestCase):
 	def testActiveRange(self):
 		elixir.session.close()
 		start('tests/temp')
-		configure('tests/test')
+		from convert import load
+		load('tests/test.conf')
 		exp_open = model.mkdt('08:13')
 		exp_close = model.mkdt('09:57')
 		t = get('b2').active(20, 60)
