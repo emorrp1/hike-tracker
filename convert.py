@@ -1,3 +1,5 @@
+#!/usr/bin/python -W ignore::DeprecationWarning
+from tracker import *
 
 def start(hike='custom'):
 	'''Start the database connection, creating the tables and configuring if necessary'''
@@ -51,3 +53,7 @@ def save(config=False):
 				config['teams'][t.name] = [t.route.name, time]
 		config.write()
 
+if __name__ == '__main__':
+	from sys import argv
+	start(argv[1])
+	save(argv[2])
