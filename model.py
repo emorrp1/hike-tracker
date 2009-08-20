@@ -314,9 +314,9 @@ Entity.__cmp__ = _cmp
 def mkdt(time, date=None):
 	if not date:
 		date = config['start'].date()
-	elif type(date).__name__ == 'str':
+	elif isinstance(date, str):
 		date = datetime.strptime(date,'%y%m%d').date()
-	if type(time).__name__ == 'str':
+	if isinstance(time, str):
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
 config = {
