@@ -2,13 +2,6 @@
 import elixir
 import model
 
-def start(hike='custom'):
-	'''Start the database connection, creating the tables and configuring if necessary'''
-	from os.path import exists, expanduser
-	hike = expanduser(hike + '.hike')
-	elixir.metadata.bind = 'sqlite:///%s' % hike
-	elixir.setup_all()
-
 def save(config=False):
 	elixir.session.commit()
 	if config:
@@ -49,5 +42,6 @@ def save(config=False):
 
 if __name__ == '__main__':
 	from sys import argv
-	start(argv[1])
+	elixir.metadata.bind = 'sqlite:///%s' % argv[1]
+	elixir.setup_all()
 	save(argv[2])
