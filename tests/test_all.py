@@ -59,7 +59,9 @@ class TestTracker(unittest.TestCase):
 
 	def testSave(self):
 		try:
-			save('tests/temp')
+			save()
+			import convert
+			convert.save('tests/temp.conf')
 			elixir.session.close()
 			start('tests/temp')
 		except:
