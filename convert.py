@@ -36,6 +36,51 @@ def save(config):
 			config['teams'][t.name] = [t.route.name, time]
 	config.write()
 
+def load(hike='custom'):
+	'''Create the hike definition if the config exists'''
+	from os.path import exists, expanduser
+	hike = expanduser(hike + '.conf')
+	if exists(hike):
+		from configobj import ConfigObj
+		config = ConfigObj(hike)
+		if 'start' in config:
+			s = config['start']
+			model.config['start'] = model.mkdt(s[-5:], s[:-5])
+		if 'wiggle' in config:
+			model.config['wfact'] = float(config['wiggle'])
+		if 'figs' in config:
+			model.config['figs'] = int(config['figs'])//2
+		if 'bases' in config:
+			for b in config['bases']:
+				model.Base(b, config['bases'][b])
+			if 'routes' in config:
+				for r in config['routes']:
+					model.Route(r, config['routes'][r])
+			if 'distances' in config:
+				if 'routes' in config['distances'] and 'routes' not in config:
+					config['distances'].pop('routes')
+				set_distances(config['distances'])
+		if 'teams' in config:
+			c = config['teams']
+			def auto(route, prefix, first, last, interval=None, offset=0):
+				from datetime import timedelta
+				if not interval:
+					interval = 5
+				interval = timedelta(minutes=int(interval))
+				offset = timedelta(minutes=int(offset))
+				st = model.config['start'] + offset - int(first)*interval
+				for i in range(int(first),int(last)+1):
+					start = st + i*interval
+					name = prefix + str(i).rjust(2,'0')
+					model.Team(name, route, start.time())
+			if 'routes' in c:
+				if 'routes' in config:
+					for r in c['routes']:
+						auto(r, *c['routes'][r])
+				c.pop('routes')
+			for t in c:
+				model.Team(t, *c[t])
+
 if __name__ == '__main__':
 	from sys import argv
 	elixir.metadata.bind = 'sqlite:///%s' % argv[1]
