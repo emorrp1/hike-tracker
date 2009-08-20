@@ -8,20 +8,17 @@ def start(hike='custom'):
 	hike = expanduser(hike + '.hike')
 	elixir.metadata.bind = 'sqlite:///%s' % hike
 	elixir.setup_all()
-	if exists(hike):
-		model.Config.load()
 
 def save(config=False):
-	model.Config.store()
 	elixir.session.commit()
 	if config:
 		from configobj import ConfigObj
 		from os.path import expanduser
 		config = expanduser(config + '.conf')
 		config = ConfigObj(config)
-		config['start'] = model.config['start'].strftime('%y%m%d%H:%M')
-		config['wiggle'] = model.config['wfact']
-		config['figs'] = model.config['figs']*2
+		config['start'] = model.Config.get_by(key='start').value
+		config['wiggle'] = model.Config.get_by(key='wfact').value
+		config['figs'] = model.Config.get_by(key='figs').value
 		bs = model.Base.query.all()
 		if bs:
 			config['bases'] = {}
