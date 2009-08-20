@@ -83,6 +83,20 @@ def load(hike):
 
 if __name__ == '__main__':
 	from sys import argv
-	elixir.metadata.bind = 'sqlite:///%s' % argv[1]
+	if len(argv) == 2:
+		config = argv[1]
+		if '.conf' in config:
+			hike = config.replace('.conf', '.hike')
+		else:
+			hike = config + '.hike'
+		dest = None
+	else:
+		hike = argv[1]
+		dest = argv[2]
+	elixir.metadata.bind = 'sqlite:///%s' % hike
 	elixir.setup_all()
-	save(argv[2])
+	if dest:
+		save(dest)
+	else:
+		elixir.create_all()
+		load(config)
