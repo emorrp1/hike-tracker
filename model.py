@@ -10,7 +10,7 @@ class Base(Entity):
 	routes = ManyToMany('Route')
 
 	def __init__(self, name, ref):
-		f = config['figs']
+		f = Config['figs']
 		e = int(ref[:f])
 		n = int(ref[-f:])
 		Entity.__init__(self, name=name, e=e, n=n)
@@ -147,7 +147,7 @@ class Team(Entity):
 		if start:
 			self.start = mkdt(start)
 		else:
-			self.start = config['start']
+			self.start = Config['start']
 		if route:
 			route = Route.get(route)
 			self.route = route
@@ -315,7 +315,7 @@ Entity.__cmp__ = _cmp
 
 def mkdt(time, date=None):
 	if not date:
-		date = config['start'].date()
+		date = Config['start'].date()
 	elif isinstance(date, (str, unicode)):
 		date = datetime.strptime(date,'%y%m%d').date()
 	if isinstance(time, (str, unicode)):
