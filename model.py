@@ -338,10 +338,8 @@ class Config(Entity):
 	def store(cls):
 		for c in cls.query.all():
 			del c
-		start = config['start'].strftime('%y%m%d%H:%M')
-		cls(key='start', value=start)
-		cls(key='wfact', value=str(config['wfact']))
-		cls(key='figs', value=str(config['figs']*2))
+		for k,v in config.iteritems():
+			cls(key=k, value=cls.to_v[k](v))
 
 	@classmethod
 	def load(cls):
