@@ -338,6 +338,14 @@ class Config(Entity):
 			'wfact': lambda w: float(w),
 			'figs' : lambda f: int(f)//2 }
 
+	def __getitem__(self, key):
+		try:
+			val = self.__class__.get_by(key=key).value
+		except:
+			raise IndexError
+		else:
+			return self.__class__.from_v[key](val)
+
 	@classmethod
 	def store(cls):
 		for c in cls.query.all():
