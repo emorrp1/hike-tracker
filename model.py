@@ -368,4 +368,11 @@ def _getitem(cls, key):
 		raise TypeError("'%s' object is unsubscriptable" % meta)
 	else:
 		return cls.__getitem__(key)
+def _setitem(cls, key, value):
+	if cls is not Config:
+		meta = cls.__metaclass__.__name__
+		raise TypeError("'%s' object does not support item assignment" % meta)
+	else:
+		return cls.__setitem__(key, value)
 EntityMeta.__getitem__ = _getitem
+EntityMeta.__setitem__ = _setitem
