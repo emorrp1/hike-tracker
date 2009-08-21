@@ -339,18 +339,21 @@ class Config(Entity):
 
 	@classmethod
 	def __getitem__(cls, key):
-		i = cls.get_by(key=key)
-		try:    return cls.from_v[key](i.value)
-		except: raise KeyError(key)
+		if key in cls.default:
+			i = cls.get_by(key=key)
+			return cls.from_v[key](i.value)
+		else:
+			raise KeyError(key)
 
 	@classmethod
 	def __setitem__(cls, key, value):
-		try:    val = cls.to_v[key](value)
-		except: raise KeyError(key)
-		else:
+		if key in cls.default:
+			val = cls.to_v[key](value)
 			i = cls.get_by(key=key)
 			if i: i.value = val
 			else: cls(key=key, value=val)
+		else:
+			raise KeyError(key)
 
 	@classmethod
 	def store(cls):
