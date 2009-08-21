@@ -341,13 +341,16 @@ class Config(Entity):
 	def __getitem__(cls, key):
 		if key in cls.default:
 			i = cls.get_by(key=key)
-			return cls.from_v[key](i.value)
+			if i: return cls.from_v[key](i.value)
+			else: return cls.default[key]
 		else:
 			raise KeyError(key)
 
 	@classmethod
-	def __setitem__(cls, key, value):
+	def __setitem__(cls, key, value=None):
 		if key in cls.default:
+			if not value:
+				value = cls.default[key]
 			val = cls.to_v[key](value)
 			i = cls.get_by(key=key)
 			if i: i.value = val
