@@ -248,7 +248,7 @@ class Team(Entity):
 	def late(self, leeway=0, speed=None, base=None):
 		eta = self.eta(base, speed)
 		if eta:
-			if isinstance(leeway, (int, str)):
+			if isinstance(leeway, (int, str, unicode)):
 				leeway = timedelta(minutes=int(leeway))
 			return eta + leeway < datetime.now()
 		else:
@@ -316,9 +316,9 @@ Entity.__cmp__ = _cmp
 def mkdt(time, date=None):
 	if not date:
 		date = config['start'].date()
-	elif isinstance(date, str):
+	elif isinstance(date, (str, unicode)):
 		date = datetime.strptime(date,'%y%m%d').date()
-	if isinstance(time, str):
+	if isinstance(time, (str, unicode)):
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
 config = {
