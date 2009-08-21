@@ -354,8 +354,7 @@ class Config(Entity):
 	@classmethod
 	def load(cls):
 		for k,v in config.iteritems():
-			val = cls.get_by(key=k).value
-			config[k] = cls.from_v[k](val)
+			config[k] = cls[k]
 
 def _getitem(cls, key):
 	if cls is not Config:
