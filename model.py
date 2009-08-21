@@ -327,6 +327,15 @@ config = {
 		'figs':3
 		}
 
+def _getitem(cls, key):
+	try:
+		val = cls.get_by(key=key).value
+	except:
+		raise IndexError
+	else:
+		return cls.from_v[key](val)
+EntityMeta.__getitem__ = _getitem
+
 class Config(Entity):
 	key = Field(Text)
 	value = Field(Text)
@@ -337,15 +346,6 @@ class Config(Entity):
 			'start': lambda s: mkdt(s[-5:], s[:-5]),
 			'wfact': lambda w: float(w),
 			'figs' : lambda f: int(f)//2 }
-
-	@classmethod
-	def __getitem__(cls, key):
-		try:
-			val = cls.get_by(key=key).value
-		except:
-			raise IndexError
-		else:
-			return cls.from_v[key](val)
 
 	@classmethod
 	def store(cls):
