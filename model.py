@@ -360,13 +360,13 @@ class Config(Entity):
 
 	@classmethod
 	def store(cls):
-		for k,v in config.iteritems():
+		for k,v in cls.default.iteritems():
 			cls[k] = v
 
 	@classmethod
 	def load(cls):
-		for k,v in config.iteritems():
-			config[k] = cls[k]
+		for k,v in cls.default.iteritems():
+			cls.default[k] = cls[k]
 
 config = Config.default
 
