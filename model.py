@@ -352,10 +352,8 @@ class Config(Entity):
 
 	@classmethod
 	def store(cls):
-		for c in cls.query.all():
-			del c
 		for k,v in config.iteritems():
-			cls(key=k, value=cls.to_v[k](v))
+			cls[k] = v
 
 	@classmethod
 	def load(cls):
