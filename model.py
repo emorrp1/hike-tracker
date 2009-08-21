@@ -16,7 +16,7 @@ class Base(Entity):
 		Entity.__init__(self, name=name, e=e, n=n)
 
 	def ref(self):
-		f = config['figs']
+		f = Config['figs']
 		e = str(self.e).rjust(f,'0')
 		n = str(self.n).rjust(f,'0')
 		return e + n
@@ -89,7 +89,7 @@ class Base(Entity):
 			ediff = normalise(self.e - other.e)
 			ndiff = normalise(self.n - other.n)
 			hyp2 = ediff**2 + ndiff**2
-			return int(sqrt(hyp2)*config['wfact'])
+			return int(sqrt(hyp2)*Config['wfact'])
 
 	def distance_along(self, route, other=None):
 		route = Route.get(route)
