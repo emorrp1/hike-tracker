@@ -339,6 +339,12 @@ class Config(Entity):
 			'figs' : lambda f: int(f)//2 }
 
 	@classmethod
+	def __getitem__(cls, key):
+		try:    val = cls.get_by(key=key).value
+		except: raise IndexError
+		else:   return cls.from_v[key](val)
+
+	@classmethod
 	def store(cls):
 		for c in cls.query.all():
 			del c
@@ -355,7 +361,6 @@ def _getitem(cls, key):
 	if cls is not Config:
 		meta = cls.__metaclass__.__name__
 		raise TypeError("'%s' object is unsubscriptable" % meta)
-	try:    val = cls.get_by(key=key).value
-	except: raise IndexError
-	else:   return cls.from_v[key](val)
+	else:
+		return cls.__getitem__(key)
 EntityMeta.__getitem__ = _getitem
