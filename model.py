@@ -10,13 +10,15 @@ class Base(Entity):
 	routes = ManyToMany('Route')
 
 	def __init__(self, name, ref):
-		e = int(ref[:config['figs']])
-		n = int(ref[-config['figs']:])
+		f = config['figs']
+		e = int(ref[:f])
+		n = int(ref[-f:])
 		Entity.__init__(self, name=name, e=e, n=n)
 
 	def ref(self):
-		e = str(self.e).rjust(config['figs'],'0')
-		n = str(self.n).rjust(config['figs'],'0')
+		f = config['figs']
+		e = str(self.e).rjust(f,'0')
+		n = str(self.n).rjust(f,'0')
 		return e + n
 
 	def _report(self, filename=None):
