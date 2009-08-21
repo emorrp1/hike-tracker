@@ -348,7 +348,10 @@ class Config(Entity):
 	def __setitem__(cls, key, value):
 		try:    val = cls.to_v[key](value)
 		except: raise KeyError(key)
-		else:   cls.get_by(key=key).value = val
+		else:
+			i = cls.get_by(key=key)
+			if i: i.value = val
+			else: cls(key=key, value=val)
 
 	@classmethod
 	def store(cls):
