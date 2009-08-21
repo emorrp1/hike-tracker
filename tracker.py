@@ -16,7 +16,7 @@ def start(hike='custom'):
 		hike = hike.replace('.hike', '.conf')
 		load(hike)
 
-def save(config=False):
+def save():
 	model.Config.store()
 	elixir.session.commit()
 
