@@ -347,8 +347,6 @@ class Config(Entity):
 
 	@classmethod
 	def load(cls):
-		config.clear()
-		start = str(cls.get_by(key='start').value)
-		config['start'] = mkdt(start[-5:], start[:-5])
-		config['wfact'] = float(cls.get_by(key='wfact').value)
-		config['figs'] = int(cls.get_by(key='figs').value)//2
+		for k,v in config.iteritems():
+			val = cls.get_by(key=k).value
+			config[k] = cls.from_v[k](val)
