@@ -345,6 +345,12 @@ class Config(Entity):
 		else:   return cls.from_v[key](val)
 
 	@classmethod
+	def __setitem__(cls, key, value):
+		try:    val = cls.to_v[key](value)
+		except: raise KeyError(key)
+		else:   cls.get_by(key=key).value = val
+
+	@classmethod
 	def store(cls):
 		for c in cls.query.all():
 			del c
