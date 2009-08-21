@@ -328,12 +328,9 @@ config = {
 		}
 
 def _getitem(cls, key):
-	try:
-		val = cls.get_by(key=key).value
-	except:
-		raise IndexError
-	else:
-		return cls.from_v[key](val)
+	try:    val = cls.get_by(key=key).value
+	except: raise IndexError
+	else:   return cls.from_v[key](val)
 EntityMeta.__getitem__ = _getitem
 
 class Config(Entity):
