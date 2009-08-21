@@ -340,9 +340,9 @@ class Config(Entity):
 
 	@classmethod
 	def __getitem__(cls, key):
-		try:    val = cls.get_by(key=key).value
+		i = cls.get_by(key=key)
+		try:    return cls.from_v[key](i.value)
 		except: raise KeyError(key)
-		else:   return cls.from_v[key](val)
 
 	@classmethod
 	def __setitem__(cls, key, value):
