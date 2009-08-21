@@ -321,11 +321,6 @@ def mkdt(time, date=None):
 	if isinstance(time, (str, unicode)):
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
-config = {
-		'start':mkdt('08:00', datetime.today().date()),
-		'wfact':1.3,
-		'figs':3
-		}
 
 class Config(Entity):
 	key = Field(Text)
@@ -337,6 +332,10 @@ class Config(Entity):
 			'start': lambda s: mkdt(s[-5:], s[:-5]),
 			'wfact': lambda w: float(w),
 			'figs' : lambda f: int(f)//2 }
+	default = {
+			'start': mkdt('08:00', datetime.today().date()),
+			'wfact': 1.3,
+			'figs' : 3 }
 
 	@classmethod
 	def __getitem__(cls, key):
@@ -362,6 +361,8 @@ class Config(Entity):
 	def load(cls):
 		for k,v in config.iteritems():
 			config[k] = cls[k]
+
+config = Config.default
 
 def _getitem(cls, key):
 	if cls is not Config:
