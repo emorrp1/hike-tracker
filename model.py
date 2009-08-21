@@ -333,6 +333,10 @@ class Config(Entity):
 	to_v = {'start': lambda s: s.strftime('%y%m%d%H:%M'),
 			'wfact': lambda w: str(w),
 			'figs' : lambda f: str(f*2) }
+	from_v = {
+			'start': lambda s: mkdt(s[-5:], s[:-5]),
+			'wfact': lambda w: float(w),
+			'figs' : lambda f: int(f)//2 }
 
 	@classmethod
 	def store(cls):
