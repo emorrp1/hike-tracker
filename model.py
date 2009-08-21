@@ -328,6 +328,9 @@ config = {
 		}
 
 def _getitem(cls, key):
+	if cls is not Config:
+		meta = cls.__metaclass__.__name__
+		raise TypeError("'%s' object is unsubscriptable" % meta)
 	try:    val = cls.get_by(key=key).value
 	except: raise IndexError
 	else:   return cls.from_v[key](val)
