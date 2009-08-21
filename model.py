@@ -330,6 +330,9 @@ config = {
 class Config(Entity):
 	key = Field(Text)
 	value = Field(Text)
+	to_v = {'start': lambda s: s.strftime('%y%m%d%H:%M'),
+			'wfact': lambda w: str(w),
+			'figs' : lambda f: str(f*2) }
 
 	@classmethod
 	def store(cls):
