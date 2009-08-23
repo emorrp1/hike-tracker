@@ -44,7 +44,7 @@ def load(hike):
 		c = config['config']
 		for k in model.Config.default:
 			if k in c:
-				model.Config[k] = model.Config.to_v[k](c[k])
+				model.Config[k] = model.Config.from_v[k](c[k])
 			else:
 				model.Config[k] = None
 	if 'bases' in config:
