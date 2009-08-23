@@ -57,16 +57,16 @@ class TestTracker(unittest.TestCase):
 		r = model.Report('0','1','15:34','16:17')
 		self.assertEqual(r.stoppage(), timedelta(0,43*60))
 
-	def testSave(self):
-		try:
-			save('tests/temp')
-			elixir.session.close()
-			start('tests/temp')
-		except:
-			self.fail()
-		finally:
-			from os import system
-			system('rm tests/temp.*')
+	def testConvert(self):
+		from os import system, remove
+		tmpfile = 'tests/temp.conf'
+		system('./convert.py tests/test.hike %s' % tmpfile)
+		f = open('tests/test.conf')
+		g = open(tmpfile)
+		self.assertEqual(f.read(), g.read())
+		f.close()
+		g.close()
+		remove(tmpfile)
 
 def suite():
 	tracker_suite = unittest.TestLoader().loadTestsFromTestCase(TestTracker)
