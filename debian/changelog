@@ -1,3 +1,12 @@
+hike-tracker (0.8.1) jaunty; urgency=low
+
+  * separating conf to sqlite into conversion script
+  * make model.Config to act like a dict
+  * allowing unicode strings
+  * using isinstance check to verify type
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Sun, 23 Aug 2009 23:59:03 +0100
+
 hike-tracker (0.8) jaunty; urgency=low
 
   * storing Configs in and loading from key/value table
