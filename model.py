@@ -363,11 +363,6 @@ class Config(Entity):
 		for k,v in cls.default.iteritems():
 			cls[k] = v
 
-	@classmethod
-	def load(cls):
-		for k,v in cls.default.iteritems():
-			cls.default[k] = cls[k]
-
 config = Config.default
 
 def _getitem(cls, key):
