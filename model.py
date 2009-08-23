@@ -10,13 +10,13 @@ class Base(Entity):
 	routes = ManyToMany('Route')
 
 	def __init__(self, name, ref):
-		f = config['figs']
+		f = Config['figs']
 		e = int(ref[:f])
 		n = int(ref[-f:])
 		Entity.__init__(self, name=name, e=e, n=n)
 
 	def ref(self):
-		f = config['figs']
+		f = Config['figs']
 		e = str(self.e).rjust(f,'0')
 		n = str(self.n).rjust(f,'0')
 		return e + n
@@ -89,7 +89,7 @@ class Base(Entity):
 			ediff = normalise(self.e - other.e)
 			ndiff = normalise(self.n - other.n)
 			hyp2 = ediff**2 + ndiff**2
-			return int(sqrt(hyp2)*config['wfact'])
+			return int(sqrt(hyp2)*Config['wfact'])
 
 	def distance_along(self, route, other=None):
 		route = Route.get(route)
@@ -147,7 +147,7 @@ class Team(Entity):
 		if start:
 			self.start = mkdt(start)
 		else:
-			self.start = config['start']
+			self.start = Config['start']
 		if route:
 			route = Route.get(route)
 			self.route = route
@@ -315,35 +315,72 @@ Entity.__cmp__ = _cmp
 
 def mkdt(time, date=None):
 	if not date:
-		date = config['start'].date()
+		date = Config['start'].date()
 	elif isinstance(date, (str, unicode)):
 		date = datetime.strptime(date,'%y%m%d').date()
 	if isinstance(time, (str, unicode)):
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
-config = {
-		'start':mkdt('08:00', datetime.today().date()),
-		'wfact':1.3,
-		'figs':3
-		}
 
 class Config(Entity):
 	key = Field(Text)
 	value = Field(Text)
+	to_v = {'start': lambda s: s.strftime('%y%m%d%H:%M'),
+			'wfact': lambda w: str(w),
+			'figs' : lambda f: str(f*2) }
+	from_v = {
+			'start': lambda s: mkdt(s[-5:], s[:-5]),
+			'wfact': lambda w: float(w),
+			'figs' : lambda f: int(f)//2 }
+	default = {
+			'start': mkdt('08:00', datetime.today().date()),
+			'wfact': 1.3,
+			'figs' : 3 }
+
+	@classmethod
+	def __getitem__(cls, key):
+		if key in cls.default:
+			i = cls.get_by(key=key)
+			if i: return cls.from_v[key](i.value)
+			else: return cls.default[key]
+		else:
+			raise KeyError(key)
+
+	@classmethod
+	def __setitem__(cls, key, value=None):
+		if key in cls.default:
+			if not value:
+				value = cls.default[key]
+			val = cls.to_v[key](value)
+			i = cls.get_by(key=key)
+			if i: i.value = val
+			else: cls(key=key, value=val)
+		else:
+			raise KeyError(key)
 
 	@classmethod
 	def store(cls):
-		for c in cls.query.all():
-			del c
-		start = config['start'].strftime('%y%m%d%H:%M')
-		cls(key='start', value=start)
-		cls(key='wfact', value=str(config['wfact']))
-		cls(key='figs', value=str(config['figs']*2))
+		for k,v in cls.default.iteritems():
+			cls[k] = v
 
 	@classmethod
 	def load(cls):
-		config.clear()
-		start = str(cls.get_by(key='start').value)
-		config['start'] = mkdt(start[-5:], start[:-5])
-		config['wfact'] = float(cls.get_by(key='wfact').value)
-		config['figs'] = int(cls.get_by(key='figs').value)//2
+		for k,v in cls.default.iteritems():
+			cls.default[k] = cls[k]
+
+config = Config.default
+
+def _getitem(cls, key):
+	if cls is not Config:
+		meta = cls.__metaclass__.__name__
+		raise TypeError("'%s' object is unsubscriptable" % meta)
+	else:
+		return cls.__getitem__(key)
+def _setitem(cls, key, value):
+	if cls is not Config:
+		meta = cls.__metaclass__.__name__
+		raise TypeError("'%s' object does not support item assignment" % meta)
+	else:
+		return cls.__setitem__(key, value)
+EntityMeta.__getitem__ = _getitem
+EntityMeta.__setitem__ = _setitem
