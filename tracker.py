@@ -9,7 +9,7 @@ def start(hike='custom'):
 	elixir.metadata.bind = 'sqlite:///%s' % hike
 	elixir.setup_all()
 	if exists(hike):
-		model.Config.load()
+		model.Config.store()
 	else:
 		from convert import load
 		elixir.create_all()
