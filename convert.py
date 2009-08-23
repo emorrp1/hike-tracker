@@ -42,13 +42,11 @@ def load(hike):
 	config = ConfigObj(hike)
 	if 'config' in config:
 		c = config['config']
-		if 'start' in config:
-			s = c['start']
-			model.config['start'] = model.mkdt(s[-5:], s[:-5])
-		if 'wiggle' in config:
-			model.config['wfact'] = float(c['wiggle'])
-		if 'figs' in config:
-			model.config['figs'] = int(c['figs'])//2
+		for k in model.Config.default:
+			if k in c:
+				model.Config[k] = model.Config.to_v[k](c[k])
+			else:
+				model.Config[k] = None
 	if 'bases' in config:
 		for b in config['bases']:
 			model.Base(b, config['bases'][b])
