@@ -8,16 +8,13 @@ def start(hike='custom'):
 	hike = expanduser(hike + '.hike')
 	elixir.metadata.bind = 'sqlite:///%s' % hike
 	elixir.setup_all()
-	if exists(hike):
-		model.Config.store()
-	else:
+	if not exists(hike):
 		from convert import load
 		elixir.create_all()
 		hike = hike.replace('.hike', '.conf')
 		load(hike)
 
 def save():
-	model.Config.store()
 	elixir.session.commit()
 
 def set_distances(config):

@@ -358,13 +358,6 @@ class Config(Entity):
 		else:
 			raise KeyError(key)
 
-	@classmethod
-	def store(cls):
-		for k,v in cls.default.iteritems():
-			cls[k] = v
-
-config = Config.default
-
 def _getitem(cls, key):
 	if cls is not Config:
 		meta = cls.__metaclass__.__name__

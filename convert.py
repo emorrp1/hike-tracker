@@ -77,7 +77,6 @@ def load(hike):
 			c.pop('routes')
 		for t in c:
 			model.Team(t, *c[t])
-	model.Config.store()
 	elixir.session.commit()
 
 if __name__ == '__main__':
