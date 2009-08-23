@@ -5,9 +5,10 @@ from configobj import ConfigObj
 
 def save(config):
 	config = ConfigObj(config)
-	config['start'] = model.Config.get_by(key='start').value
-	config['wiggle'] = model.Config.get_by(key='wfact').value
-	config['figs'] = model.Config.get_by(key='figs').value
+	config['config'] = {}
+	config['config']['start'] = model.Config.get_by(key='start').value
+	config['config']['wiggle'] = model.Config.get_by(key='wfact').value
+	config['config']['figs'] = model.Config.get_by(key='figs').value
 	bs = model.Base.query.all()
 	if bs:
 		config['bases'] = {}
@@ -39,13 +40,15 @@ def save(config):
 def load(hike):
 	'''Create the hike definition if the config exists'''
 	config = ConfigObj(hike)
-	if 'start' in config:
-		s = config['start']
-		model.config['start'] = model.mkdt(s[-5:], s[:-5])
-	if 'wiggle' in config:
-		model.config['wfact'] = float(config['wiggle'])
-	if 'figs' in config:
-		model.config['figs'] = int(config['figs'])//2
+	if 'config' in config:
+		c = config['config']
+		if 'start' in config:
+			s = c['start']
+			model.config['start'] = model.mkdt(s[-5:], s[:-5])
+		if 'wiggle' in config:
+			model.config['wfact'] = float(c['wiggle'])
+		if 'figs' in config:
+			model.config['figs'] = int(c['figs'])//2
 	if 'bases' in config:
 		for b in config['bases']:
 			model.Base(b, config['bases'][b])
