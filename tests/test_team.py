@@ -94,7 +94,8 @@ class TestTeam(unittest.TestCase):
 		from datetime import datetime, timedelta
 		diff = timedelta(minutes=40)
 		start = datetime.now() - diff
-		t = model.Team('testing','1',start.time())
+		t = model.Team('testing','1')
+		t.start = start
 		self.assertTrue(t.late(speed=30))
 		self.assertFalse(t.late(diff/2, 30))
 		t.start += diff/2
