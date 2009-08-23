@@ -1,11 +1,12 @@
 tracker.py:def start(hike='custom'):
-tracker.py:def save(config=False):
-tracker.py:def configure(hike='custom'):
-tracker.py:			def auto(route, prefix, first, last, interval=None, offset=0):
+tracker.py:def save():
 tracker.py:def set_distances(config):
 tracker.py:def all(type):
 tracker.py:def get(tname):
 tracker.py:def get_all(type=None):
+convert.py:def save(config):
+convert.py:def load(hike):
+convert.py:		def auto(route, prefix, first, last, interval=None, offset=0):
 model.py:class Base(Entity):
 model.py:	def ref(self):
 model.py:	def done(self):
@@ -34,5 +35,3 @@ model.py:	def stoppage(self):
 model.py:class Distance(Entity):
 model.py:def mkdt(time, date=None):
 model.py:class Config(Entity):
-model.py:	def store(cls):
-model.py:	def load(cls):
