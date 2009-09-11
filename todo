@@ -1,4 +1,10 @@
 use height gain measurement in timings calculations
+add comment/notes field to report
+level of award (completed return #of bases missed)
+store version no. as Config for easy update script
+team table of statistics
+convert config from vertical table to horizontal table
+remove Base._report from inside the model
 
 maps:
 estimated current locations
@@ -6,4 +12,4 @@ area of possible locations
 last known locations
 linear route schematic
 
-think about multi-day hikes
+think about multi-day hikes - multiple hike in single databases
