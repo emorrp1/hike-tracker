@@ -12,7 +12,7 @@ class TestTeam(unittest.TestCase):
 	def testMissed(self):
 		self.assertTrue(get('t1').missed())
 		self.assertFalse(get('t2').missed())
-		self.assertFalse(get('t3').missed())
+		self.assertEqual(get('t3').missed(), -1)
 		self.assertTrue(get('t4').missed())
 		self.assertEqual(get('t4').missed(), 1)
 

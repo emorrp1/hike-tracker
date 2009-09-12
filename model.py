@@ -184,7 +184,7 @@ class Team(Entity):
 			return None
 
 	def missed(self):
-		if self.route:
+		if self.route and self.finished():
 			count = 0
 			for base in self.route.bases:
 				if not self.visited(base):
