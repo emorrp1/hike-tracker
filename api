@@ -4,6 +4,7 @@ tracker.py:def set_distances(config):
 tracker.py:def all(type):
 tracker.py:def get(tname):
 tracker.py:def get_all(type=None):
+tracker.py:def base_report(base, filename=None):
 convert.py:def save(config):
 convert.py:def load(hike):
 convert.py:		def auto(route, prefix, first, last, interval=None, offset=0):
@@ -24,7 +25,7 @@ model.py:	def visited(self, base):
 model.py:	def last_visited(self):
 model.py:	def on_route(self):
 model.py:	def finished(self):
-model.py:	def completed(self):
+model.py:	def missed(self):
 model.py:	def traversed(self):
 model.py:	def timings(self):
 model.py:	def speed(self):
