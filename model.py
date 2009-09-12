@@ -289,27 +289,6 @@ class Distance(Entity):
 		if other is None: return 2
 		return cmp(self.distance, other.distance)
 
-def _get(cls, name):
-	if isinstance(name, cls) or not name: return name
-	else: return cls.get_by(name=name)
-def _repr(self):
-	return '<%s %s>' % (self.__class__.__name__, self.name)
-def _cmp(self, other):
-	if other is None: return 2
-	return cmp(self.name, other.name)
-Entity.get = classmethod(_get)
-Entity.__repr__ = _repr
-Entity.__cmp__ = _cmp
-
-def mkdt(time, date=None):
-	if not date:
-		date = conf().start.date()
-	elif isinstance(date, (str, unicode)):
-		date = datetime.strptime(date,'%y%m%d').date()
-	if isinstance(time, (str, unicode)):
-		time = datetime.strptime(time,'%H:%M').time()
-	return datetime.combine(date, time)
-
 class Config(Entity):
 	'''The hike configuration details'''
 	name  = 'global'
@@ -327,3 +306,24 @@ def conf():
 				'wfact': 1.3,
 				'figs' : 6 }
 		return Config(**defaults)
+
+def mkdt(time, date=None):
+	if not date:
+		date = conf().start.date()
+	elif isinstance(date, (str, unicode)):
+		date = datetime.strptime(date,'%y%m%d').date()
+	if isinstance(time, (str, unicode)):
+		time = datetime.strptime(time,'%H:%M').time()
+	return datetime.combine(date, time)
+
+def _get(cls, name):
+	if isinstance(name, cls) or not name: return name
+	else: return cls.get_by(name=name)
+def _repr(self):
+	return '<%s %s>' % (self.__class__.__name__, self.name)
+def _cmp(self, other):
+	if other is None: return 2
+	return cmp(self.name, other.name)
+Entity.get = classmethod(_get)
+Entity.__repr__ = _repr
+Entity.__cmp__ = _cmp
