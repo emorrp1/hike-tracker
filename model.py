@@ -316,7 +316,14 @@ class Config(Entity):
 	start = Field(DateTime)
 	wfact = Field(Float)
 	figs  = Field(Integer)
-	default = {
-			'start': mkdt('08:00', datetime.today().date()),
-			'wfact': 1.3,
-			'figs' : 6 }
+
+	def __init__(self):
+		c = self.get('global')
+		if c:
+			return c
+		else:
+			defaults = {
+					'start': mkdt('08:00', datetime.today().date()),
+					'wfact': 1.3,
+					'figs' : 6 }
+			Entity.__init__(self, **defaults)
