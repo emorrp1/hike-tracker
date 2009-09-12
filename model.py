@@ -1,6 +1,9 @@
 from elixir import *
 from datetime import datetime, timedelta
 
+VERSION = "0.8.2"
+__version__ = VERSION
+
 class Base(Entity):
 	'''The database representation of a manned base'''
 	name = Field(Text)
@@ -295,6 +298,7 @@ class Config(Entity):
 	start = Field(DateTime)
 	wfact = Field(Float)
 	figs  = Field(Integer)
+	ver   = Field(Text)
 
 def conf():
 	c = Config.query.first()
@@ -304,7 +308,8 @@ def conf():
 		defaults = {
 				'start': mkdt('08:00', datetime.today().date()),
 				'wfact': 1.3,
-				'figs' : 6 }
+				'figs' : 6,
+				'ver'  : __version__ }
 		return Config(**defaults)
 
 def mkdt(time, date=None):
