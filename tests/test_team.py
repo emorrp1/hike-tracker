@@ -19,13 +19,13 @@ class TestTeam(unittest.TestCase):
 	def testT1Finishing(self):
 		self.assertFalse(get('t1').visited('3'))
 		model.Report('3', '1', '13:00')
-		self.assertTrue(get('t1').completed())
+		self.assertFalse(get('t1').missed())
 		self.assertTrue(get('b3').done())
 
 	def testT4Finishing(self):
 		self.assertFalse(get('t4').visited('1'))
 		model.Report('1', '4', '13:00')
-		self.assertTrue(get('t4').completed())
+		self.assertFalse(get('t4').missed())
 		self.assertTrue(get('b1').done())
 
 	def testOnRoute(self):
