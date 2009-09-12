@@ -1,3 +1,11 @@
+hike-tracker (0.8.2) jaunty; urgency=low
+
+  * added free field of text to Report for comments
+  * repurposed Team.completed to number of bases missed
+  * abstracted Base._report out of model
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Sat, 12 Sep 2009 11:20:16 +0100
+
 hike-tracker (0.8.1) jaunty; urgency=low
 
   * separating conf to sqlite into conversion script
