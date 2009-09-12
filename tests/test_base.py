@@ -30,7 +30,7 @@ class TestBase(unittest.TestCase):
 		b0 = get('b0')
 		b1 = get('b1')
 		b75 = model.Base('75', '072056')
-		model.Config['wfact'] = 1
+		model.conf().wfact = 1
 		self.assertEqual(b0.distance(b1), 10)
 		self.assertEqual(b0.distance(b1), b1.distance(b0))
 		self.assertEqual(b0.distance(get('b3')), 14)
@@ -54,9 +54,9 @@ class TestBase(unittest.TestCase):
 	def testWiggleFactor(self):
 		wf1 = 1.5
 		wf2 = 3.0
-		model.Config['wfact'] = wf1
+		model.conf().wfact = wf1
 		d1 = get('b0').distance(get('b1'))
-		model.Config['wfact'] = wf2
+		model.conf().wfact = wf2
 		d2 = get('b0').distance(get('b1'))
 		self.assertEqual(float(d2)/d1, wf2/wf1)
 
