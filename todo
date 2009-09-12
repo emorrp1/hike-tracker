@@ -1,5 +1,4 @@
 use height gain measurement in timings calculations
-level of award (completed return #of bases missed)
 store version no. as Config for easy update script
 team table of statistics
 convert config from vertical table to horizontal table
