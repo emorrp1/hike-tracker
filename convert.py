@@ -41,7 +41,7 @@ def load(hike):
 	config = ConfigObj(hike)
 	if 'config' in config:
 		c = config['config']
-		conf = model.Config()
+		conf = model.conf()
 		if 'start' in c:
 			start = c['start']
 			conf.start = model.mkdt(start[-5:], start[:-5])

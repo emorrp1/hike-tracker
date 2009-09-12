@@ -10,13 +10,13 @@ class Base(Entity):
 	routes = ManyToMany('Route')
 
 	def __init__(self, name, ref):
-		f = Config().figs//2
+		f = conf().figs//2
 		e = int(ref[:f])
 		n = int(ref[-f:])
 		Entity.__init__(self, name=name, e=e, n=n)
 
 	def ref(self):
-		f = Config().figs//2
+		f = conf().figs//2
 		e = str(self.e).rjust(f,'0')
 		n = str(self.n).rjust(f,'0')
 		return e + n
@@ -72,7 +72,7 @@ class Base(Entity):
 			ediff = normalise(self.e - other.e)
 			ndiff = normalise(self.n - other.n)
 			hyp2 = ediff**2 + ndiff**2
-			return int(sqrt(hyp2)*Config().wfact)
+			return int(sqrt(hyp2)*conf().wfact)
 
 	def distance_along(self, route, other=None):
 		route = Route.get(route)
@@ -130,7 +130,7 @@ class Team(Entity):
 		if start:
 			self.start = mkdt(start)
 		else:
-			self.start = Config().start
+			self.start = conf().start
 		if route:
 			route = Route.get(route)
 			self.route = route
@@ -303,7 +303,7 @@ Entity.__cmp__ = _cmp
 
 def mkdt(time, date=None):
 	if not date:
-		date = Config().start.date()
+		date = conf().start.date()
 	elif isinstance(date, (str, unicode)):
 		date = datetime.strptime(date,'%y%m%d').date()
 	if isinstance(time, (str, unicode)):
@@ -317,13 +317,13 @@ class Config(Entity):
 	wfact = Field(Float)
 	figs  = Field(Integer)
 
-	def __init__(self):
-		c = self.get('global')
-		if c:
-			return c
-		else:
-			defaults = {
-					'start': mkdt('08:00', datetime.today().date()),
-					'wfact': 1.3,
-					'figs' : 6 }
-			Entity.__init__(self, **defaults)
+def conf():
+	c = Config.query.first()
+	if c:
+		return c
+	else:
+		defaults = {
+				'start': mkdt('08:00', datetime.today().date()),
+				'wfact': 1.3,
+				'figs' : 6 }
+		return Config(**defaults)
