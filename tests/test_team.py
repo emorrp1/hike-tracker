@@ -9,11 +9,12 @@ class TestTeam(unittest.TestCase):
 	def tearDown(self):
 		elixir.session.close()
 
-	def testCompleted(self):
-		self.assertFalse(get('t1').completed())
-		self.assertTrue(get('t2').completed())
-		self.assertTrue(get('t3').completed())
-		self.assertFalse(get('t4').completed())
+	def testMissed(self):
+		self.assertTrue(get('t1').missed())
+		self.assertFalse(get('t2').missed())
+		self.assertFalse(get('t3').missed())
+		self.assertTrue(get('t4').missed())
+		self.assertEqual(get('t4').missed(), 1)
 
 	def testT1Finishing(self):
 		self.assertFalse(get('t1').visited('3'))
