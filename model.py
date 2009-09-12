@@ -10,13 +10,13 @@ class Base(Entity):
 	routes = ManyToMany('Route')
 
 	def __init__(self, name, ref):
-		f = Config['figs']
+		f = Config['figs']//2
 		e = int(ref[:f])
 		n = int(ref[-f:])
 		Entity.__init__(self, name=name, e=e, n=n)
 
 	def ref(self):
-		f = Config['figs']
+		f = Config['figs']//2
 		e = str(self.e).rjust(f,'0')
 		n = str(self.n).rjust(f,'0')
 		return e + n
@@ -315,15 +315,15 @@ class Config(Entity):
 	value = Field(Text)
 	to_v = {'start': lambda s: s.strftime('%y%m%d%H:%M'),
 			'wfact': lambda w: str(w),
-			'figs' : lambda f: str(f*2) }
+			'figs' : lambda f: str(f) }
 	from_v = {
 			'start': lambda s: mkdt(s[-5:], s[:-5]),
 			'wfact': lambda w: float(w),
-			'figs' : lambda f: int(f)//2 }
+			'figs' : lambda f: int(f) }
 	default = {
 			'start': mkdt('08:00', datetime.today().date()),
 			'wfact': 1.3,
-			'figs' : 3 }
+			'figs' : 6 }
 
 	@classmethod
 	def __getitem__(cls, key):
