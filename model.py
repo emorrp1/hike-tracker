@@ -311,52 +311,11 @@ def mkdt(time, date=None):
 	return datetime.combine(date, time)
 
 class Config(Entity):
-	key = Field(Text)
-	value = Field(Text)
-	to_v = {'start': lambda s: s.strftime('%y%m%d%H:%M'),
-			'wfact': lambda w: str(w),
-			'figs' : lambda f: str(f) }
-	from_v = {
-			'start': lambda s: mkdt(s[-5:], s[:-5]),
-			'wfact': lambda w: float(w),
-			'figs' : lambda f: int(f) }
+	'''The hike configuration details'''
+	start = Field(DateTime)
+	wfact = Field(Float)
+	figs  = Field(Integer)
 	default = {
 			'start': mkdt('08:00', datetime.today().date()),
 			'wfact': 1.3,
 			'figs' : 6 }
-
-	@classmethod
-	def __getitem__(cls, key):
-		if key in cls.default:
-			i = cls.get_by(key=key)
-			if i: return cls.from_v[key](i.value)
-			else: return cls.default[key]
-		else:
-			raise KeyError(key)
-
-	@classmethod
-	def __setitem__(cls, key, value=None):
-		if key in cls.default:
-			if not value:
-				value = cls.default[key]
-			val = cls.to_v[key](value)
-			i = cls.get_by(key=key)
-			if i: i.value = val
-			else: cls(key=key, value=val)
-		else:
-			raise KeyError(key)
-
-def _getitem(cls, key):
-	if cls is not Config:
-		meta = cls.__metaclass__.__name__
-		raise TypeError("'%s' object is unsubscriptable" % meta)
-	else:
-		return cls.__getitem__(key)
-def _setitem(cls, key, value):
-	if cls is not Config:
-		meta = cls.__metaclass__.__name__
-		raise TypeError("'%s' object does not support item assignment" % meta)
-	else:
-		return cls.__setitem__(key, value)
-EntityMeta.__getitem__ = _getitem
-EntityMeta.__setitem__ = _setitem
