@@ -60,3 +60,20 @@ def get_all(type=None):
 	else:
 		for t in types:
 			get_all(t)
+
+def base_report(base, filename=None):
+	if filename:
+		f = open(filename)
+	else:
+		from sys import stdin
+		f = stdin
+	for line in f.readlines():
+		kwargs = {}
+		args = [base]
+		for arg in line.split():
+			if '=' in arg:
+				k,v = arg.split('=')
+				kwargs[k] = v
+			else:
+				args += [arg]
+		model.Report(*args, **kwargs)

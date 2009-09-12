@@ -21,23 +21,6 @@ class Base(Entity):
 		n = str(self.n).rjust(f,'0')
 		return e + n
 
-	def _report(self, filename=None):
-		if filename:
-			f = open(filename)
-		else:
-			from sys import stdin
-			f = stdin
-		for line in f.readlines():
-			kwargs = {}
-			args = [self]
-			for arg in line.split():
-				if '=' in arg:
-					k,v = arg.split('=')
-					kwargs[k] = v
-				else:
-					args += [arg]
-			Report(*args, **kwargs)
-
 	def done(self):
 		for route in self.routes:
 			for team in route.teams:
