@@ -1,5 +1,5 @@
-understands the concepts of Bases, Routes (a simple series of Bases), Teams and (Base) Reports
-determines whether a Team has been through a given Base, and hence if every Team on applicable Routes has gone through a given Base (ready to pack up), or if a given Team has been through every Base on its Route (i.e. completed) or even a simple timeline of a Team's movement
+understands the concepts of Bases, Routes (a simple series of Bases), Teams and (Base) Reports (which includes a notes section)
+determines whether a Team has been through a given Base, and hence if every Team on applicable Routes has gone through a given Base (ready to pack up), the number of bases a Team has missed on its Route (and hence whether they've completed the entire Route) or even a simple timeline of a Team's movement
 calculates the distance between two Bases, either direct or along the length of a given Route, using either given distances or displacement based on grid references (to any specified accuracy) and a configurable "wiggle factor"; gives the total length of a Route
 determines whether a Team has finished (arrived at final Base) or gone off Route (last known location not on Route) or give its last known location
 gives a Team's statistics including walked distance, walking time, waiting at a Base time and average walking speed
