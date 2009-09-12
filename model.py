@@ -275,7 +275,9 @@ class Report(Entity):
 		self.base = base
 
 	def __repr__(self):
-		return '<%s Report: %s arrived %s departed %s>' % (self.base, self.team, self.arr.time(), self.dep.time())
+		if self.note: NOTE = ' - %s' % self.note
+		else: NOTE = ''
+		return '<%s Report: %s arrived %s departed %s%s>' % (self.base, self.team, self.arr.time(), self.dep.time(), NOTE)
 
 	def __cmp__(self, other):
 		if other is None: return 2
