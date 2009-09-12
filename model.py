@@ -258,10 +258,11 @@ class Report(Entity):
 	'''The database representation of a team's arr/dep times at a base'''
 	arr = Field(DateTime)
 	dep = Field(DateTime)
+	note = Field(Text)
 	base = ManyToOne('Base')
 	team = ManyToOne('Team')
 
-	def __init__(self, base, team, arr, dep=None, date=None):
+	def __init__(self, base, team, arr, dep=None, date=None, note=None):
 		base = Base.get(base)
 		team = Team.get(team)
 		arr = mkdt(arr, date)
@@ -269,7 +270,7 @@ class Report(Entity):
 			dep = mkdt(dep, date)
 		else:
 			dep = arr
-		Entity.__init__(self, arr=arr, dep=dep)
+		Entity.__init__(self, arr=arr, dep=dep, note=note)
 		self.team = team
 		self.base = base
 
