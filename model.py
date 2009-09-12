@@ -166,13 +166,15 @@ class Team(Entity):
 		else:
 			return None
 
-	def completed(self):
-		if self.route:
+	def missed(self):
+		if self.route and self.finished():
+			count = 0
 			for base in self.route.bases:
 				if not self.visited(base):
-					return False
-			return True
-		return None
+					count += 1
+			return count
+		else:
+			return -1
 
 	def traversed(self):
 		sum = 0

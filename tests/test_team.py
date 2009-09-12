@@ -9,22 +9,25 @@ class TestTeam(unittest.TestCase):
 	def tearDown(self):
 		elixir.session.close()
 
-	def testCompleted(self):
-		self.assertFalse(get('t1').completed())
-		self.assertTrue(get('t2').completed())
-		self.assertTrue(get('t3').completed())
-		self.assertFalse(get('t4').completed())
+	def testMissed(self):
+		self.assertTrue(get('t1').missed())
+		self.assertFalse(get('t2').missed())
+		self.assertEqual(get('t3').missed(), -1)
+		self.assertTrue(get('t4').missed())
+		self.assertEqual(get('t4').missed(), 1)
 
 	def testT1Finishing(self):
 		self.assertFalse(get('t1').visited('3'))
 		model.Report('3', '1', '13:00')
-		self.assertTrue(get('t1').completed())
+		self.assertFalse(get('t1').missed())
 		self.assertTrue(get('b3').done())
 
 	def testT4Finishing(self):
-		self.assertFalse(get('t4').visited('1'))
-		model.Report('1', '4', '13:00')
-		self.assertTrue(get('t4').completed())
+		t = get('t4')
+		self.assertFalse(t.visited('1'))
+		model.Report('1', t, '13:00')
+		model.Report('2', t, '13:10')
+		self.assertFalse(t.missed())
 		self.assertTrue(get('b1').done())
 
 	def testOnRoute(self):
