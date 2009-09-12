@@ -60,17 +60,6 @@ class TestBase(unittest.TestCase):
 		d2 = get('b0').distance(get('b1'))
 		self.assertEqual(float(d2)/d1, wf2/wf1)
 
-	def testReport(self):
-		from datetime import timedelta
-		b0 = get('b0')
-		b0._report('tests/b0.report')
-		b0.reports.sort(reverse=True)
-		r = b0.reports
-		self.assertEqual(r[0].stoppage(), timedelta(0,15*60))
-		self.assertEqual(r[1].team, get('t4'))
-		self.assertEqual(r[2].arr, model.mkdt('12:55'))
-		self.assertEqual(r[3].base, b0)
-
 	def testActiveUnknowns(self):
 		self.assertFalse(get('b0').active()['unknown'])
 		self.assertTrue(get('t4') in get('b1').active()['unknown'])

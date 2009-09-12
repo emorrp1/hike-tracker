@@ -68,6 +68,17 @@ class TestTracker(unittest.TestCase):
 		g.close()
 		remove(tmpfile)
 
+	def testBaseReport(self):
+		from datetime import timedelta
+		b0 = get('b0')
+		base_report(b0, 'tests/b0.report')
+		b0.reports.sort(reverse=True)
+		r = b0.reports
+		self.assertEqual(r[0].stoppage(), timedelta(0,15*60))
+		self.assertEqual(r[1].team, get('t4'))
+		self.assertEqual(r[2].arr, model.mkdt('12:55'))
+		self.assertEqual(r[3].base, b0)
+
 def suite():
 	tracker_suite = unittest.TestLoader().loadTestsFromTestCase(TestTracker)
 	base_suite = test_base.suite()
