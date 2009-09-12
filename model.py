@@ -312,6 +312,7 @@ def mkdt(time, date=None):
 
 class Config(Entity):
 	'''The hike configuration details'''
+	name  = 'global'
 	start = Field(DateTime)
 	wfact = Field(Float)
 	figs  = Field(Integer)
