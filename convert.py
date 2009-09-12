@@ -6,8 +6,9 @@ from configobj import ConfigObj
 def save(config):
 	config = ConfigObj(config)
 	config['config'] = {}
-	for k in model.Config.default:
-		config['config'][k] = model.Config.to_v[k](model.Config[k])
+	config['config']['wfact'] = model.conf().wfact
+	config['config']['start'] = model.conf().start.strftime('%y%m%d%H:%M')
+	config['config']['figs']  = model.conf().figs
 	bs = model.Base.query.all()
 	if bs:
 		config['bases'] = {}
