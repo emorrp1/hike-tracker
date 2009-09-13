@@ -71,6 +71,13 @@ class TestTracker(unittest.TestCase):
 		g.close()
 		remove(tmpfile)
 
+	def testLoadAuto(self):
+		from os import remove
+		elixir.session.close()
+		try:     start('tests/test_auto')
+		except:  self.fail()
+		finally: remove('tests/test_auto.hike')
+
 	def testBaseReport(self):
 		from datetime import timedelta
 		b0 = get('b0')
