@@ -100,5 +100,5 @@ if __name__ == '__main__':
 	start('tests/test')
 	exec(open('tests/test.reports').read())
 	unittest.TextTestRunner().run(suite())
-	from os import system
-	system('rm tests/test.hike')
+	from os import remove
+	remove('tests/test.hike')

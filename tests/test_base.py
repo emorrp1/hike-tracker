@@ -82,8 +82,8 @@ class TestBase(unittest.TestCase):
 		self.assertEqual(t['open'], exp_open)
 		self.assertEqual(t['close'], exp_close)
 		self.assertFalse(t['unknown'])
-		from os import system
-		system('rm tests/temp.*')
+		from os import remove
+		remove('tests/temp.hike')
 
 	def testRef(self):
 		self.assertEqual(get('b0').ref(), '000000')
@@ -97,5 +97,5 @@ if __name__ == '__main__':
 	start('tests/test')
 	exec(open('tests/test.reports').read())
 	unittest.TextTestRunner().run(suite())
-	from os import system
-	system('rm tests/test.hike')
+	from os import remove
+	remove('tests/test.hike')
