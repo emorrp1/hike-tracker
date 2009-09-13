@@ -17,24 +17,6 @@ def start(hike='custom'):
 def save():
 	elixir.session.commit()
 
-def set_distances(config):
-	'''Set the distances between bases'''
-	if 'routes' in config:
-		for r in config['routes']:
-			ds = config['routes'][r]
-			route = model.Route.get(r)
-			for i in range(len(ds)):
-				d = ds[i]
-				base,next = route.bases[i:i+2]
-				base._set_distance(next, d)
-		del config['routes']
-	for b1 in config:
-		base = model.Base.get(b1)
-		for b2d in config[b1]:
-			b2,d = b2d.split(':')
-			other = model.Base.get(b2)
-			base._set_distance(other, d)
-
 def all(type):
 	'''Shortcut to a list of specified hike objects'''
 	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
