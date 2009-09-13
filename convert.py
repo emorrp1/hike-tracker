@@ -64,7 +64,7 @@ def load(hike):
 				interval = 5
 			interval = timedelta(minutes=int(interval))
 			offset = timedelta(minutes=int(offset))
-			st = model.config['start'] + offset - int(first)*interval
+			st = model.Config['start'] + offset - int(first)*interval
 			for i in range(int(first),int(last)+1):
 				start = st + i*interval
 				name = prefix + str(i).rjust(2,'0')
