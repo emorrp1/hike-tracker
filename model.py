@@ -60,7 +60,7 @@ class Base(Entity):
 	def distance(self, other):
 		other = Base.get(other)
 		d = DistGain.get_by(start=self, end=other)
-		if d:
+		if d and d.dist:
 			return d.dist
 		else:
 			from math import sqrt
