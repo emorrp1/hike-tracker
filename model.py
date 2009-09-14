@@ -288,10 +288,13 @@ class DistGain(Entity):
 		else: return cmp(self.gain, other.gain)
 
 	@classmethod
-	def set_dist(cls, start, end, dist):
+	def set_dist(cls, start, end, dist=None, gain=None):
 		d = cls.get_by(start=start, end=end)
-		if d: d.dist = int(dist)
-		else: cls(start, end, dist)
+		if d:
+			# using None to allow for setting to 0
+			if dist is not None: d.dist = int(dist)
+			if gain is not None: d.gain = int(gain)
+		else: cls(start, end, dist, gain)
 
 	@classmethod
 	def set(cls, start, end, dist):
