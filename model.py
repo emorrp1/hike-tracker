@@ -273,7 +273,9 @@ class DistGain(Entity):
 	dist = Field(Integer)
 	gain = Field(Integer)
 
-	def __init__(self, start, end, dist=0, gain=0):
+	def __init__(self, start, end, dist=None, gain=None):
+		if not dist: dist=0
+		if not gain: gain=0
 		Entity.__init__(self, dist=int(dist), gain=int(gain))
 		self.start = Base.get(start)
 		self.end = Base.get(end)
