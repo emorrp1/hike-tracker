@@ -59,7 +59,7 @@ class Base(Entity):
 
 	def distance(self, other):
 		other = Base.get(other)
-		d = Distance.get_by(start=self, end=other)
+		d = DistGain.get_by(start=self, end=other)
 		if d:
 			return d.dist
 		else:
@@ -88,9 +88,9 @@ class Base(Entity):
 
 	def _set_distance(self, other, d):
 		def set(start, end, dist):
-			d = Distance.get_by(start=start, end=end)
+			d = DistGain.get_by(start=start, end=end)
 			if d: d.dist = dist
-			else: Distance(start, end, dist)
+			else: DistGain(start, end, dist)
 		set(self, other, d)
 		set(other, self, d)
 
@@ -271,7 +271,7 @@ class Report(Entity):
 	def stoppage(self):
 		return self.dep - self.arr
 
-class Distance(Entity):
+class DistGain(Entity):
 	'''Records the distance and height gain between two bases'''
 	start = ManyToOne('Base')
 	end = ManyToOne('Base')
