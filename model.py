@@ -272,22 +272,25 @@ class Report(Entity):
 		return self.dep - self.arr
 
 class Distance(Entity):
-	'''Records the distances between two bases'''
+	'''Records the distance and height gain between two bases'''
 	start = ManyToOne('Base')
 	end = ManyToOne('Base')
 	dist = Field(Integer)
+	gain = Field(Integer)
 
-	def __init__(self, start, end, dist=0):
-		Entity.__init__(self, dist=int(dist))
+	def __init__(self, start, end, dist=0, gain=-1):
+		Entity.__init__(self, dist=int(dist), gain=int(gain))
 		self.start = Base.get(start)
 		self.end = Base.get(end)
 
 	def __repr__(self):
-		return '<Distance from %s to %s is %d>' % (self.start, self.end, self.dist)
+		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
 
 	def __cmp__(self, other):
 		if other is None: return 2
-		return cmp(self.dist, other.dist)
+		c = cmp(self.dist, other.dist)
+		if c: return c
+		else: return cmp(self.gain, other.gain)
 
 def _get(cls, name):
 	if isinstance(name, cls) or not name: return name
