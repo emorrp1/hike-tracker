@@ -61,7 +61,7 @@ class Base(Entity):
 		other = Base.get(other)
 		d = Distance.get_by(start=self, end=other)
 		if d:
-			return d.distance
+			return d.dist
 		else:
 			from math import sqrt
 			def normalise(diff, rollover=1000):
@@ -87,10 +87,10 @@ class Base(Entity):
 		return sum
 
 	def _set_distance(self, other, d):
-		def set(start, end, distance):
+		def set(start, end, dist):
 			d = Distance.get_by(start=start, end=end)
-			if d: d.distance = distance
-			else: Distance(start, end, distance)
+			if d: d.dist = dist
+			else: Distance(start, end, dist)
 		set(self, other, d)
 		set(other, self, d)
 
@@ -275,19 +275,19 @@ class Distance(Entity):
 	'''Records the distances between two bases'''
 	start = ManyToOne('Base')
 	end = ManyToOne('Base')
-	distance = Field(Integer)
+	dist = Field(Integer)
 
 	def __init__(self, start, end, dist=0):
-		Entity.__init__(self, distance=int(dist))
+		Entity.__init__(self, dist=int(dist))
 		self.start = Base.get(start)
 		self.end = Base.get(end)
 
 	def __repr__(self):
-		return '<Distance from %s to %s is %d>' % (self.start, self.end, self.distance)
+		return '<Distance from %s to %s is %d>' % (self.start, self.end, self.dist)
 
 	def __cmp__(self, other):
 		if other is None: return 2
-		return cmp(self.distance, other.distance)
+		return cmp(self.dist, other.dist)
 
 def _get(cls, name):
 	if isinstance(name, cls) or not name: return name
