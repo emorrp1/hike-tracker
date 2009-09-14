@@ -299,8 +299,8 @@ class DistGain(Entity):
 		else: cls(start, end, dist, gain)
 
 	@classmethod
-	def set(cls, start, end, dist):
-		cls.set_dist(start, end, dist)
+	def set(cls, start, end, dist=None, gain=None):
+		cls.set_dist(start, end, dist, gain)
 		cls.set_dist(end, start, dist)
 
 def _get(cls, name):
