@@ -19,7 +19,7 @@ def save(config):
 			if ds.count():
 				config['distances'][b.name] = []
 				for d in ds:
-					item = '%s:%d' % (d.end.name, d.distance)
+					item = '%s:%d' % (d.end.name, d.dist)
 					config['distances'][b.name].append(item)
 		rs = model.Route.query.all()
 		if rs:
