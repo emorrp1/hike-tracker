@@ -17,6 +17,7 @@ class TestTracker(unittest.TestCase):
 
 	def testSetDistances(self):
 		from configobj import ConfigObj
+		from convert import set_distances
 		c = ConfigObj({'0':['1:56','2:37'], '1':['3:45']})
 		set_distances(c)
 		b0 = get('b0')
@@ -30,6 +31,7 @@ class TestTracker(unittest.TestCase):
 
 	def testSetDistancesOverwrite(self):
 		from configobj import ConfigObj
+		from convert import set_distances
 		c = ConfigObj({'0':['1:56','2:37','1:23'], '2':['0:45']})
 		set_distances(c)
 		b0 = get('b0')
@@ -41,6 +43,7 @@ class TestTracker(unittest.TestCase):
 
 	def testSetDistancesByRoute(self):
 		from configobj import ConfigObj
+		from convert import set_distances
 		c = ConfigObj({'0':['3:27', '1:45'],'routes':{'2':['23'], '1':['32','54','14']}})
 		set_distances(c)
 		b0 = get('b0')
@@ -68,6 +71,13 @@ class TestTracker(unittest.TestCase):
 		g.close()
 		remove(tmpfile)
 
+	def testLoadAuto(self):
+		from os import remove
+		elixir.session.close()
+		try:     start('tests/test_auto')
+		except:  self.fail()
+		finally: remove('tests/test_auto.hike')
+
 	def testBaseReport(self):
 		from datetime import timedelta
 		b0 = get('b0')
@@ -90,5 +100,5 @@ if __name__ == '__main__':
 	start('tests/test')
 	exec(open('tests/test.reports').read())
 	unittest.TextTestRunner().run(suite())
-	from os import system
-	system('rm tests/test.hike')
+	from os import remove
+	remove('tests/test.hike')
