@@ -277,8 +277,8 @@ class DistGain(Entity):
 		if not dist: dist=0
 		if not gain: gain=0
 		Entity.__init__(self, dist=int(dist), gain=int(gain))
-		self.start = Base.get(start)
-		self.end = Base.get(end)
+		self.start = start
+		self.end = end
 
 	def __repr__(self):
 		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
@@ -299,6 +299,8 @@ class DistGain(Entity):
 
 	@classmethod
 	def set(cls, start, end, dist=None, gain=None):
+		start = Base.get(start)
+		end = Base.get(end)
 		cls._set(start, end, dist, gain)
 		cls._set(end, start, dist)
 
