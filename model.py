@@ -59,7 +59,7 @@ class Base(Entity):
 
 	def distance(self, other):
 		other = Base.get(other)
-		d = DistGain.get_by(start=self, end=other)
+		d = DistGain.get(self, other)
 		if d and d.dist:
 			return d.dist
 		else:
@@ -297,7 +297,7 @@ class DistGain(Entity):
 
 	@classmethod
 	def _set(cls, start, end, dist=None, gain=None):
-		d = cls.get_by(start=start, end=end)
+		d = cls.get(start, end)
 		if d:
 			if dist is not None: d.dist = int(dist)
 			if gain is not None: d.gain = int(gain)
