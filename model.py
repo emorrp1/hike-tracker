@@ -190,13 +190,15 @@ class Team(Entity):
 			return -1
 
 	def traversed(self):
-		sum = 0
+		dist = 0
+		gain = 0
 		self.reports.sort()
 		for i in range(len(self.reports)-1):
 			base = self.reports[i].base
 			next = self.reports[i+1].base
-			sum += base.distance(next)
-		return sum
+			dist += base.distance(next)
+			gain += base.gain(next)
+		return {'dist':dist, 'gain':gain}
 
 	def timings(self):
 		if self.started():
