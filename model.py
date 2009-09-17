@@ -62,9 +62,9 @@ class Base(Entity):
 
 	def distance(self, other):
 		other = Base.get(other)
-		d = Distance.get_by(start=self, end=other)
-		if d:
-			return d.distance
+		d = DistGain.get_by(start=self, end=other)
+		if d and d.dist:
+			return d.dist
 		else:
 			from math import sqrt
 			def normalise(diff, rollover=1000):
@@ -90,12 +90,7 @@ class Base(Entity):
 		return sum
 
 	def _set_distance(self, other, d):
-		def set(start, end, distance):
-			d = Distance.get_by(start=start, end=end)
-			if d: d.distance = distance
-			else: Distance(start, end, distance)
-		set(self, other, d)
-		set(other, self, d)
+		DistGain.set(self, other, d)
 
 class Route(Entity):
 	'''The database representation of a series of bases teams have to pass through'''
@@ -274,23 +269,43 @@ class Report(Entity):
 	def stoppage(self):
 		return self.dep - self.arr
 
-class Distance(Entity):
-	'''Records the distances between two bases'''
+class DistGain(Entity):
+	'''Records the distance and height gain between two bases'''
 	start = ManyToOne('Base')
 	end = ManyToOne('Base')
-	distance = Field(Integer)
+	dist = Field(Integer)
+	gain = Field(Integer)
 
-	def __init__(self, start, end, dist=0):
-		Entity.__init__(self, distance=int(dist))
-		self.start = Base.get(start)
-		self.end = Base.get(end)
+	def __init__(self, start, end, dist=None, gain=None):
+		if not dist: dist=0
+		if not gain: gain=0
+		Entity.__init__(self, dist=int(dist), gain=int(gain))
+		self.start = start
+		self.end = end
 
 	def __repr__(self):
-		return '<Distance from %s to %s is %d>' % (self.start, self.end, self.distance)
+		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
 
 	def __cmp__(self, other):
 		if other is None: return 2
-		return cmp(self.distance, other.distance)
+		c = cmp(self.dist, other.dist)
+		if c: return c
+		else: return cmp(self.gain, other.gain)
+
+	@classmethod
+	def _set(cls, start, end, dist=None, gain=None):
+		d = cls.get_by(start=start, end=end)
+		if d:
+			if dist is not None: d.dist = int(dist)
+			if gain is not None: d.gain = int(gain)
+		else: cls(start, end, dist, gain)
+
+	@classmethod
+	def set(cls, start, end, dist=None, gain=None):
+		start = Base.get(start)
+		end = Base.get(end)
+		cls._set(start, end, dist, gain)
+		cls._set(end, start, dist)
 
 class Config(Entity):
 	'''The hike configuration details'''
