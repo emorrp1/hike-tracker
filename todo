@@ -1,7 +1,5 @@
 use height gain measurement in timings calculations
-store version no. as Config for easy update script
 team table of statistics
-convert config from vertical table to horizontal table
 
 maps:
 estimated current locations
