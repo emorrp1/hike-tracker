@@ -58,7 +58,6 @@ class Base(Entity):
 			return route.bases[n+1]
 
 	def distance(self, other):
-		other = Base.get(other)
 		d = DistGain.get(self, other)
 		if d and d.dist:
 			return d.dist
@@ -69,6 +68,7 @@ class Base(Entity):
 				if diff > rollover//2:
 					diff = rollover - diff
 				return diff
+			other = Base.get(other)
 			ediff = normalise(self.e - other.e)
 			ndiff = normalise(self.n - other.n)
 			hyp2 = ediff**2 + ndiff**2
