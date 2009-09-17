@@ -42,13 +42,13 @@ class TestBase(unittest.TestCase):
 		b3 = get('b3')
 		d01 = b0.distance(b1)
 		d13 = b1.distance(b3)
-		along = b0.distance_along('1',b3)
+		along = b0.distgain_along('1',b3)['dist']
 		self.assertEqual(d01+d13, along)
 
 	def testDistAlongOther(self):
 		b0 = get('b0')
-		d1 = b0.distance_along('1')
-		d2 = b0.distance_along('1', get('b1'))
+		d1 = b0.distgain_along('1')['dist']
+		d2 = b0.distgain_along('1', get('b1'))['dist']
 		self.assertEqual(d1, d2)
 
 	def testWiggleFactor(self):

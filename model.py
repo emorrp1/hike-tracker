@@ -121,7 +121,7 @@ class Route(Entity):
 		return cmp(len(self), len(other))
 
 	def __len__(self):
-		return self.bases[0].distance_along(self, self.end())
+		return self.bases[0].distgain_along(self, self.end())['dist']
 
 	def end(self):
 		last = len(self.bases) - 1
@@ -230,7 +230,7 @@ class Team(Entity):
 			else:
 				last = self.route.bases[0]
 				dep = self.start
-			d = last.distance_along(self.route, base)
+			d = last.distgain_along(self.route, base)['dist']
 			if d:
 				t = ( d*60 ) // int(speed)
 				return dep + timedelta(minutes=t)
