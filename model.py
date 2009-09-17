@@ -75,6 +75,16 @@ class Base(Entity):
 			hyp2 = ediff**2 + ndiff**2
 			return int(sqrt(hyp2)*Config['wfact'])
 
+	def gain(self, other):
+		dg = DistGain.get(self, other)
+		if dg and dg.gain:
+			return dg.gain
+		else:
+			other = Base.get(other)
+			diff = other.h - self.h
+			if diff < 0: diff = 0
+			return diff
+
 	def distance_along(self, route, other=None):
 		route = Route.get(route)
 		other = Base.get(other)
