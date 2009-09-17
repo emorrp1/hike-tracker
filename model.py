@@ -9,14 +9,15 @@ class Base(Entity):
 	name = Field(Text)
 	e = Field(Integer)
 	n = Field(Integer)
+	h = Field(Integer)
 	reports = OneToMany('Report')
 	routes = ManyToMany('Route')
 
-	def __init__(self, name, ref):
+	def __init__(self, name, ref, height=0):
 		f = conf().figs//2
 		e = int(ref[:f])
 		n = int(ref[-f:])
-		Entity.__init__(self, name=name, e=e, n=n)
+		Entity.__init__(self, name=name, e=e, n=n, h=int(height))
 
 	def ref(self):
 		f = conf().figs//2
@@ -61,8 +62,7 @@ class Base(Entity):
 			return route.bases[n+1]
 
 	def distance(self, other):
-		other = Base.get(other)
-		d = DistGain.get_by(start=self, end=other)
+		d = DistGain.get(self, other)
 		if d and d.dist:
 			return d.dist
 		else:
@@ -73,22 +73,36 @@ class Base(Entity):
 				if diff > rollover//2:
 					diff = rollover - diff
 				return diff
+			other = Base.get(other)
 			ediff = normalise(self.e - other.e)
 			ndiff = normalise(self.n - other.n)
 			hyp2 = ediff**2 + ndiff**2
 			return int(sqrt(hyp2)*conf().wfact)
 
-	def distance_along(self, route, other=None):
+	def gain(self, other):
+		dg = DistGain.get(self, other)
+		if dg and dg.gain:
+			return dg.gain
+		else:
+			other = Base.get(other)
+			diff = other.h - self.h
+			if diff < 0: diff = 0
+			return diff
+
+	def distgain_along(self, route, other=None):
 		route = Route.get(route)
 		other = Base.get(other)
 		if not other:
 			other = self.next(route)
-		sum = 0
+		dist = 0
+		gain = 0
 		start = route.bases.index(self)
 		stop = route.bases.index(other)
 		for base in route.bases[start:stop]:
-			sum += base.distance(base.next(route))
-		return sum
+			next = base.next(route)
+			dist += base.distance(next)
+			gain += base.gain(next)
+		return {'dist':dist, 'gain':gain}
 
 	def _set_distance(self, other, d):
 		DistGain.set(self, other, d)
@@ -111,7 +125,7 @@ class Route(Entity):
 		return cmp(len(self), len(other))
 
 	def __len__(self):
-		return self.bases[0].distance_along(self, self.end())
+		return self.bases[0].distgain_along(self, self.end())['dist']
 
 	def end(self):
 		last = len(self.bases) - 1
@@ -220,7 +234,7 @@ class Team(Entity):
 			else:
 				last = self.route.bases[0]
 				dep = self.start
-			d = last.distance_along(self.route, base)
+			d = last.distgain_along(self.route, base)['dist']
 			if d:
 				t = ( d*60 ) // int(speed)
 				return dep + timedelta(minutes=t)
@@ -281,8 +295,8 @@ class DistGain(Entity):
 		if not dist: dist=0
 		if not gain: gain=0
 		Entity.__init__(self, dist=int(dist), gain=int(gain))
-		self.start = start
-		self.end = end
+		self.start = Base.get(start)
+		self.end = Base.get(end)
 
 	def __repr__(self):
 		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
@@ -294,8 +308,14 @@ class DistGain(Entity):
 		else: return cmp(self.gain, other.gain)
 
 	@classmethod
+	def get(cls, start, end):
+		start = Base.get(start)
+		end = Base.get(end)
+		return cls.get_by(start=start, end=end)
+
+	@classmethod
 	def _set(cls, start, end, dist=None, gain=None):
-		d = cls.get_by(start=start, end=end)
+		d = cls.get(start, end)
 		if d:
 			if dist is not None: d.dist = int(dist)
 			if gain is not None: d.gain = int(gain)
@@ -303,8 +323,6 @@ class DistGain(Entity):
 
 	@classmethod
 	def set(cls, start, end, dist=None, gain=None):
-		start = Base.get(start)
-		end = Base.get(end)
 		cls._set(start, end, dist, gain)
 		cls._set(end, start, dist)
 

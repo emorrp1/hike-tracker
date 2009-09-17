@@ -17,7 +17,7 @@ class TestRoute(unittest.TestCase):
 
 	def testLen(self):
 		r = get('r1')
-		length = r.bases[0].distance_along(r, r.end())
+		length = r.bases[0].distgain_along(r, r.end())['dist']
 		self.assertEqual(length, len(r))
 
 def suite():
