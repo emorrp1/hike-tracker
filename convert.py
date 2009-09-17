@@ -8,6 +8,7 @@ def save(config):
 	config['config'] = {}
 	config['config']['wfact'] = model.conf().wfact
 	config['config']['start'] = model.conf().start.strftime('%y%m%d%H:%M')
+	config['config']['naith'] = model.conf().naith
 	config['config']['figs']  = model.conf().figs
 	bs = model.Base.query.all()
 	if bs:
@@ -47,6 +48,7 @@ def load(hike):
 			start = c['start']
 			conf.start = model.mkdt(start[-5:], start[:-5])
 		if 'wfact' in c: conf.wfact = float(c['wfact'])
+		if 'naith' in c: conf.naith = float(c['naith'])
 		if 'figs'  in c: conf.figs  = int(c['figs'])
 	if 'bases' in config:
 		for b in config['bases']:

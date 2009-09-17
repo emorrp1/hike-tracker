@@ -333,6 +333,7 @@ class Config(Entity):
 	name  = 'global'
 	start = Field(DateTime)
 	wfact = Field(Float)
+	naith = Field(Float)
 	figs  = Field(Integer)
 	ver   = Field(Text)
 
@@ -344,6 +345,7 @@ def conf():
 		defaults = {
 				'start': mkdt('08:00', datetime.today().date()),
 				'wfact': 1.3,
+				'naith': 1.0,
 				'figs' : 6,
 				'ver'  : __version__ }
 		return Config(**defaults)
