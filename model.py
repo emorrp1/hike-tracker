@@ -85,17 +85,20 @@ class Base(Entity):
 			if diff < 0: diff = 0
 			return diff
 
-	def distance_along(self, route, other=None):
+	def distgain_along(self, route, other=None):
 		route = Route.get(route)
 		other = Base.get(other)
 		if not other:
 			other = self.next(route)
-		sum = 0
+		dist = 0
+		gain = 0
 		start = route.bases.index(self)
 		stop = route.bases.index(other)
 		for base in route.bases[start:stop]:
-			sum += base.distance(base.next(route))
-		return sum
+			next = base.next(route)
+			dist += base.distance(next)
+			gain += base.gain(next)
+		return {'dist':dist, 'gain':gain}
 
 	def _set_distance(self, other, d):
 		DistGain.set(self, other, d)
