@@ -6,14 +6,15 @@ class Base(Entity):
 	name = Field(Text)
 	e = Field(Integer)
 	n = Field(Integer)
+	h = Field(Integer)
 	reports = OneToMany('Report')
 	routes = ManyToMany('Route')
 
-	def __init__(self, name, ref):
+	def __init__(self, name, ref, height=0):
 		f = Config['figs']
 		e = int(ref[:f])
 		n = int(ref[-f:])
-		Entity.__init__(self, name=name, e=e, n=n)
+		Entity.__init__(self, name=name, e=e, n=n, h=int(height))
 
 	def ref(self):
 		f = Config['figs']
