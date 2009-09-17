@@ -87,7 +87,7 @@ class Base(Entity):
 			other = Base.get(other)
 			diff = other.h - self.h
 			if diff < 0: diff = 0
-			return diff
+			return diff//10 # no. of contours
 
 	def distgain_along(self, route, other=None):
 		route = Route.get(route)
