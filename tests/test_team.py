@@ -69,13 +69,12 @@ class TestTeam(unittest.TestCase):
 	def testTraversed(self):
 		self.assertEqual(model.conf().wfact, 1.3)
 		t = model.Team('test')
-		self.assertEqual(t.traversed(), 0)
-		self.assertTrue(isinstance(get('t1').traversed(), int))
+		self.assertEqual(t.traversed()['dist'], 0)
 		for t in model.Team.query.all():
-			self.assertTrue(t.traversed() >= 0)
-			self.assertTrue(t.traversed() <= 300)
-		self.assertEqual(get('t2').traversed(), 39)
-		self.assertEqual(get('t4').traversed(), 31)
+			self.assertTrue(t.traversed()['dist'] >= 0)
+			self.assertTrue(t.traversed()['dist'] <= 300)
+		self.assertEqual(get('t2').traversed()['dist'], 39)
+		self.assertEqual(get('t4').traversed()['dist'], 31)
 
 	def testTimings(self):
 		t = model.Team('test')

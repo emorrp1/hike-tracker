@@ -217,7 +217,7 @@ class Team(Entity):
 	def speed(self):
 		t = self.timings()['walking']
 		if t:
-			d = self.traversed()
+			d = self.traversed()['dist']
 			return ( d*60 ) // t
 		else:
 			return None
