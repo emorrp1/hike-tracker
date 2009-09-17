@@ -290,6 +290,12 @@ class DistGain(Entity):
 		else: return cmp(self.gain, other.gain)
 
 	@classmethod
+	def get(cls, start, end):
+		start = Base.get(start)
+		end = Base.get(end)
+		cls.get_by(start=start, end=end)
+
+	@classmethod
 	def _set(cls, start, end, dist=None, gain=None):
 		d = cls.get_by(start=start, end=end)
 		if d:
