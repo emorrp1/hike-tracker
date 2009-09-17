@@ -67,7 +67,8 @@ class Base(Entity):
 			return d.distance
 		else:
 			from math import sqrt
-			def normalise(diff, rollover=1000):
+			def normalise(diff, rollover=None):
+				if not rollover: rollover=10**(conf().figs//2)
 				diff = abs(diff)
 				if diff > rollover//2:
 					diff = rollover - diff
