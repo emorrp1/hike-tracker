@@ -293,7 +293,7 @@ class DistGain(Entity):
 	def get(cls, start, end):
 		start = Base.get(start)
 		end = Base.get(end)
-		cls.get_by(start=start, end=end)
+		return cls.get_by(start=start, end=end)
 
 	@classmethod
 	def _set(cls, start, end, dist=None, gain=None):
