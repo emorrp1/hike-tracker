@@ -237,9 +237,10 @@ class Team(Entity):
 			else:
 				last = self.route.bases[0]
 				dep = self.start
-			d = last.distgain_along(self.route, base)['dist']
-			if d:
-				t = ( d*60 ) // int(speed)
+			dg = last.distgain_along(self.route, base)
+			if dg['dist']:
+				t = ( dg['dist']*60 ) // int(speed)
+				t += dg['gain']*conf().naith
 				return dep + timedelta(minutes=t)
 			else:
 				return None
