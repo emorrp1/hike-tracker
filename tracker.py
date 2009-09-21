@@ -59,3 +59,8 @@ def base_report(base, filename=None):
 			else:
 				args += [arg]
 		model.Report(*args, **kwargs)
+
+if __name__ == '__main__':
+	from sys import argv
+	if len(argv) >= 2:
+		start(argv[1][:-5])
