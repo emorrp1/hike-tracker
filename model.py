@@ -285,12 +285,13 @@ class Leg(Entity):
 	gain = Field(Integer)
 
 	def __init__(self, start, end, dist=None, gain=None):
-		if not gain: gain=0
-		Entity.__init__(self, gain=int(gain))
+		Entity.__init__(self)
 		self.start = Base.get(start)
 		self.end = Base.get(end)
 		if dist: self.dist = int(dist)
 		else:    self.dist = self._calc_dist()
+		if gain: self.gain = int(gain)
+		else:    self.gain = self._calc_gain()
 
 	def _calc_dist(self):
 		from math import sqrt
