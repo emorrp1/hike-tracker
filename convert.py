@@ -13,11 +13,11 @@ def save(config):
 	bs = model.Base.query.all()
 	if bs:
 		config['bases'] = {}
-		if model.DistGain.query.all():
+		if model.Leg.query.all():
 			config['distances'] = {}
 		for b in bs:
 			config['bases'][b.name] = b.ref()
-			ds = model.DistGain.query.filter_by(start=b)
+			ds = model.Leg.query.filter_by(start=b)
 			if ds.count():
 				config['distances'][b.name] = []
 				for d in ds:

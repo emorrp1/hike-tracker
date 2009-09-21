@@ -62,7 +62,7 @@ class Base(Entity):
 			return route.bases[n+1]
 
 	def distance(self, other):
-		d = DistGain.get(self, other)
+		d = Leg.get(self, other)
 		if d and d.dist:
 			return d.dist
 		else:
@@ -80,7 +80,7 @@ class Base(Entity):
 			return int(sqrt(hyp2)*conf().wfact)
 
 	def gain(self, other):
-		dg = DistGain.get(self, other)
+		dg = Leg.get(self, other)
 		if dg and dg.gain:
 			return dg.gain
 		else:
@@ -105,7 +105,7 @@ class Base(Entity):
 		return {'dist':dist, 'gain':gain}
 
 	def _set_distance(self, other, d):
-		DistGain.set(self, other, d)
+		Leg.set(self, other, d)
 
 class Route(Entity):
 	'''The database representation of a series of bases teams have to pass through'''
@@ -288,7 +288,7 @@ class Report(Entity):
 	def stoppage(self):
 		return self.dep - self.arr
 
-class DistGain(Entity):
+class Leg(Entity):
 	'''Records the distance and height gain between two bases'''
 	start = ManyToOne('Base')
 	end = ManyToOne('Base')
