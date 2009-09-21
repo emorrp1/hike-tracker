@@ -72,11 +72,14 @@ class Base(Entity):
 			return l.dist
 
 	def gain(self, other):
-		dg = Leg.get(self, other)
-		if dg and dg.gain:
-			return dg.gain
+		l = Leg.get(self, other)
+		if l:
+			if l.gain: return l.gain
+			else: return l._calc_gain()
 		else:
 			other = Base.get(other)
+			l = Leg(self, other)
+			return l.gain
 
 	def distgain_along(self, route, other=None):
 		route = Route.get(route)
