@@ -77,9 +77,6 @@ class Base(Entity):
 			return dg.gain
 		else:
 			other = Base.get(other)
-			diff = other.h - self.h
-			if diff < 0: diff = 0
-			return diff//10 # no. of contours
 
 	def distgain_along(self, route, other=None):
 		route = Route.get(route)
@@ -307,6 +304,11 @@ class Leg(Entity):
 		ndiff = normalise(self.start.n - self.end.n)
 		hyp2 = ediff**2 + ndiff**2
 		return int(sqrt(hyp2)*conf().wfact)
+
+	def _calc_gain(self):
+		diff = self.end.h - self.start.h
+		if diff < 0: diff = 0
+		return diff//10 # no. of contours
 
 	def __repr__(self):
 		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
