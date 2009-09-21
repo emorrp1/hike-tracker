@@ -1,3 +1,14 @@
+hike-tracker (0.9) jaunty; urgency=low
+
+  * allowing hike-tracker to auto-start with a conf/hike filename
+  * adding height gain usage according to naithsmith
+  * adding version info to config, for future updating scripts
+  * using cleaner horizontal configuration, rather than hacky key/values
+  * fixing convert for complicated configs
+  * fixing rollover support for x figure gridrefs
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Mon, 21 Sep 2009 10:31:13 +0100
+
 hike-tracker (0.8.2) jaunty; urgency=low
 
   * added free field of text to Report for comments

@@ -1,7 +1,7 @@
 from elixir import *
 from datetime import datetime, timedelta
 
-VERSION = "0.8.2"
+VERSION = "0.9"
 __version__ = VERSION
 
 class Base(Entity):
