@@ -295,7 +295,7 @@ class Leg(Entity):
 		if dist: self.dist = int(dist)
 		else:    self.dist = self._calc_dist()
 
-	def _calc_dist(self)
+	def _calc_dist(self):
 		from math import sqrt
 		def normalise(diff, rollover=None):
 			if not rollover: rollover=10**(conf().figs//2)
