@@ -296,6 +296,15 @@ class Leg(Entity):
 		if gain: self.gain = int(gain)
 		else:    self.gain = self._calc_gain()
 
+	def __repr__(self):
+		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
+
+	def __cmp__(self, other):
+		if other is None: return 2
+		c = cmp(self.dist, other.dist)
+		if c: return c
+		else: return cmp(self.gain, other.gain)
+
 	def _calc_dist(self):
 		from math import sqrt
 		def normalise(diff, rollover=None):
@@ -313,15 +322,6 @@ class Leg(Entity):
 		diff = self.end.h - self.start.h
 		if diff < 0: diff = 0
 		return diff//10 # no. of contours
-
-	def __repr__(self):
-		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
-
-	def __cmp__(self, other):
-		if other is None: return 2
-		c = cmp(self.dist, other.dist)
-		if c: return c
-		else: return cmp(self.gain, other.gain)
 
 	@classmethod
 	def get(cls, start, end):
