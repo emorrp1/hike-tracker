@@ -333,8 +333,12 @@ class Leg(Entity):
 	def _set(cls, start, end, dist=None, gain=None):
 		d = cls.get(start, end)
 		if d:
-			if dist is not None: d.dist = int(dist)
-			if gain is not None: d.gain = int(gain)
+			if dist is not None:
+				if dist: d.dist = int(dist)
+				else:    d.dist = d._calc_dist()
+			if gain is not None:
+				if gain: d.gain = int(gain)
+				else:    d.gain = d._calc_dist()
 		else: cls(start, end, dist, gain)
 
 	@classmethod
