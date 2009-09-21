@@ -1,6 +1,5 @@
 tracker.py:def start(hike='custom'):
 tracker.py:def save():
-tracker.py:def set_distances(config):
 tracker.py:def all(type):
 tracker.py:def get(tname):
 tracker.py:def get_all(type=None):
@@ -8,15 +7,16 @@ tracker.py:def base_report(base, filename=None):
 convert.py:def save(config):
 convert.py:def load(hike):
 convert.py:		def auto(route, prefix, first, last, interval=None, offset=0):
+convert.py:def set_distances(config):
 model.py:class Base(Entity):
 model.py:	def ref(self):
 model.py:	def done(self):
 model.py:	def active(self, speed=None, maxspeed=None):
 model.py:	def next(self, route):
 model.py:	def distance(self, other):
-model.py:			def normalise(diff, rollover=1000):
-model.py:	def distance_along(self, route, other=None):
-model.py:		def set(start, end, distance):
+model.py:			def normalise(diff, rollover=None):
+model.py:	def gain(self, other):
+model.py:	def distgain_along(self, route, other=None):
 model.py:class Route(Entity):
 model.py:	def end(self):
 model.py:class Team(Entity):
@@ -33,6 +33,9 @@ model.py:	def eta(self, base=None, speed=None):
 model.py:	def late(self, leeway=0, speed=None, base=None):
 model.py:class Report(Entity):
 model.py:	def stoppage(self):
-model.py:class Distance(Entity):
-model.py:def mkdt(time, date=None):
+model.py:class DistGain(Entity):
+model.py:	def get(cls, start, end):
+model.py:	def set(cls, start, end, dist=None, gain=None):
 model.py:class Config(Entity):
+model.py:def conf():
+model.py:def mkdt(time, date=None):
