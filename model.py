@@ -66,18 +66,7 @@ class Base(Entity):
 		if d and d.dist:
 			return d.dist
 		else:
-			from math import sqrt
-			def normalise(diff, rollover=None):
-				if not rollover: rollover=10**(conf().figs//2)
-				diff = abs(diff)
-				if diff > rollover//2:
-					diff = rollover - diff
-				return diff
 			other = Base.get(other)
-			ediff = normalise(self.e - other.e)
-			ndiff = normalise(self.n - other.n)
-			hyp2 = ediff**2 + ndiff**2
-			return int(sqrt(hyp2)*conf().wfact)
 
 	def gain(self, other):
 		dg = Leg.get(self, other)
@@ -301,6 +290,19 @@ class Leg(Entity):
 		Entity.__init__(self, dist=int(dist), gain=int(gain))
 		self.start = Base.get(start)
 		self.end = Base.get(end)
+
+	def _calc_dist(self)
+		from math import sqrt
+		def normalise(diff, rollover=None):
+			if not rollover: rollover=10**(conf().figs//2)
+			diff = abs(diff)
+			if diff > rollover//2:
+				diff = rollover - diff
+			return diff
+		ediff = normalise(self.start.e - self.end.e)
+		ndiff = normalise(self.start.n - self.end.n)
+		hyp2 = ediff**2 + ndiff**2
+		return int(sqrt(hyp2)*conf().wfact)
 
 	def __repr__(self):
 		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
