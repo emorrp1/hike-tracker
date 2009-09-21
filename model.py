@@ -319,7 +319,9 @@ class Leg(Entity):
 	def get(cls, start, end):
 		start = Base.get(start)
 		end = Base.get(end)
-		return cls.get_by(start=start, end=end)
+		l = cls.get_by(start=start, end=end)
+		if not l: l = cls(start, end)
+		return l
 
 	@classmethod
 	def _set(cls, start, end, dist=None, gain=None):
