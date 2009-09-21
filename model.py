@@ -62,11 +62,14 @@ class Base(Entity):
 			return route.bases[n+1]
 
 	def distance(self, other):
-		d = Leg.get(self, other)
-		if d and d.dist:
-			return d.dist
+		l = Leg.get(self, other)
+		if l:
+			if l.dist: return l.dist
+			else: return l._calc_dist()
 		else:
 			other = Base.get(other)
+			l = Leg(self, other)
+			return l.dist
 
 	def gain(self, other):
 		dg = Leg.get(self, other)
