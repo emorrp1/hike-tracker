@@ -58,7 +58,10 @@ def base_report(base, filename=None):
 				kwargs[k] = v
 			else:
 				args += [arg]
-		model.Report(*args, **kwargs)
+		try:
+			model.Report(*args, **kwargs)
+		except Exception as e:
+			print args, kwargs, e
 
 if __name__ == '__main__':
 	from sys import argv
