@@ -187,8 +187,9 @@ class Team(Entity):
 		for i in range(len(self.reports)-1):
 			base = self.reports[i].base
 			next = self.reports[i+1].base
-			dist += base.distance(next)
-			gain += base.gain(next)
+			l = Leg.get(base, next)
+			dist += l.dist
+			gain += l.gain
 		return {'dist':dist, 'gain':gain}
 
 	def timings(self):
