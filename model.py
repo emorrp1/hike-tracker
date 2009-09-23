@@ -69,15 +69,7 @@ class Base(Entity):
 
 	def distgain_along(self, route, other=None):
 		route = Route.get(route)
-		other = Base.get(other)
-		if not other:
-			other = self.next(route)
-		dist = 0
-		gain = 0
-		for l in route.legs(self, other):
-			dist += l.dist
-			gain += l.gain
-		return {'dist':dist, 'gain':gain}
+		return route.distgain_from(self, other)
 
 	def _set_distance(self, other, d):
 		Leg.set(self, other, d)
@@ -117,6 +109,18 @@ class Route(Entity):
 			l = Leg.get(b[i],b[i+1])
 			legs += [l]
 		return legs
+
+	def distgain_from(self, base, other=None):
+		base = Base.get(base)
+		other = Base.get(other)
+		if not other:
+			other = base.next(self)
+		dist = 0
+		gain = 0
+		for l in self.legs(base, other):
+			dist += l.dist
+			gain += l.gain
+		return {'dist':dist, 'gain':gain}
 
 class Team(Entity):
 	'''The database representation of a competing team'''
