@@ -92,7 +92,7 @@ class Route(Entity):
 		return cmp(len(self), len(other))
 
 	def __len__(self):
-		return self.bases[0].distgain_along(self, self.end())['dist']
+		return self.distgain_from(self.bases[0], self.end())['dist']
 
 	def end(self):
 		last = len(self.bases) - 1
@@ -229,7 +229,7 @@ class Team(Entity):
 			else:
 				last = self.route.bases[0]
 				dep = self.start
-			dg = last.distgain_along(self.route, base)
+			dg = self.route.distgain_from(last, base)
 			if dg['dist']:
 				t = ( dg['dist']*60 ) // int(speed)
 				t += dg['gain']*conf().naith
