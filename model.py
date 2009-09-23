@@ -55,11 +55,7 @@ class Base(Entity):
 
 	def next(self, route):
 		route = Route.get(route)
-		if route.end() is self:
-			return None
-		else:
-			n = route.bases.index(self)
-			return route.bases[n+1]
+		route.next(self)
 
 	def distance(self, other):
 		d = DistGain.get(self, other)
@@ -126,6 +122,14 @@ class Route(Entity):
 
 	def __len__(self):
 		return self.bases[0].distgain_along(self, self.end())['dist']
+
+	def next(self, base):
+		base = Base.get(base)
+		if base is self.end():
+			return None
+		else:
+			n = self.bases.index(base)
+			return self.bases[n+1]
 
 	def end(self):
 		last = len(self.bases) - 1
