@@ -74,12 +74,9 @@ class Base(Entity):
 			other = self.next(route)
 		dist = 0
 		gain = 0
-		start = route.bases.index(self)
-		stop = route.bases.index(other)
-		for base in route.bases[start:stop]:
-			next = base.next(route)
-			dist += base.distance(next)
-			gain += base.gain(next)
+		for l in route.legs(self, other):
+			dist += l.dist
+			gain += l.gain
 		return {'dist':dist, 'gain':gain}
 
 	def _set_distance(self, other, d):
