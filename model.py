@@ -109,6 +109,18 @@ class Route(Entity):
 		last = len(self.bases) - 1
 		return self.bases[last]
 
+	def legs(self, start=None, end=None):
+		b = self.bases
+		if start: start = b.index(Base.get(start))
+		else:     start = 0
+		if end: end = b.index(Base.get(end))
+		else: end = len(b) - 1
+		legs = []
+		for i in range(start, end):
+			l = Leg.get(b[i],b[i+1])
+			legs += [l]
+		return legs
+
 class Team(Entity):
 	'''The database representation of a competing team'''
 	name = Field(Text)
