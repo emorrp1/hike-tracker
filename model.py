@@ -4,6 +4,13 @@ from datetime import datetime, timedelta
 VERSION = "0.9"
 __version__ = VERSION
 
+class Named(object):
+	'''Modified Entity methods for named objects'''
+	@classmethod
+	def get(cls, name):
+		if isinstance(name, cls) or not name: return name
+		else: return cls.get_by(name=name)
+
 class Base(Entity):
 	'''The database representation of a manned base'''
 	name = Field(Text)
