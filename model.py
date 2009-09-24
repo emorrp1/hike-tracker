@@ -5,7 +5,21 @@ options_defaults['tablename'] = lambda x: x.__name__ + 's'
 VERSION = "0.9"
 __version__ = VERSION
 
-class Base(Entity):
+class Named(object):
+	'''Modified Entity methods for named objects'''
+	def __repr__(self):
+		return '<%s %s>' % (self.__class__.__name__, self.name)
+
+	def __cmp__(self, other):
+		if other is None: return 2
+		return cmp(self.name, other.name)
+
+	@classmethod
+	def get(cls, name):
+		if isinstance(name, cls) or not name: return name
+		else: return cls.get_by(name=name)
+
+class Base(Named, Entity):
 	'''The database representation of a manned base'''
 	name = Field(Text)
 	e = Field(Integer)
@@ -104,7 +118,7 @@ class Base(Entity):
 	def _set_distance(self, other, d):
 		DistGain.set(self, other, d)
 
-class Route(Entity):
+class Route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	name = Field(Text)
 	bases = ManyToMany('Base')
@@ -136,7 +150,7 @@ class Route(Entity):
 		last = len(self.bases) - 1
 		return self.bases[last]
 
-class Team(Entity):
+class Team(Named, Entity):
 	'''The database representation of a competing team'''
 	name = Field(Text)
 	start = Field(DateTime)
@@ -337,7 +351,6 @@ class DistGain(Entity):
 
 class Config(Entity):
 	'''The hike configuration details'''
-	name  = 'global'
 	start = Field(DateTime)
 	wfact = Field(Float)
 	naith = Field(Float)
@@ -365,15 +378,3 @@ def mkdt(time, date=None):
 	if isinstance(time, (str, unicode)):
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
-
-def _get(cls, name):
-	if isinstance(name, cls) or not name: return name
-	else: return cls.get_by(name=name)
-def _repr(self):
-	return '<%s %s>' % (self.__class__.__name__, self.name)
-def _cmp(self, other):
-	if other is None: return 2
-	return cmp(self.name, other.name)
-Entity.get = classmethod(_get)
-Entity.__repr__ = _repr
-Entity.__cmp__ = _cmp
