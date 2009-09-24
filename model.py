@@ -18,7 +18,7 @@ class Named(object):
 		if isinstance(name, cls) or not name: return name
 		else: return cls.get_by(name=name)
 
-class Base(Entity, Named):
+class Base(Named, Entity):
 	'''The database representation of a manned base'''
 	name = Field(Text)
 	e = Field(Integer)
@@ -117,7 +117,7 @@ class Base(Entity, Named):
 	def _set_distance(self, other, d):
 		DistGain.set(self, other, d)
 
-class Route(Entity, Named):
+class Route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	name = Field(Text)
 	bases = ManyToMany('Base')
@@ -149,7 +149,7 @@ class Route(Entity, Named):
 		last = len(self.bases) - 1
 		return self.bases[last]
 
-class Team(Entity, Named):
+class Team(Named, Entity):
 	'''The database representation of a competing team'''
 	name = Field(Text)
 	start = Field(DateTime)
