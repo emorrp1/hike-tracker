@@ -382,11 +382,4 @@ def mkdt(time, date=None):
 def _get(cls, name):
 	if isinstance(name, cls) or not name: return name
 	else: return cls.get_by(name=name)
-def _repr(self):
-	return '<%s %s>' % (self.__class__.__name__, self.name)
-def _cmp(self, other):
-	if other is None: return 2
-	return cmp(self.name, other.name)
 Entity.get = classmethod(_get)
-Entity.__repr__ = _repr
-Entity.__cmp__ = _cmp
