@@ -55,7 +55,7 @@ class Base(Entity):
 
 	def next(self, route):
 		route = Route.get(route)
-		route.next(self)
+		return route.next(self)
 
 	def distance(self, other):
 		d = DistGain.get(self, other)
