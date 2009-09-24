@@ -1,6 +1,7 @@
 from elixir import *
 from datetime import datetime, timedelta
 
+options_defaults['tablename'] = lambda x: x.__name__ + 's'
 VERSION = "0.9"
 __version__ = VERSION
 
