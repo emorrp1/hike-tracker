@@ -73,50 +73,17 @@ class Base(Named, Entity):
 		return route.next(self)
 
 	def distance(self, other):
-		d = DistGain.get(self, other)
-		if d and d.dist:
-			return d.dist
-		else:
-			from math import sqrt
-			def normalise(diff, rollover=None):
-				if not rollover: rollover=10**(conf().figs//2)
-				diff = abs(diff)
-				if diff > rollover//2:
-					diff = rollover - diff
-				return diff
-			other = Base.get(other)
-			ediff = normalise(self.e - other.e)
-			ndiff = normalise(self.n - other.n)
-			hyp2 = ediff**2 + ndiff**2
-			return int(sqrt(hyp2)*conf().wfact)
+		return Leg.get(self, other).dist
 
 	def gain(self, other):
-		dg = DistGain.get(self, other)
-		if dg and dg.gain:
-			return dg.gain
-		else:
-			other = Base.get(other)
-			diff = other.h - self.h
-			if diff < 0: diff = 0
-			return diff//10 # no. of contours
+		return Leg.get(self, other).gain
 
 	def distgain_along(self, route, other=None):
 		route = Route.get(route)
-		other = Base.get(other)
-		if not other:
-			other = self.next(route)
-		dist = 0
-		gain = 0
-		start = route.bases.index(self)
-		stop = route.bases.index(other)
-		for base in route.bases[start:stop]:
-			next = base.next(route)
-			dist += base.distance(next)
-			gain += base.gain(next)
-		return {'dist':dist, 'gain':gain}
+		return route.distgain_from(self, other)
 
 	def _set_distance(self, other, d):
-		DistGain.set(self, other, d)
+		Leg.set(self, other, d)
 
 class Route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
@@ -136,7 +103,7 @@ class Route(Named, Entity):
 		return cmp(len(self), len(other))
 
 	def __len__(self):
-		return self.bases[0].distgain_along(self, self.end())['dist']
+		return self.distgain_from(self.bases[0], self.end())['dist']
 
 	def next(self, base):
 		base = Base.get(base)
@@ -149,6 +116,30 @@ class Route(Named, Entity):
 	def end(self):
 		last = len(self.bases) - 1
 		return self.bases[last]
+
+	def legs(self, start=None, end=None):
+		b = self.bases
+		if start: start = b.index(Base.get(start))
+		else:     start = 0
+		if end: end = b.index(Base.get(end))
+		else: end = len(b) - 1
+		legs = []
+		for i in range(start, end):
+			l = Leg.get(b[i],b[i+1])
+			legs += [l]
+		return legs
+
+	def distgain_from(self, base, other=None):
+		base = Base.get(base)
+		other = Base.get(other)
+		if not other:
+			other = base.next(self)
+		dist = 0
+		gain = 0
+		for l in self.legs(base, other):
+			dist += l.dist
+			gain += l.gain
+		return {'dist':dist, 'gain':gain}
 
 class Team(Named, Entity):
 	'''The database representation of a competing team'''
@@ -215,8 +206,9 @@ class Team(Named, Entity):
 		for i in range(len(self.reports)-1):
 			base = self.reports[i].base
 			next = self.reports[i+1].base
-			dist += base.distance(next)
-			gain += base.gain(next)
+			l = Leg.get(base, next)
+			dist += l.dist
+			gain += l.gain
 		return {'dist':dist, 'gain':gain}
 
 	def timings(self):
@@ -256,7 +248,7 @@ class Team(Named, Entity):
 			else:
 				last = self.route.bases[0]
 				dep = self.start
-			dg = last.distgain_along(self.route, base)
+			dg = self.route.distgain_from(last, base)
 			if dg['dist']:
 				t = ( dg['dist']*60 ) // int(speed)
 				t += dg['gain']*conf().naith
@@ -307,7 +299,7 @@ class Report(Entity):
 	def stoppage(self):
 		return self.dep - self.arr
 
-class DistGain(Entity):
+class Leg(Entity):
 	'''Records the distance and height gain between two bases'''
 	start = ManyToOne('Base')
 	end = ManyToOne('Base')
@@ -315,11 +307,13 @@ class DistGain(Entity):
 	gain = Field(Integer)
 
 	def __init__(self, start, end, dist=None, gain=None):
-		if not dist: dist=0
-		if not gain: gain=0
-		Entity.__init__(self, dist=int(dist), gain=int(gain))
+		Entity.__init__(self)
 		self.start = Base.get(start)
 		self.end = Base.get(end)
+		if dist: self.dist = int(dist)
+		else:    self.dist = self._calc_dist()
+		if gain: self.gain = int(gain)
+		else:    self.gain = self._calc_gain()
 
 	def __repr__(self):
 		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
@@ -330,19 +324,41 @@ class DistGain(Entity):
 		if c: return c
 		else: return cmp(self.gain, other.gain)
 
+	def _calc_dist(self):
+		from math import sqrt
+		def normalise(diff, rollover=None):
+			if not rollover: rollover=10**(conf().figs//2)
+			diff = abs(diff)
+			if diff > rollover//2:
+				diff = rollover - diff
+			return diff
+		ediff = normalise(self.start.e - self.end.e)
+		ndiff = normalise(self.start.n - self.end.n)
+		hyp2 = ediff**2 + ndiff**2
+		return int(sqrt(hyp2)*conf().wfact)
+
+	def _calc_gain(self):
+		diff = self.end.h - self.start.h
+		if diff < 0: diff = 0
+		return diff//10 # no. of contours
+
 	@classmethod
 	def get(cls, start, end):
 		start = Base.get(start)
 		end = Base.get(end)
-		return cls.get_by(start=start, end=end)
+		l = cls.get_by(start=start, end=end)
+		if not l: l = cls(start, end)
+		return l
 
 	@classmethod
 	def _set(cls, start, end, dist=None, gain=None):
 		d = cls.get(start, end)
-		if d:
-			if dist is not None: d.dist = int(dist)
-			if gain is not None: d.gain = int(gain)
-		else: cls(start, end, dist, gain)
+		if dist is not None:
+			if dist: d.dist = int(dist)
+			else:    d.dist = d._calc_dist()
+		if gain is not None:
+			if gain: d.gain = int(gain)
+			else:    d.gain = d._calc_dist()
 
 	@classmethod
 	def set(cls, start, end, dist=None, gain=None):
