@@ -378,8 +378,3 @@ def mkdt(time, date=None):
 	if isinstance(time, (str, unicode)):
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
-
-def _get(cls, name):
-	if isinstance(name, cls) or not name: return name
-	else: return cls.get_by(name=name)
-Entity.get = classmethod(_get)
