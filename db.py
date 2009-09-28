@@ -40,3 +40,11 @@ class leg(Entity):
 	'''Records the distance and height gain between two bases'''
 	dist = Field(Integer)
 	gain = Field(Integer)
+
+class config(Entity):
+	'''The hike configuration details'''
+	start = Field(DateTime)
+	wfact = Field(Float)
+	naith = Field(Float)
+	figs  = Field(Integer)
+	ver   = Field(Text)

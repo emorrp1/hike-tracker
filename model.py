@@ -336,14 +336,7 @@ class Leg(db.leg):
 		cls._set(start, end, dist, gain)
 		cls._set(end, start, dist)
 
-class Config(Entity):
-	'''The hike configuration details'''
-	start = Field(DateTime)
-	wfact = Field(Float)
-	naith = Field(Float)
-	figs  = Field(Integer)
-	ver   = Field(Text)
-
+class Config(db.config):
 	def __repr__(self):
 		return '<Global configuration>'
 
