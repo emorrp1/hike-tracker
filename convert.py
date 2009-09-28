@@ -60,6 +60,11 @@ def load(hike):
 			if 'routes' in config['distances'] and 'routes' not in config:
 				config['distances'].pop('routes')
 			set_distances(config['distances'])
+	if 'legs' in config:
+		c = config['legs']
+		for l in c:
+			start, end = l.split('-')
+			model.Leg.set(start, end, *c[l])
 	if 'teams' in config:
 		c = config['teams']
 		def auto(route, prefix, first, last, interval=None, offset=0):
