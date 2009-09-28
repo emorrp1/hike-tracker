@@ -116,14 +116,10 @@ class Route(db.route):
 
 class Team(db.team):
 	def __init__(self, name, route=None, start=None):
-		Entity.__init__(self, name=name)
-		if start:
-			self.start = mkdt(start)
-		else:
-			self.start = conf().start
-		if route:
-			route = Route.get(route)
-			self.route = route
+		if start: start = mkdt(start)
+		else:     start = conf().start
+		Entity.__init__(self, name=name, start=start)
+		if route: self.route = Route.get(route)
 
 	def started(self):
 		return bool(self.reports)
