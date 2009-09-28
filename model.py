@@ -75,9 +75,6 @@ class Base(Named, Entity):
 	def distance(self, other):
 		return Leg.get(self, other).dist
 
-	def gain(self, other):
-		return Leg.get(self, other).gain
-
 	def distgain_along(self, route, other=None):
 		route = Route.get(route)
 		return route.distgain_from(self, other)
