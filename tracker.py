@@ -1,28 +1,27 @@
 #!/usr/bin/python -iW ignore::DeprecationWarning
-import elixir
-import model
+from model import *
 
-VERSION = model.VERSION + '.0'
+VERSION += '.0'
 __version__ = VERSION
 
 def start(hike='custom'):
 	'''Start the database connection, creating the tables and configuring if necessary'''
 	from os.path import exists, expanduser
 	hike = expanduser(hike + '.hike')
-	elixir.metadata.bind = 'sqlite:///%s' % hike
-	elixir.setup_all()
+	db.metadata.bind = 'sqlite:///%s' % hike
+	db.setup_all()
 	if not exists(hike):
 		from convert import load
-		elixir.create_all()
+		db.create_all()
 		hike = hike.replace('.hike', '.conf')
 		load(hike)
 
 def save():
-	elixir.session.commit()
+	db.session.commit()
 
 def all(type):
 	'''Shortcut to a list of specified hike objects'''
-	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
+	types = {'b':Base, 'r':Route, 't':Team}
 	t = type[0].lower()
 	return types[t].query.all()
 
@@ -30,12 +29,12 @@ def get(tname):
 	'''Shortcut to getting hike objects by name'''
 	type = tname[0].lower()
 	name = tname[1:]
-	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
+	types = {'b':Base, 'r':Route, 't':Team}
 	return types[type].get(name)
 
 def get_all(type=None):
 	'''Load all objects into global namespace'''
-	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
+	types = {'b':Base, 'r':Route, 't':Team}
 	if type:
 		t = type[0].lower()
 		for i in all(t):
@@ -62,7 +61,7 @@ def base_report(base, filename=None):
 			else:
 				args += [arg]
 		try:
-			model.Report(*args, **kwargs)
+			Report(*args, **kwargs)
 		except Exception as e:
 			print args, kwargs, e
 

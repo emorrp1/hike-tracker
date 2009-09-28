@@ -1,5 +1,4 @@
-from tracker import save
-from model import Report
+from tracker import save, Report
 
 Report('0', '1', '12:00')
 Report('0', '2', '12:00')
