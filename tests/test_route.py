@@ -10,7 +10,7 @@ class TestRoute(unittest.TestCase):
 		elixir.session.close()
 
 	def testEnd(self):
-		b = model.Base('testend', '000000')
+		b = Base('testend', '000000')
 		r = get('r1')
 		r.bases.append(b)
 		self.assertEqual(b, r.end())
@@ -26,8 +26,8 @@ class TestRoute(unittest.TestCase):
 		b0 = get('b0')
 		b1 = get('b1')
 		b3 = get('b3')
-		d01 = model.Leg.get(b0,b1).dist
-		d13 = model.Leg.get(b1,b3).dist
+		d01 = Leg.get(b0,b1).dist
+		d13 = Leg.get(b1,b3).dist
 		along = r.distgain_from('0',b3)['dist']
 		self.assertEqual(d01+d13, along)
 

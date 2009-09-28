@@ -18,10 +18,10 @@ class TestBase(unittest.TestCase):
 	def testWiggleFactor(self):
 		wf1 = 1.5
 		wf2 = 3.0
-		model.conf().wfact = wf1
-		d1 = model.Leg.get('0','1').dist
-		model.conf().wfact = wf2
-		d2 = model.Leg.get('0','2').dist
+		conf().wfact = wf1
+		d1 = Leg.get('0','1').dist
+		conf().wfact = wf2
+		d2 = Leg.get('0','2').dist
 		self.assertEqual(float(d2)/d1, wf2/wf1)
 
 	def testActiveUnknowns(self):
@@ -31,17 +31,17 @@ class TestBase(unittest.TestCase):
 
 	def testActive(self):
 		self.assertEqual(get('b0').active()['open'], get('b0').active()['close'])
-		self.assertEqual(model.mkdt('12:00'), get('b0').active()['open'])
-		self.assertEqual(get('b2').active()['close'], model.mkdt('12:45'))
-		self.assertEqual(get('b3').active()['open'], model.mkdt('12:15'))
+		self.assertEqual(mkdt('12:00'), get('b0').active()['open'])
+		self.assertEqual(get('b2').active()['close'], mkdt('12:45'))
+		self.assertEqual(get('b3').active()['open'], mkdt('12:15'))
 
 	def testActiveRange(self):
 		elixir.session.close()
 		start('tests/temp')
 		from convert import load
 		load('tests/test.conf')
-		exp_open = model.mkdt('08:13')
-		exp_close = model.mkdt('09:57')
+		exp_open = mkdt('08:13')
+		exp_close = mkdt('09:57')
 		t = get('b2').active(20, 60)
 		self.assertEqual(t['open'], exp_open)
 		self.assertEqual(t['close'], exp_close)

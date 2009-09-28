@@ -11,13 +11,13 @@ class TestTracker(unittest.TestCase):
 		elixir.session.close()
 
 	def testGet(self):
-		self.assertEqual(get('b0'), model.Base.get('0'))
-		self.assertEqual(get('r1'), model.Route.get('1'))
-		self.assertEqual(get('t3'), model.Team.get('3'))
+		self.assertEqual(get('b0'), Base.get('0'))
+		self.assertEqual(get('r1'), Route.get('1'))
+		self.assertEqual(get('t3'), Team.get('3'))
 
 	def testReportStoppage(self):
 		from datetime import timedelta
-		r = model.Report('0','1','15:34','16:17')
+		r = Report('0','1','15:34','16:17')
 		self.assertEqual(r.stoppage(), timedelta(0,43*60))
 
 	def testConvert(self):
@@ -46,15 +46,15 @@ class TestTracker(unittest.TestCase):
 		r = b0.reports
 		self.assertEqual(r[0].stoppage(), timedelta(0,15*60))
 		self.assertEqual(r[1].team, get('t4'))
-		self.assertEqual(r[2].arr, model.mkdt('12:55'))
+		self.assertEqual(r[2].arr, mkdt('12:55'))
 		self.assertEqual(r[3].base, b0)
 
 	def testLegDist(self):
 		from model import Leg
 		b0 = get('b0')
 		b1 = get('b1')
-		b75 = model.Base('75', '072056')
-		model.conf().wfact = 1
+		b75 = Base('75', '072056')
+		conf().wfact = 1
 		self.assertEqual(Leg.get(b0,b1).dist, 10)
 		self.assertEqual(Leg.get(b0,b1).dist, Leg.get(b1,b0).dist)
 		self.assertEqual(Leg.get(b0,get('b3')).dist, 14)
