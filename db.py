@@ -53,6 +53,10 @@ class report(Entity):
 		else: NOTE = ''
 		return '<%s Report: %s arrived %s departed %s%s>' % (self.base, self.team, self.arr.time(), self.dep.time(), NOTE)
 
+	def __cmp__(self, other):
+		if other is None: return 2
+		return cmp(self.dep, other.dep)
+
 class leg(Entity):
 	'''Records the distance and height gain between two bases'''
 	dist = Field(Integer)
@@ -62,6 +66,12 @@ class leg(Entity):
 
 	def __repr__(self):
 		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
+
+	def __cmp__(self, other):
+		if other is None: return 2
+		c = cmp(self.dist, other.dist)
+		if c: return c
+		else: return cmp(self.gain, other.gain)
 
 class config(Entity):
 	'''The hike configuration details'''

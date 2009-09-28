@@ -239,10 +239,6 @@ class Report(db.report):
 		self.base = Base.get(base)
 		self.team = Team.get(team)
 
-	def __cmp__(self, other):
-		if other is None: return 2
-		return cmp(self.dep, other.dep)
-
 	def stoppage(self):
 		return self.dep - self.arr
 
@@ -255,12 +251,6 @@ class Leg(db.leg):
 		else:    self.dist = self._calc_dist()
 		if gain: self.gain = int(gain)
 		else:    self.gain = self._calc_gain()
-
-	def __cmp__(self, other):
-		if other is None: return 2
-		c = cmp(self.dist, other.dist)
-		if c: return c
-		else: return cmp(self.gain, other.gain)
 
 	def _calc_dist(self):
 		from math import sqrt
