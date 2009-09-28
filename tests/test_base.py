@@ -55,9 +55,9 @@ class TestBase(unittest.TestCase):
 		wf1 = 1.5
 		wf2 = 3.0
 		model.conf().wfact = wf1
-		d1 = get('b0').distance(get('b1'))
+		d1 = model.Leg.get('0','1').dist
 		model.conf().wfact = wf2
-		d2 = get('b0').distance(get('b2'))
+		d2 = model.Leg.get('0','2').dist
 		self.assertEqual(float(d2)/d1, wf2/wf1)
 
 	def testActiveUnknowns(self):
