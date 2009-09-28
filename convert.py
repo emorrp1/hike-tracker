@@ -13,23 +13,21 @@ def save(config):
 	bs = model.Base.query.all()
 	if bs:
 		config['bases'] = {}
-		if model.Leg.query.all():
-			config['distances'] = {}
 		for b in bs:
-			config['bases'][b.name] = b.ref()
-			ds = model.Leg.query.filter_by(start=b)
-			if ds.count():
-				config['distances'][b.name] = []
-				for d in ds:
-					item = '%s:%d' % (d.end.name, d.dist)
-					config['distances'][b.name].append(item)
-		rs = model.Route.query.all()
-		if rs:
-			config['routes'] = {}
-			for r in rs:
-				config['routes'][r.name] = []
-				for b in r.bases:
-					config['routes'][r.name].append(b.name)
+			config['bases'][b.name] = [b.ref(), b.h]
+	rs = model.Route.query.all()
+	if rs:
+		config['routes'] = {}
+		for r in rs:
+			config['routes'][r.name] = []
+			for b in r.bases:
+				config['routes'][r.name].append(b.name)
+	ls = model.Leg.query.all()
+	if ls:
+		config['legs'] = {}
+		for l in ls:
+			id = '-'.join([l.start.name, l.end.name])
+			config['legs'][id] = [l.dist, l.gain]
 	ts = model.Team.query.all()
 	if ts:
 		config['teams'] = {}
@@ -52,14 +50,29 @@ def load(hike):
 		if 'figs'  in c: conf.figs  = int(c['figs'])
 	if 'bases' in config:
 		for b in config['bases']:
-			model.Base(b, config['bases'][b])
-		if 'routes' in config:
-			for r in config['routes']:
-				model.Route(r, config['routes'][r])
-		if 'distances' in config:
-			if 'routes' in config['distances'] and 'routes' not in config:
-				config['distances'].pop('routes')
-			set_distances(config['distances'])
+			model.Base(b, *config['bases'][b])
+	if 'routes' in config:
+		for r in config['routes']:
+			model.Route(r, config['routes'][r])
+	if 'legs' in config:
+		c = config['legs']
+		def auto(route, *dgs):
+			route = model.Route.get(route)
+			for i in range(len(dgs)):
+				dg = dgs[i].split('/')
+				d = dg[0]
+				if len(dg) == 2: g = dg[1]
+				else: g = None
+				base, next = route.bases[i:i+2]
+				model.Leg.set(base, next, d, g)
+		if 'routes' in c:
+			if 'routes' in config:
+				for r in c['routes']:
+					auto(r, *c['routes'][r])
+			c.pop('routes')
+		for l in c:
+			start, end = l.split('-')
+			model.Leg.set(start, end, *c[l])
 	if 'teams' in config:
 		c = config['teams']
 		def auto(route, prefix, first, last, interval=None, offset=0):
