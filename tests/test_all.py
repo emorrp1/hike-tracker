@@ -92,15 +92,16 @@ class TestTracker(unittest.TestCase):
 		self.assertEqual(r[2].arr, model.mkdt('12:55'))
 		self.assertEqual(r[3].base, b0)
 
-	def testDist(self):
+	def testLegDist(self):
+		from model import Leg
 		b0 = get('b0')
 		b1 = get('b1')
 		b75 = model.Base('75', '072056')
 		model.conf().wfact = 1
-		self.assertEqual(b0.distance(b1), 10)
-		self.assertEqual(b0.distance(b1), b1.distance(b0))
-		self.assertEqual(b0.distance(get('b3')), 14)
-		self.assertEqual(b0.distance(b75), 91)
+		self.assertEqual(Leg.get(b0,b1).dist, 10)
+		self.assertEqual(Leg.get(b0,b1).dist, Leg.get(b1,b0).dist)
+		self.assertEqual(Leg.get(b0,get('b3')).dist, 14)
+		self.assertEqual(Leg.get(b0,b75).dist, 91)
 
 def suite():
 	tracker_suite = unittest.TestLoader().loadTestsFromTestCase(TestTracker)
