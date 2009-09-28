@@ -30,6 +30,12 @@ def save(config):
 				config['routes'][r.name] = []
 				for b in r.bases:
 					config['routes'][r.name].append(b.name)
+	ls = model.Leg.query.all()
+	if ls:
+		config['legs'] = {}
+		for l in ls:
+			id = '-'.join([l.start.name, l.end.name])
+			config['legs'][id] = [l.dist, l.gain]
 	ts = model.Team.query.all()
 	if ts:
 		config['teams'] = {}
