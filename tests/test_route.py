@@ -17,8 +17,38 @@ class TestRoute(unittest.TestCase):
 
 	def testLen(self):
 		r = get('r1')
-		length = r.bases[0].distgain_along(r, r.end())['dist']
+		start = r.bases[0]
+		length = r.distgain_from(start, r.end())['dist']
 		self.assertEqual(length, len(r))
+
+	def testDistFrom(self):
+		r = get('r1')
+		b0 = get('b0')
+		b1 = get('b1')
+		b3 = get('b3')
+		d01 = model.Leg.get(b0,b1).dist
+		d13 = model.Leg.get(b1,b3).dist
+		along = r.distgain_from('0',b3)['dist']
+		self.assertEqual(d01+d13, along)
+
+	def testDistFromOther(self):
+		r = get('r1')
+		d1 = r.distgain_from('0')['dist']
+		d2 = r.distgain_from('0', get('b1'))['dist']
+		self.assertEqual(d1, d2)
+
+	def testNext1(self):
+		r = get('r1')
+		self.assertEqual(r.next('0'), get('b1'))
+		self.assertEqual(r.next('1'), get('b3'))
+		self.assertEqual(r.next('3'), get('b2'))
+		self.assertEqual(r.next('2'), None)
+
+	def testNext2(self):
+		r = get('r2')
+		self.assertEqual(r.next('0'), get('b2'))
+		self.assertEqual(r.next('2'), get('b3'))
+		self.assertFalse(r.next('3'))
 
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestRoute)

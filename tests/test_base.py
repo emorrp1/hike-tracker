@@ -15,49 +15,13 @@ class TestBase(unittest.TestCase):
 		self.assertTrue(get('b2').done())
 		self.assertFalse(get('b3').done())
 
-	def testNext1(self):
-		self.assertEqual(get('b0').next('1'), get('b1'))
-		self.assertEqual(get('b1').next('1'), get('b3'))
-		self.assertEqual(get('b3').next('1'), get('b2'))
-		self.assertEqual(get('b2').next('1'), None)
-
-	def testNext2(self):
-		self.assertEqual(get('b0').next('2'), get('b2'))
-		self.assertEqual(get('b2').next('2'), get('b3'))
-		self.assertFalse(get('b3').next('2'))
-
-	def testDist(self):
-		b0 = get('b0')
-		b1 = get('b1')
-		b75 = model.Base('75', '072056')
-		model.conf().wfact = 1
-		self.assertEqual(b0.distance(b1), 10)
-		self.assertEqual(b0.distance(b1), b1.distance(b0))
-		self.assertEqual(b0.distance(get('b3')), 14)
-		self.assertEqual(b0.distance(b75), 91)
-
-	def testDistAlong(self):
-		b0 = get('b0')
-		b1 = get('b1')
-		b3 = get('b3')
-		d01 = b0.distance(b1)
-		d13 = b1.distance(b3)
-		along = b0.distgain_along('1',b3)['dist']
-		self.assertEqual(d01+d13, along)
-
-	def testDistAlongOther(self):
-		b0 = get('b0')
-		d1 = b0.distgain_along('1')['dist']
-		d2 = b0.distgain_along('1', get('b1'))['dist']
-		self.assertEqual(d1, d2)
-
 	def testWiggleFactor(self):
 		wf1 = 1.5
 		wf2 = 3.0
 		model.conf().wfact = wf1
-		d1 = get('b0').distance(get('b1'))
+		d1 = model.Leg.get('0','1').dist
 		model.conf().wfact = wf2
-		d2 = get('b0').distance(get('b2'))
+		d2 = model.Leg.get('0','2').dist
 		self.assertEqual(float(d2)/d1, wf2/wf1)
 
 	def testActiveUnknowns(self):

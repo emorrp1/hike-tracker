@@ -44,23 +44,6 @@ class Base(db.base):
 					unknowns.append(team)
 		return {'open':open, 'close':close, 'unknown':unknowns}
 
-	def next(self, route):
-		route = Route.get(route)
-		return route.next(self)
-
-	def distance(self, other):
-		return Leg.get(self, other).dist
-
-	def gain(self, other):
-		return Leg.get(self, other).gain
-
-	def distgain_along(self, route, other=None):
-		route = Route.get(route)
-		return route.distgain_from(self, other)
-
-	def _set_distance(self, other, d):
-		Leg.set(self, other, d)
-
 class Route(db.route):
 	def __init__(self, name, bases=None):
 		db.Entity.__init__(self, name=name)
@@ -104,7 +87,7 @@ class Route(db.route):
 		base = Base.get(base)
 		other = Base.get(other)
 		if not other:
-			other = base.next(self)
+			other = self.next(base)
 		dist = 0
 		gain = 0
 		for l in self.legs(base, other):
