@@ -13,3 +13,10 @@ class Named(object):
 	def get(cls, name):
 		if isinstance(name, cls) or not name: return name
 		else: return cls.get_by(name=name)
+
+class base(Named, Entity):
+	'''The database representation of a manned base'''
+	name = Field(Text)
+	e = Field(Integer)
+	n = Field(Integer)
+	h = Field(Integer)

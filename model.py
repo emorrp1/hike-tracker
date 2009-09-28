@@ -7,12 +7,7 @@ options_defaults['tablename'] = lambda x: x.__name__ + 's'
 VERSION = "0.9"
 __version__ = VERSION
 
-class Base(Named, Entity):
-	'''The database representation of a manned base'''
-	name = Field(Text)
-	e = Field(Integer)
-	n = Field(Integer)
-	h = Field(Integer)
+class Base(db.base):
 	reports = OneToMany('Report')
 	routes = ManyToMany('Route')
 
