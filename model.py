@@ -68,10 +68,6 @@ class Base(Named, Entity):
 					unknowns.append(team)
 		return {'open':open, 'close':close, 'unknown':unknowns}
 
-	def next(self, route):
-		route = Route.get(route)
-		return route.next(self)
-
 class Route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	name = Field(Text)
@@ -120,7 +116,7 @@ class Route(Named, Entity):
 		base = Base.get(base)
 		other = Base.get(other)
 		if not other:
-			other = base.next(self)
+			other = self.next(base)
 		dist = 0
 		gain = 0
 		for l in self.legs(base, other):
