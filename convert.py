@@ -1,5 +1,4 @@
 #!/usr/bin/python -W ignore::DeprecationWarning
-import elixir
 import model
 from configobj import ConfigObj
 
@@ -93,7 +92,7 @@ def load(hike):
 			c.pop('routes')
 		for t in c:
 			model.Team(t, *c[t])
-	elixir.session.commit()
+	model.db.session.commit()
 
 if __name__ == '__main__':
 	from sys import argv
@@ -107,10 +106,10 @@ if __name__ == '__main__':
 	else:
 		hike = argv[1]
 		dest = argv[2]
-	elixir.metadata.bind = 'sqlite:///%s' % hike
-	elixir.setup_all()
+	model.db.metadata.bind = 'sqlite:///%s' % hike
+	model.db.setup_all()
 	if dest:
 		save(dest)
 	else:
-		elixir.create_all()
+		model.db.create_all()
 		load(config)
