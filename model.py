@@ -3,9 +3,7 @@ from datetime import datetime, timedelta
 import db
 from db import Named
 
-options_defaults['tablename'] = lambda x: x.__name__ + 's'
-VERSION = "0.9"
-__version__ = VERSION
+__version__ = db.VERSION
 
 class Base(db.base):
 	def __init__(self, name, ref, height=0):
