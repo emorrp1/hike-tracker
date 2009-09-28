@@ -55,9 +55,24 @@ def load(hike):
 		for r in config['routes']:
 			model.Route(r, config['routes'][r])
 	if 'legs' in config:
-		for l in config['legs']:
+		c = config['legs']
+		def auto(route, *dgs):
+			route = model.Route.get(route)
+			for i in range(len(dgs)):
+				dg = dgs[i].split('/')
+				d = dg[0]
+				if len(dg) == 2: g = dg[1]
+				else: g = None
+				base, next = route.bases[i:i+2]
+				model.Leg.set(base, next, d, g)
+		if 'routes' in c:
+			if 'routes' in config:
+				for r in c['routes']:
+					auto(r, *c['routes'][r])
+			c.pop('routes')
+		for l in c:
 			start, end = l.split('-')
-			model.Leg.set(start, end, *config['legs'][l])
+			model.Leg.set(start, end, *c[l])
 	if 'teams' in config:
 		c = config['teams']
 		def auto(route, prefix, first, last, interval=None, offset=0):
