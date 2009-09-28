@@ -1,5 +1,4 @@
 #!/usr/bin/python -iW ignore::DeprecationWarning
-import elixir
 from model import *
 
 VERSION += '.0'
@@ -9,16 +8,16 @@ def start(hike='custom'):
 	'''Start the database connection, creating the tables and configuring if necessary'''
 	from os.path import exists, expanduser
 	hike = expanduser(hike + '.hike')
-	elixir.metadata.bind = 'sqlite:///%s' % hike
-	elixir.setup_all()
+	db.metadata.bind = 'sqlite:///%s' % hike
+	db.setup_all()
 	if not exists(hike):
 		from convert import load
-		elixir.create_all()
+		db.create_all()
 		hike = hike.replace('.hike', '.conf')
 		load(hike)
 
 def save():
-	elixir.session.commit()
+	db.session.commit()
 
 def all(type):
 	'''Shortcut to a list of specified hike objects'''
