@@ -303,11 +303,8 @@ class Leg(db.leg):
 		cls._set(start, end, dist, gain)
 		cls._set(end, start, dist)
 
-class Config(db.config):
-	pass
-
 def conf():
-	c = Config.query.first()
+	c = db.config.query.first()
 	if c:
 		return c
 	else:
@@ -317,7 +314,7 @@ def conf():
 				'naith': 1.0,
 				'figs' : 6,
 				'ver'  : __version__ }
-		return Config(**defaults)
+		return db.config(**defaults)
 
 def mkdt(time, date=None):
 	if not date:
