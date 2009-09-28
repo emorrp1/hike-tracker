@@ -48,12 +48,20 @@ class report(Entity):
 	base = ManyToOne('base')
 	team = ManyToOne('team')
 
+	def __repr__(self):
+		if self.note: NOTE = ' - %s' % self.note
+		else: NOTE = ''
+		return '<%s Report: %s arrived %s departed %s%s>' % (self.base, self.team, self.arr.time(), self.dep.time(), NOTE)
+
 class leg(Entity):
 	'''Records the distance and height gain between two bases'''
 	dist = Field(Integer)
 	gain = Field(Integer)
 	start = ManyToOne('base')
 	end = ManyToOne('base')
+
+	def __repr__(self):
+		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
 
 class config(Entity):
 	'''The hike configuration details'''
@@ -62,3 +70,6 @@ class config(Entity):
 	naith = Field(Float)
 	figs  = Field(Integer)
 	ver   = Field(Text)
+
+	def __repr__(self):
+		return '<Global configuration>'

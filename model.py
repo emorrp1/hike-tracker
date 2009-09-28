@@ -239,11 +239,6 @@ class Report(db.report):
 		self.base = Base.get(base)
 		self.team = Team.get(team)
 
-	def __repr__(self):
-		if self.note: NOTE = ' - %s' % self.note
-		else: NOTE = ''
-		return '<%s Report: %s arrived %s departed %s%s>' % (self.base, self.team, self.arr.time(), self.dep.time(), NOTE)
-
 	def __cmp__(self, other):
 		if other is None: return 2
 		return cmp(self.dep, other.dep)
@@ -260,9 +255,6 @@ class Leg(db.leg):
 		else:    self.dist = self._calc_dist()
 		if gain: self.gain = int(gain)
 		else:    self.gain = self._calc_gain()
-
-	def __repr__(self):
-		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
 
 	def __cmp__(self, other):
 		if other is None: return 2
@@ -312,8 +304,7 @@ class Leg(db.leg):
 		cls._set(end, start, dist)
 
 class Config(db.config):
-	def __repr__(self):
-		return '<Global configuration>'
+	pass
 
 def conf():
 	c = Config.query.first()
