@@ -91,14 +91,14 @@ def set_distances(config):
 			for i in range(len(ds)):
 				d = ds[i]
 				base,next = route.bases[i:i+2]
-				base._set_distance(next, d)
+				model.Leg.set(base, next, d)
 		del config['routes']
 	for b1 in config:
 		base = model.Base.get(b1)
 		for b2d in config[b1]:
 			b2,d = b2d.split(':')
 			other = model.Base.get(b2)
-			base._set_distance(other, d)
+			model.Leg.set(base, other, d)
 
 if __name__ == '__main__':
 	from sys import argv
