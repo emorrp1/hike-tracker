@@ -68,10 +68,6 @@ class Base(Named, Entity):
 					unknowns.append(team)
 		return {'open':open, 'close':close, 'unknown':unknowns}
 
-	def next(self, route):
-		route = Route.get(route)
-		return route.next(self)
-
 	def distance(self, other):
 		return Leg.get(self, other).dist
 
