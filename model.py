@@ -133,7 +133,7 @@ class Route(Named, Entity):
 		base = Base.get(base)
 		other = Base.get(other)
 		if not other:
-			other = base.next(self)
+			other = self.next(base)
 		dist = 0
 		gain = 0
 		for l in self.legs(base, other):
