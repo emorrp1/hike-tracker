@@ -1,3 +1,15 @@
+hike-tracker (1.0.0) jaunty; urgency=low
+
+  * report note and date order switched for accessability
+  * base_report catches errors
+  * massively re-architectured
+  * database backend abstracted away from model into db.py
+  * cleaning namespaces since elixir hidden in db
+  * using a Leg entity in place of DistGain
+  * moving methods into "correct" classes
+
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Mon, 28 Sep 2009 21:01:16 +0100
+
 hike-tracker (0.9) jaunty; urgency=low
 
   * allowing hike-tracker to auto-start with a conf/hike filename
