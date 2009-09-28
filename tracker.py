@@ -2,6 +2,9 @@
 import elixir
 import model
 
+VERSION = model.VERSION + '.0'
+__version__ = VERSION
+
 def start(hike='custom'):
 	'''Start the database connection, creating the tables and configuring if necessary'''
 	from os.path import exists, expanduser
