@@ -41,11 +41,15 @@ class report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
 	note = Field(Text)
+	base = ManyToOne('base')
+	team = ManyToOne('team')
 
 class leg(Entity):
 	'''Records the distance and height gain between two bases'''
 	dist = Field(Integer)
 	gain = Field(Integer)
+	start = ManyToOne('base')
+	end = ManyToOne('base')
 
 class config(Entity):
 	'''The hike configuration details'''

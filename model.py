@@ -237,9 +237,6 @@ class Team(db.team):
 			return None
 
 class Report(db.report):
-	base = ManyToOne('Base')
-	team = ManyToOne('Team')
-
 	def __init__(self, base, team, arr, dep=None, date=None, note=None):
 		base = Base.get(base)
 		team = Team.get(team)
@@ -265,9 +262,6 @@ class Report(db.report):
 		return self.dep - self.arr
 
 class Leg(db.leg):
-	start = ManyToOne('Base')
-	end = ManyToOne('Base')
-
 	def __init__(self, start, end, dist=None, gain=None):
 		Entity.__init__(self)
 		self.start = Base.get(start)
