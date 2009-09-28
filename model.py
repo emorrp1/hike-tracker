@@ -1,5 +1,6 @@
 from elixir import *
 from datetime import datetime, timedelta
+import db
 from db import Named
 
 options_defaults['tablename'] = lambda x: x.__name__ + 's'
