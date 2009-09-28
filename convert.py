@@ -55,10 +55,9 @@ def load(hike):
 		for r in config['routes']:
 			model.Route(r, config['routes'][r])
 	if 'legs' in config:
-		c = config['legs']
-		for l in c:
+		for l in config['legs']:
 			start, end = l.split('-')
-			model.Leg.set(start, end, *c[l])
+			model.Leg.set(start, end, *config['legs'][l])
 	if 'teams' in config:
 		c = config['teams']
 		def auto(route, prefix, first, last, interval=None, offset=0):
