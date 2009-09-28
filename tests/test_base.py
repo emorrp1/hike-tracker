@@ -26,23 +26,13 @@ class TestBase(unittest.TestCase):
 		self.assertEqual(get('b2').next('2'), get('b3'))
 		self.assertFalse(get('b3').next('2'))
 
-	def testDist(self):
-		b0 = get('b0')
-		b1 = get('b1')
-		b75 = model.Base('75', '072056')
-		model.conf().wfact = 1
-		self.assertEqual(b0.distance(b1), 10)
-		self.assertEqual(b0.distance(b1), b1.distance(b0))
-		self.assertEqual(b0.distance(get('b3')), 14)
-		self.assertEqual(b0.distance(b75), 91)
-
 	def testWiggleFactor(self):
 		wf1 = 1.5
 		wf2 = 3.0
 		model.conf().wfact = wf1
-		d1 = get('b0').distance(get('b1'))
+		d1 = model.Leg.get('0','1').dist
 		model.conf().wfact = wf2
-		d2 = get('b0').distance(get('b2'))
+		d2 = model.Leg.get('0','2').dist
 		self.assertEqual(float(d2)/d1, wf2/wf1)
 
 	def testActiveUnknowns(self):
