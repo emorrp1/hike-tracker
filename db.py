@@ -24,3 +24,8 @@ class base(Named, Entity):
 class route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	name = Field(Text)
+
+class team(Named, Entity):
+	'''The database representation of a competing team'''
+	name = Field(Text)
+	start = Field(DateTime)

@@ -122,10 +122,7 @@ class Route(db.route):
 			gain += l.gain
 		return {'dist':dist, 'gain':gain}
 
-class Team(Named, Entity):
-	'''The database representation of a competing team'''
-	name = Field(Text)
-	start = Field(DateTime)
+class Team(db.team):
 	reports = OneToMany('Report')
 	route = ManyToOne('Route')
 
