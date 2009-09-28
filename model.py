@@ -1,7 +1,5 @@
-from elixir import *
 from datetime import datetime, timedelta
 import db
-from db import Named
 
 __version__ = db.VERSION
 
