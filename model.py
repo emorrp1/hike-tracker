@@ -8,9 +8,6 @@ VERSION = "0.9"
 __version__ = VERSION
 
 class Base(db.base):
-	reports = OneToMany('Report')
-	routes = ManyToMany('Route')
-
 	def __init__(self, name, ref, height=0):
 		f = conf().figs//2
 		e = int(ref[:f])
@@ -69,9 +66,6 @@ class Base(db.base):
 		Leg.set(self, other, d)
 
 class Route(db.route):
-	bases = ManyToMany('Base')
-	teams = OneToMany('Team')
-
 	def __init__(self, name, bases=None):
 		Entity.__init__(self, name=name)
 		if bases:
@@ -123,9 +117,6 @@ class Route(db.route):
 		return {'dist':dist, 'gain':gain}
 
 class Team(db.team):
-	reports = OneToMany('Report')
-	route = ManyToOne('Route')
-
 	def __init__(self, name, route=None, start=None):
 		Entity.__init__(self, name=name)
 		if start:

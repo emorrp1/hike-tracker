@@ -20,15 +20,21 @@ class base(Named, Entity):
 	e = Field(Integer)
 	n = Field(Integer)
 	h = Field(Integer)
+	reports = OneToMany('report')
+	routes = ManyToMany('route')
 
 class route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	name = Field(Text)
+	bases = ManyToMany('base')
+	teams = OneToMany('team')
 
 class team(Named, Entity):
 	'''The database representation of a competing team'''
 	name = Field(Text)
 	start = Field(DateTime)
+	reports = OneToMany('report')
+	route = ManyToOne('route')
 
 class report(Entity):
 	'''The database representation of a team's arr/dep times at a base'''
