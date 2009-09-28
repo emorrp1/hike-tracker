@@ -72,9 +72,6 @@ class Base(Named, Entity):
 		route = Route.get(route)
 		return route.next(self)
 
-	def distance(self, other):
-		return Leg.get(self, other).dist
-
 	def _set_distance(self, other, d):
 		Leg.set(self, other, d)
 
