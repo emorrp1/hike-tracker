@@ -273,12 +273,9 @@ class Report(db.report):
 	def stoppage(self):
 		return self.dep - self.arr
 
-class Leg(Entity):
-	'''Records the distance and height gain between two bases'''
+class Leg(db.leg):
 	start = ManyToOne('Base')
 	end = ManyToOne('Base')
-	dist = Field(Integer)
-	gain = Field(Integer)
 
 	def __init__(self, start, end, dist=None, gain=None):
 		Entity.__init__(self)

@@ -35,3 +35,8 @@ class report(Entity):
 	arr = Field(DateTime)
 	dep = Field(DateTime)
 	note = Field(Text)
+
+class leg(Entity):
+	'''Records the distance and height gain between two bases'''
+	dist = Field(Integer)
+	gain = Field(Integer)
