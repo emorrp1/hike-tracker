@@ -245,11 +245,7 @@ class Team(db.team):
 		else:
 			return None
 
-class Report(Entity):
-	'''The database representation of a team's arr/dep times at a base'''
-	arr = Field(DateTime)
-	dep = Field(DateTime)
-	note = Field(Text)
+class Report(db.report):
 	base = ManyToOne('Base')
 	team = ManyToOne('Team')
 

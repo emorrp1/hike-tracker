@@ -29,3 +29,9 @@ class team(Named, Entity):
 	'''The database representation of a competing team'''
 	name = Field(Text)
 	start = Field(DateTime)
+
+class report(Entity):
+	'''The database representation of a team's arr/dep times at a base'''
+	arr = Field(DateTime)
+	dep = Field(DateTime)
+	note = Field(Text)
