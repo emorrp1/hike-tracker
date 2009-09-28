@@ -13,16 +13,8 @@ def save(config):
 	bs = model.Base.query.all()
 	if bs:
 		config['bases'] = {}
-		if model.Leg.query.all():
-			config['distances'] = {}
 		for b in bs:
 			config['bases'][b.name] = b.ref()
-			ds = model.Leg.query.filter_by(start=b)
-			if ds.count():
-				config['distances'][b.name] = []
-				for d in ds:
-					item = '%s:%d' % (d.end.name, d.dist)
-					config['distances'][b.name].append(item)
 		rs = model.Route.query.all()
 		if rs:
 			config['routes'] = {}
@@ -62,10 +54,6 @@ def load(hike):
 		if 'routes' in config:
 			for r in config['routes']:
 				model.Route(r, config['routes'][r])
-		if 'distances' in config:
-			if 'routes' in config['distances'] and 'routes' not in config:
-				config['distances'].pop('routes')
-			set_distances(config['distances'])
 	if 'legs' in config:
 		c = config['legs']
 		for l in c:
