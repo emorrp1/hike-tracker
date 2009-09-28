@@ -1,8 +1,8 @@
 #!/usr/bin/python -iW ignore::DeprecationWarning
 import elixir
-import model
+from model import *
 
-VERSION = model.VERSION + '.0'
+VERSION += '.0'
 __version__ = VERSION
 
 def start(hike='custom'):
@@ -22,7 +22,7 @@ def save():
 
 def all(type):
 	'''Shortcut to a list of specified hike objects'''
-	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
+	types = {'b':Base, 'r':Route, 't':Team}
 	t = type[0].lower()
 	return types[t].query.all()
 
@@ -30,12 +30,12 @@ def get(tname):
 	'''Shortcut to getting hike objects by name'''
 	type = tname[0].lower()
 	name = tname[1:]
-	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
+	types = {'b':Base, 'r':Route, 't':Team}
 	return types[type].get(name)
 
 def get_all(type=None):
 	'''Load all objects into global namespace'''
-	types = {'b':model.Base, 'r':model.Route, 't':model.Team}
+	types = {'b':Base, 'r':Route, 't':Team}
 	if type:
 		t = type[0].lower()
 		for i in all(t):
@@ -62,7 +62,7 @@ def base_report(base, filename=None):
 			else:
 				args += [arg]
 		try:
-			model.Report(*args, **kwargs)
+			Report(*args, **kwargs)
 		except Exception as e:
 			print args, kwargs, e
 
