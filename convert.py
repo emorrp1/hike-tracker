@@ -15,13 +15,13 @@ def save(config):
 		config['bases'] = {}
 		for b in bs:
 			config['bases'][b.name] = b.ref()
-		rs = model.Route.query.all()
-		if rs:
-			config['routes'] = {}
-			for r in rs:
-				config['routes'][r.name] = []
-				for b in r.bases:
-					config['routes'][r.name].append(b.name)
+	rs = model.Route.query.all()
+	if rs:
+		config['routes'] = {}
+		for r in rs:
+			config['routes'][r.name] = []
+			for b in r.bases:
+				config['routes'][r.name].append(b.name)
 	ls = model.Leg.query.all()
 	if ls:
 		config['legs'] = {}
@@ -51,9 +51,9 @@ def load(hike):
 	if 'bases' in config:
 		for b in config['bases']:
 			model.Base(b, config['bases'][b])
-		if 'routes' in config:
-			for r in config['routes']:
-				model.Route(r, config['routes'][r])
+	if 'routes' in config:
+		for r in config['routes']:
+			model.Route(r, config['routes'][r])
 	if 'legs' in config:
 		c = config['legs']
 		for l in c:
