@@ -232,16 +232,12 @@ class Team(db.team):
 
 class Report(db.report):
 	def __init__(self, base, team, arr, dep=None, date=None, note=None):
-		base = Base.get(base)
-		team = Team.get(team)
 		arr = mkdt(arr, date)
-		if dep:
-			dep = mkdt(dep, date)
-		else:
-			dep = arr
+		if dep: dep = mkdt(dep, date)
+		else: dep = arr
 		Entity.__init__(self, arr=arr, dep=dep, note=note)
-		self.team = team
-		self.base = base
+		self.base = Base.get(base)
+		self.team = Team.get(team)
 
 	def __repr__(self):
 		if self.note: NOTE = ' - %s' % self.note
