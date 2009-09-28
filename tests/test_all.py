@@ -50,7 +50,6 @@ class TestTracker(unittest.TestCase):
 		self.assertEqual(r[3].base, b0)
 
 	def testLegDist(self):
-		from model import Leg
 		b0 = get('b0')
 		b1 = get('b1')
 		b75 = Base('75', '072056')
