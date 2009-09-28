@@ -8,7 +8,7 @@ class TestTracker(unittest.TestCase):
 		start('tests/test')
 
 	def tearDown(self):
-		elixir.session.close()
+		db.session.close()
 
 	def testGet(self):
 		self.assertEqual(get('b0'), Base.get('0'))
@@ -33,7 +33,7 @@ class TestTracker(unittest.TestCase):
 
 	def testLoadAuto(self):
 		from os import remove
-		elixir.session.close()
+		db.session.close()
 		try:     start('tests/test_auto')
 		except:  self.fail()
 		finally: remove('tests/test_auto.hike')

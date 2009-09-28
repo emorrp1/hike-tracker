@@ -7,7 +7,7 @@ class TestBase(unittest.TestCase):
 		start('tests/test')
 
 	def tearDown(self):
-		elixir.session.close()
+		db.session.close()
 
 	def testDone(self):
 		self.assertTrue(get('b0').done())
@@ -36,7 +36,7 @@ class TestBase(unittest.TestCase):
 		self.assertEqual(get('b3').active()['open'], mkdt('12:15'))
 
 	def testActiveRange(self):
-		elixir.session.close()
+		db.session.close()
 		start('tests/temp')
 		from convert import load
 		load('tests/test.conf')

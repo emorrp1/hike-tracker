@@ -7,7 +7,7 @@ class TestRoute(unittest.TestCase):
 		start('tests/test')
 
 	def tearDown(self):
-		elixir.session.close()
+		db.session.close()
 
 	def testEnd(self):
 		b = Base('testend', '000000')

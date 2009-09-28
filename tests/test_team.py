@@ -7,7 +7,7 @@ class TestTeam(unittest.TestCase):
 		start('tests/test')
 
 	def tearDown(self):
-		elixir.session.close()
+		db.session.close()
 
 	def testMissed(self):
 		self.assertTrue(get('t1').missed())
