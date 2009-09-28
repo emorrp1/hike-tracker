@@ -1,38 +1,14 @@
-from elixir import *
 from datetime import datetime, timedelta
+import db
 
-options_defaults['tablename'] = lambda x: x.__name__ + 's'
-VERSION = "0.9"
-__version__ = VERSION
+__version__ = db.VERSION
 
-class Named(object):
-	'''Modified Entity methods for named objects'''
-	def __repr__(self):
-		return '<%s %s>' % (self.__class__.__name__, self.name)
-
-	def __cmp__(self, other):
-		if other is None: return 2
-		return cmp(self.name, other.name)
-
-	@classmethod
-	def get(cls, name):
-		if isinstance(name, cls) or not name: return name
-		else: return cls.get_by(name=name)
-
-class Base(Named, Entity):
-	'''The database representation of a manned base'''
-	name = Field(Text)
-	e = Field(Integer)
-	n = Field(Integer)
-	h = Field(Integer)
-	reports = OneToMany('Report')
-	routes = ManyToMany('Route')
-
+class Base(db.base):
 	def __init__(self, name, ref, height=0):
 		f = conf().figs//2
 		e = int(ref[:f])
 		n = int(ref[-f:])
-		Entity.__init__(self, name=name, e=e, n=n, h=int(height))
+		db.Entity.__init__(self, name=name, e=e, n=n, h=int(height))
 
 	def ref(self):
 		f = conf().figs//2
@@ -85,14 +61,9 @@ class Base(Named, Entity):
 	def _set_distance(self, other, d):
 		Leg.set(self, other, d)
 
-class Route(Named, Entity):
-	'''The database representation of a series of bases teams have to pass through'''
-	name = Field(Text)
-	bases = ManyToMany('Base')
-	teams = OneToMany('Team')
-
+class Route(db.route):
 	def __init__(self, name, bases=None):
-		Entity.__init__(self, name=name)
+		db.Entity.__init__(self, name=name)
 		if bases:
 			for base in bases:
 				base = Base.get(base)
@@ -141,22 +112,12 @@ class Route(Named, Entity):
 			gain += l.gain
 		return {'dist':dist, 'gain':gain}
 
-class Team(Named, Entity):
-	'''The database representation of a competing team'''
-	name = Field(Text)
-	start = Field(DateTime)
-	reports = OneToMany('Report')
-	route = ManyToOne('Route')
-
+class Team(db.team):
 	def __init__(self, name, route=None, start=None):
-		Entity.__init__(self, name=name)
-		if start:
-			self.start = mkdt(start)
-		else:
-			self.start = conf().start
-		if route:
-			route = Route.get(route)
-			self.route = route
+		if start: start = mkdt(start)
+		else:     start = conf().start
+		db.Entity.__init__(self, name=name, start=start)
+		if route: self.route = Route.get(route)
 
 	def started(self):
 		return bool(self.reports)
@@ -267,62 +228,27 @@ class Team(Named, Entity):
 		else:
 			return None
 
-class Report(Entity):
-	'''The database representation of a team's arr/dep times at a base'''
-	arr = Field(DateTime)
-	dep = Field(DateTime)
-	note = Field(Text)
-	base = ManyToOne('Base')
-	team = ManyToOne('Team')
-
+class Report(db.report):
 	def __init__(self, base, team, arr, dep=None, date=None, note=None):
-		base = Base.get(base)
-		team = Team.get(team)
 		arr = mkdt(arr, date)
-		if dep:
-			dep = mkdt(dep, date)
-		else:
-			dep = arr
-		Entity.__init__(self, arr=arr, dep=dep, note=note)
-		self.team = team
-		self.base = base
-
-	def __repr__(self):
-		if self.note: NOTE = ' - %s' % self.note
-		else: NOTE = ''
-		return '<%s Report: %s arrived %s departed %s%s>' % (self.base, self.team, self.arr.time(), self.dep.time(), NOTE)
-
-	def __cmp__(self, other):
-		if other is None: return 2
-		return cmp(self.dep, other.dep)
+		if dep: dep = mkdt(dep, date)
+		else: dep = arr
+		db.Entity.__init__(self, arr=arr, dep=dep, note=note)
+		self.base = Base.get(base)
+		self.team = Team.get(team)
 
 	def stoppage(self):
 		return self.dep - self.arr
 
-class Leg(Entity):
-	'''Records the distance and height gain between two bases'''
-	start = ManyToOne('Base')
-	end = ManyToOne('Base')
-	dist = Field(Integer)
-	gain = Field(Integer)
-
+class Leg(db.leg):
 	def __init__(self, start, end, dist=None, gain=None):
-		Entity.__init__(self)
+		db.Entity.__init__(self)
 		self.start = Base.get(start)
 		self.end = Base.get(end)
 		if dist: self.dist = int(dist)
 		else:    self.dist = self._calc_dist()
 		if gain: self.gain = int(gain)
 		else:    self.gain = self._calc_gain()
-
-	def __repr__(self):
-		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
-
-	def __cmp__(self, other):
-		if other is None: return 2
-		c = cmp(self.dist, other.dist)
-		if c: return c
-		else: return cmp(self.gain, other.gain)
 
 	def _calc_dist(self):
 		from math import sqrt
@@ -365,19 +291,8 @@ class Leg(Entity):
 		cls._set(start, end, dist, gain)
 		cls._set(end, start, dist)
 
-class Config(Entity):
-	'''The hike configuration details'''
-	start = Field(DateTime)
-	wfact = Field(Float)
-	naith = Field(Float)
-	figs  = Field(Integer)
-	ver   = Field(Text)
-
-	def __repr__(self):
-		return '<Global configuration>'
-
 def conf():
-	c = Config.query.first()
+	c = db.config.query.first()
 	if c:
 		return c
 	else:
@@ -387,7 +302,7 @@ def conf():
 				'naith': 1.0,
 				'figs' : 6,
 				'ver'  : __version__ }
-		return Config(**defaults)
+		return db.config(**defaults)
 
 def mkdt(time, date=None):
 	if not date:
