@@ -72,9 +72,6 @@ class Base(Named, Entity):
 		route = Route.get(route)
 		return route.next(self)
 
-	def _set_distance(self, other, d):
-		Leg.set(self, other, d)
-
 class Route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	name = Field(Text)
