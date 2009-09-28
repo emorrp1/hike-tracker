@@ -20,19 +20,20 @@ class TestRoute(unittest.TestCase):
 		length = r.bases[0].distgain_along(r, r.end())['dist']
 		self.assertEqual(length, len(r))
 
-	def testDistAlong(self):
+	def testDistFrom(self):
+		r = get('r1')
 		b0 = get('b0')
 		b1 = get('b1')
 		b3 = get('b3')
 		d01 = b0.distance(b1)
 		d13 = b1.distance(b3)
-		along = b0.distgain_along('1',b3)['dist']
+		along = r.distgain_from('0',b3)['dist']
 		self.assertEqual(d01+d13, along)
 
-	def testDistAlongOther(self):
-		b0 = get('b0')
-		d1 = b0.distgain_along('1')['dist']
-		d2 = b0.distgain_along('1', get('b1'))['dist']
+	def testDistFromOther(self):
+		r = get('r1')
+		d1 = r.distgain_from('0')['dist']
+		d2 = r.distgain_from('0', get('b1'))['dist']
 		self.assertEqual(d1, d2)
 
 def suite():
