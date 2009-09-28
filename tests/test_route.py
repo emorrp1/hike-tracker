@@ -21,15 +21,17 @@ class TestRoute(unittest.TestCase):
 		self.assertEqual(length, len(r))
 
 	def testNext1(self):
-		self.assertEqual(get('b0').next('1'), get('b1'))
-		self.assertEqual(get('b1').next('1'), get('b3'))
-		self.assertEqual(get('b3').next('1'), get('b2'))
-		self.assertEqual(get('b2').next('1'), None)
+		r = get('r1')
+		self.assertEqual(r.next('0'), get('b1'))
+		self.assertEqual(r.next('1'), get('b3'))
+		self.assertEqual(r.next('3'), get('b2'))
+		self.assertEqual(r.next('2'), None)
 
 	def testNext2(self):
-		self.assertEqual(get('b0').next('2'), get('b2'))
-		self.assertEqual(get('b2').next('2'), get('b3'))
-		self.assertFalse(get('b3').next('2'))
+		r = get('r2')
+		self.assertEqual(r.next('0'), get('b2'))
+		self.assertEqual(r.next('2'), get('b3'))
+		self.assertFalse(r.next('3'))
 
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestRoute)
