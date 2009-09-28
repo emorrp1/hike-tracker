@@ -14,7 +14,7 @@ def save(config):
 	if bs:
 		config['bases'] = {}
 		for b in bs:
-			config['bases'][b.name] = b.ref()
+			config['bases'][b.name] = [b.ref(), b.h]
 	rs = model.Route.query.all()
 	if rs:
 		config['routes'] = {}
@@ -50,7 +50,7 @@ def load(hike):
 		if 'figs'  in c: conf.figs  = int(c['figs'])
 	if 'bases' in config:
 		for b in config['bases']:
-			model.Base(b, config['bases'][b])
+			model.Base(b, *config['bases'][b])
 	if 'routes' in config:
 		for r in config['routes']:
 			model.Route(r, config['routes'][r])
