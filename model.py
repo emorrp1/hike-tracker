@@ -213,7 +213,7 @@ class Team(db.team):
 			return None
 
 class Report(db.report):
-	def __init__(self, base, team, arr, dep=None, date=None, note=None):
+	def __init__(self, base, team, arr, dep=None, note=None, date=None):
 		arr = mkdt(arr, date)
 		if dep: dep = mkdt(dep, date)
 		else: dep = arr
