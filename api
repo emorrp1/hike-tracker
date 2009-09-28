@@ -6,20 +6,18 @@ tracker.py:def get_all(type=None):
 tracker.py:def base_report(base, filename=None):
 convert.py:def save(config):
 convert.py:def load(hike):
+convert.py:		def auto(route, *dgs):
 convert.py:		def auto(route, prefix, first, last, interval=None, offset=0):
-convert.py:def set_distances(config):
-model.py:class Named(object):
-model.py:	def get(cls, name):
-model.py:class Base(Named, Entity):
+model.py:class Base(db.base):
 model.py:	def ref(self):
 model.py:	def done(self):
 model.py:	def active(self, speed=None, maxspeed=None):
-model.py:class Route(Named, Entity):
+model.py:class Route(db.route):
 model.py:	def next(self, base):
 model.py:	def end(self):
 model.py:	def legs(self, start=None, end=None):
 model.py:	def distgain_from(self, base, other=None):
-model.py:class Team(Named, Entity):
+model.py:class Team(db.team):
 model.py:	def started(self):
 model.py:	def visited(self, base):
 model.py:	def last_visited(self):
@@ -31,12 +29,11 @@ model.py:	def timings(self):
 model.py:	def speed(self):
 model.py:	def eta(self, base=None, speed=None):
 model.py:	def late(self, leeway=0, speed=None, base=None):
-model.py:class Report(Entity):
+model.py:class Report(db.report):
 model.py:	def stoppage(self):
-model.py:class Leg(Entity):
+model.py:class Leg(db.leg):
 model.py:		def normalise(diff, rollover=None):
 model.py:	def get(cls, start, end):
 model.py:	def set(cls, start, end, dist=None, gain=None):
-model.py:class Config(Entity):
 model.py:def conf():
 model.py:def mkdt(time, date=None):
