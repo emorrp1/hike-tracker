@@ -373,6 +373,9 @@ class Config(Entity):
 	figs  = Field(Integer)
 	ver   = Field(Text)
 
+	def __repr__(self):
+		return '<Global configuration>'
+
 def conf():
 	c = Config.query.first()
 	if c:
