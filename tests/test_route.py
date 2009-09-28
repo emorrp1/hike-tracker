@@ -26,8 +26,8 @@ class TestRoute(unittest.TestCase):
 		b0 = get('b0')
 		b1 = get('b1')
 		b3 = get('b3')
-		d01 = b0.distance(b1)
-		d13 = b1.distance(b3)
+		d01 = model.Leg.get(b0,b1).dist
+		d13 = model.Leg.get(b1,b3).dist
 		along = r.distgain_from('0',b3)['dist']
 		self.assertEqual(d01+d13, along)
 
