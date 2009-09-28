@@ -68,9 +68,7 @@ class Base(db.base):
 	def _set_distance(self, other, d):
 		Leg.set(self, other, d)
 
-class Route(Named, Entity):
-	'''The database representation of a series of bases teams have to pass through'''
-	name = Field(Text)
+class Route(db.route):
 	bases = ManyToMany('Base')
 	teams = OneToMany('Team')
 

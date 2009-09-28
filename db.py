@@ -20,3 +20,7 @@ class base(Named, Entity):
 	e = Field(Integer)
 	n = Field(Integer)
 	h = Field(Integer)
+
+class route(Named, Entity):
+	'''The database representation of a series of bases teams have to pass through'''
+	name = Field(Text)
