@@ -15,49 +15,6 @@ class TestTracker(unittest.TestCase):
 		self.assertEqual(get('r1'), model.Route.get('1'))
 		self.assertEqual(get('t3'), model.Team.get('3'))
 
-	def testSetDistances(self):
-		from configobj import ConfigObj
-		from convert import set_distances
-		from model import Leg
-		c = ConfigObj({'0':['1:56','2:37'], '1':['3:45']})
-		set_distances(c)
-		b0 = get('b0')
-		b1 = get('b1')
-		b2 = get('b2')
-		b3 = get('b3')
-		self.assertEqual(Leg.get(b0,b0).dist, 0)
-		self.assertEqual(Leg.get(b0,b1).dist, 56)
-		self.assertEqual(Leg.get(b0,b2).dist, 37)
-		self.assertEqual(Leg.get(b3,b1).dist, 45)
-
-	def testSetDistancesOverwrite(self):
-		from configobj import ConfigObj
-		from convert import set_distances
-		from model import Leg
-		c = ConfigObj({'0':['1:56','2:37','1:23'], '2':['0:45']})
-		set_distances(c)
-		b0 = get('b0')
-		b1 = get('b1')
-		b2 = get('b2')
-		self.assertEqual(Leg.get(b0,b1).dist, 23)
-		self.assertEqual(Leg.get(b0,b2).dist, Leg.get(b2,b0).dist)
-		self.assertEqual(Leg.get(b0,b2).dist, 45)
-
-	def testSetDistancesByRoute(self):
-		from configobj import ConfigObj
-		from convert import set_distances
-		from model import Leg
-		c = ConfigObj({'0':['3:27', '1:45'],'routes':{'2':['23'], '1':['32','54','14']}})
-		set_distances(c)
-		b0 = get('b0')
-		b1 = get('b1')
-		b2 = get('b2')
-		b3 = get('b3')
-		self.assertEqual(Leg.get(b0,b2).dist, 23)
-		self.assertEqual(Leg.get(b0,b1).dist, 45)
-		self.assertEqual(Leg.get(b1,b3).dist, 54)
-		self.assertEqual(Leg.get(b3,b2).dist, 14)
-
 	def testReportStoppage(self):
 		from datetime import timedelta
 		r = model.Report('0','1','15:34','16:17')

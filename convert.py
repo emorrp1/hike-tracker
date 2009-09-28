@@ -95,24 +95,6 @@ def load(hike):
 			model.Team(t, *c[t])
 	elixir.session.commit()
 
-def set_distances(config):
-	'''Set the distances between bases'''
-	if 'routes' in config:
-		for r in config['routes']:
-			ds = config['routes'][r]
-			route = model.Route.get(r)
-			for i in range(len(ds)):
-				d = ds[i]
-				base,next = route.bases[i:i+2]
-				model.Leg.set(base, next, d)
-		del config['routes']
-	for b1 in config:
-		base = model.Base.get(b1)
-		for b2d in config[b1]:
-			b2,d = b2d.split(':')
-			other = model.Base.get(b2)
-			model.Leg.set(base, other, d)
-
 if __name__ == '__main__':
 	from sys import argv
 	if len(argv) == 2:
