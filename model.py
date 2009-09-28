@@ -10,7 +10,7 @@ class Base(db.base):
 		f = conf().figs//2
 		e = int(ref[:f])
 		n = int(ref[-f:])
-		Entity.__init__(self, name=name, e=e, n=n, h=int(height))
+		db.Entity.__init__(self, name=name, e=e, n=n, h=int(height))
 
 	def ref(self):
 		f = conf().figs//2
@@ -65,7 +65,7 @@ class Base(db.base):
 
 class Route(db.route):
 	def __init__(self, name, bases=None):
-		Entity.__init__(self, name=name)
+		db.Entity.__init__(self, name=name)
 		if bases:
 			for base in bases:
 				base = Base.get(base)
@@ -118,7 +118,7 @@ class Team(db.team):
 	def __init__(self, name, route=None, start=None):
 		if start: start = mkdt(start)
 		else:     start = conf().start
-		Entity.__init__(self, name=name, start=start)
+		db.Entity.__init__(self, name=name, start=start)
 		if route: self.route = Route.get(route)
 
 	def started(self):
@@ -235,7 +235,7 @@ class Report(db.report):
 		arr = mkdt(arr, date)
 		if dep: dep = mkdt(dep, date)
 		else: dep = arr
-		Entity.__init__(self, arr=arr, dep=dep, note=note)
+		db.Entity.__init__(self, arr=arr, dep=dep, note=note)
 		self.base = Base.get(base)
 		self.team = Team.get(team)
 
@@ -244,7 +244,7 @@ class Report(db.report):
 
 class Leg(db.leg):
 	def __init__(self, start, end, dist=None, gain=None):
-		Entity.__init__(self)
+		db.Entity.__init__(self)
 		self.start = Base.get(start)
 		self.end = Base.get(end)
 		if dist: self.dist = int(dist)
