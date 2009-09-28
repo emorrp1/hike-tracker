@@ -17,8 +17,25 @@ class TestRoute(unittest.TestCase):
 
 	def testLen(self):
 		r = get('r1')
-		length = r.bases[0].distgain_along(r, r.end())['dist']
+		start = r.bases[0]
+		length = r.distgain_from(start, r.end())['dist']
 		self.assertEqual(length, len(r))
+
+	def testDistFrom(self):
+		r = get('r1')
+		b0 = get('b0')
+		b1 = get('b1')
+		b3 = get('b3')
+		d01 = b0.distance(b1)
+		d13 = b1.distance(b3)
+		along = r.distgain_from('0',b3)['dist']
+		self.assertEqual(d01+d13, along)
+
+	def testDistFromOther(self):
+		r = get('r1')
+		d1 = r.distgain_from('0')['dist']
+		d2 = r.distgain_from('0', get('b1'))['dist']
+		self.assertEqual(d1, d2)
 
 def suite():
 	return unittest.TestLoader().loadTestsFromTestCase(TestRoute)
