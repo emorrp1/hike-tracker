@@ -1,8 +1,6 @@
 from elixir import *
 
 options_defaults['tablename'] = lambda x: x.__name__ + 's'
-VERSION = "1"
-__version__ = VERSION
 
 class Named(object):
 	'''Modified Entity methods for named objects'''
