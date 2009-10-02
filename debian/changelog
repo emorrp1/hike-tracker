@@ -1,4 +1,4 @@
-hike-tracker (1.0.0) jaunty; urgency=low
+hike-tracker (0.10.0) jaunty; urgency=low
 
   * report note and date order switched for accessability
   * base_report catches errors
@@ -8,7 +8,7 @@ hike-tracker (1.0.0) jaunty; urgency=low
   * using a Leg entity in place of DistGain
   * moving methods into "correct" classes
 
- -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Mon, 28 Sep 2009 21:01:16 +0100
+ -- Philip Morrell <hike-tracker.emorrp1@mamber.net>  Fri, 02 Oct 2009 10:20:03 +0100
 
 hike-tracker (0.9) jaunty; urgency=low
 
