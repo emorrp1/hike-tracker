@@ -30,3 +30,10 @@ while True:
     sleep(1000)
 
 
+def not_visited(base):
+    for r in base.routes:
+            for t in r.teams:
+                    if not t.visited(base):
+                            print t
+
+
