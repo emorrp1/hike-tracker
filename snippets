@@ -47,4 +47,8 @@ def lunch_out(team, time):
 for l in sys.stdin.readlines():
      lunch_out(*l.split())
 
+for t in all('teams'):
+    if not t.missed():
+            print t
+
 
