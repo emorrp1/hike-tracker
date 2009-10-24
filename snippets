@@ -44,4 +44,7 @@ def lunch_out(team, time):
     r.dep = mkdt(time)
 	print r
 
+for l in sys.stdin.readlines():
+     lunch_out(*l.split())
+
 
