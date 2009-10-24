@@ -37,3 +37,11 @@ def not_visited(base):
                             print t
 
 
+def lunch_out(team, time):
+    team = Team.get(team)
+    b = team.last_visited()['base']
+    r = Report.get_by(base=b, team=team)
+    r.dep = mkdt(time)
+	print r
+
+
