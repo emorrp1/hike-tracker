@@ -17,3 +17,16 @@
 ...                     print t, t.last_visited()
 ...
 
+>>> def speeds(route):
+...     for t in route.teams:
+...             if t.speed():
+...                     print t, t.speed()
+... 
+
+>>> while True:
+...     speeds(rjnr)
+...     speeds(rint)
+...     speeds(rsnr)
+...     sleep(1000)
+... 
+
