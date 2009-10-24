@@ -52,3 +52,11 @@ for t in all('teams'):
             print t
 
 
+slow, fast, sum = 99, 0, 0
+for t in all('teams'):
+    s = t.speed()
+    slow = min(slow, s)
+    fast = max(fast, s)
+    sum += t.speed()
+sum / float(len(all('teams')))
+
