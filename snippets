@@ -1,0 +1,8 @@
+>>> def late(leeway):
+...     for t in all('teams'):
+...             if t.late(leeway):
+...                     b = t.last_visited()['base']
+...                     b = t.route.next(b)
+...                     print t, b
+... 
+
