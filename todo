@@ -15,7 +15,8 @@ real base opening and closing times
 list of teams on routes through a base
 figure out why speed calcs terrible for snr, rubbish for int
 easier report editing
-mid hike withdrawal
+mid hike withdrawal - ignore missed teams Base.done
 don't assume they've left as of the base report
 newer reports update old ones, not duplicate?
 lunch stuff
+can we close a base? who's blocking?
