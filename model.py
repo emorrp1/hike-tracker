@@ -268,7 +268,7 @@ class Leg(db.leg):
 			else:    d.dist = d._calc_dist()
 		if gain is not None:
 			if gain: d.gain = int(gain)
-			else:    d.gain = d._calc_dist()
+			else:    d.gain = d._calc_gain()
 
 	@classmethod
 	def set(cls, start, end, dist=None, gain=None):
