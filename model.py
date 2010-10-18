@@ -271,7 +271,7 @@ class Leg(db.leg):
 			else:    d.gain = d._calc_gain()
 
 	@classmethod
-	def set(cls, start, end, dist=None, gain=None):
+	def setup(cls, start, end, dist=None, gain=None):
 		cls._set(start, end, dist, gain)
 		cls._set(end, start, dist)
 

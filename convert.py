@@ -62,7 +62,7 @@ def load(hike):
 				if len(dg) == 2: g = dg[1]
 				else: g = None
 				base, next = route.bases[i:i+2]
-				Leg.set(base, next, d, g)
+				Leg.setup(base, next, d, g)
 		if 'routes' in c:
 			if 'routes' in config:
 				for r in c['routes']:
@@ -70,7 +70,7 @@ def load(hike):
 			c.pop('routes')
 		for l in c:
 			start, end = l.split('-')
-			Leg.set(start, end, *c[l])
+			Leg.setup(start, end, *c[l])
 	if 'teams' in config:
 		c = config['teams']
 		def auto(route, prefix, first, last, interval=None, offset=0):
