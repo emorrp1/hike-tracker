@@ -60,12 +60,17 @@ class Route(db.route):
 	def __len__(self):
 		return self.distgain_from(self.bases[0], self.end())['dist']
 
+	def position(self, base):
+		base = Base.get(base)
+		order = db.routes_bases_order.get_by(route=self, base=base)
+		return order.position
+
 	def next(self, base):
 		base = Base.get(base)
 		if base is self.end():
 			return None
 		else:
-			n = self.bases.index(base)
+			n = self.position(base)
 			return self.bases[n+1]
 
 	def end(self):
@@ -74,9 +79,9 @@ class Route(db.route):
 
 	def legs(self, start=None, end=None):
 		b = self.bases
-		if start: start = b.index(Base.get(start))
+		if start: start = self.position(Base.get(start))
 		else:     start = 0
-		if end: end = b.index(Base.get(end))
+		if end: end = self.position(Base.get(end))
 		else: end = len(b) - 1
 		legs = []
 		for i in range(start, end):
