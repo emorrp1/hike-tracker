@@ -13,6 +13,7 @@ model.py:	def ref(self):
 model.py:	def done(self):
 model.py:	def active(self, speed=None, maxspeed=None):
 model.py:class Route(db.route):
+model.py:	def position(self, base):
 model.py:	def next(self, base):
 model.py:	def end(self):
 model.py:	def legs(self, start=None, end=None):
@@ -34,6 +35,6 @@ model.py:	def stoppage(self):
 model.py:class Leg(db.leg):
 model.py:		def normalise(diff, rollover=None):
 model.py:	def get(cls, start, end):
-model.py:	def set(cls, start, end, dist=None, gain=None):
+model.py:	def setup(cls, start, end, dist=None, gain=None):
 model.py:def conf():
 model.py:def mkdt(time, date=None):
