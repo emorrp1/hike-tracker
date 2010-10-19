@@ -18,9 +18,7 @@ def save(config):
 	if rs:
 		config['routes'] = {}
 		for r in rs:
-			config['routes'][r.name] = []
-			for b in r.bases:
-				config['routes'][r.name].append(b.name)
+			config['routes'][r.name] = [b.name for b in r.bases]
 	ls = Leg.query.all()
 	if ls:
 		config['legs'] = {}
