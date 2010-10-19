@@ -34,6 +34,6 @@ model.py:	def stoppage(self):
 model.py:class Leg(db.leg):
 model.py:		def normalise(diff, rollover=None):
 model.py:	def get(cls, start, end):
-model.py:	def set(cls, start, end, dist=None, gain=None):
+model.py:	def setup(cls, start, end, dist=None, gain=None):
 model.py:def conf():
 model.py:def mkdt(time, date=None):
