@@ -13,6 +13,7 @@ model.py:	def ref(self):
 model.py:	def done(self):
 model.py:	def active(self, speed=None, maxspeed=None):
 model.py:class Route(db.route):
+model.py:	def position(self, base):
 model.py:	def next(self, base):
 model.py:	def end(self):
 model.py:	def legs(self, start=None, end=None):

@@ -1,4 +1,6 @@
 from elixir import *
+from sqlalchemy.ext.associationproxy import AssociationProxy
+from sqlalchemy.ext.orderinglist import ordering_list
 
 options_defaults['tablename'] = lambda x: x.__name__ + 's'
 
@@ -23,13 +25,24 @@ class base(Named, Entity):
 	n = Field(Integer)
 	h = Field(Integer)
 	reports = OneToMany('report')
-	routes = ManyToMany('route')
+	route_refs = OneToMany('routes_bases_order')
+	routes = AssociationProxy('route_refs', 'route')
 
 class route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	name = Field(Text)
-	bases = ManyToMany('base')
+	base_refs = OneToMany('routes_bases_order', order_by='position', collection_class=ordering_list('position'))
+	bases = AssociationProxy('base_refs', 'base')
 	teams = OneToMany('team')
+
+class routes_bases_order(Entity):
+	'''The reference entity for ordered list of bases in route'''
+	def __init__(self, arg):
+		if isinstance(arg, route): self.route = arg
+		if isinstance(arg, base): self.base = arg
+	route = ManyToOne('route')
+	base = ManyToOne('base')
+	position = Field(Integer)
 
 class team(Named, Entity):
 	'''The database representation of a competing team'''
