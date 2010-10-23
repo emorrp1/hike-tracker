@@ -7,3 +7,18 @@ last known locations
 linear route schematic
 
 think about multi-day hikes - multiple hike in single databases
+
+
+** Blakfoot 09 **
+complicated auto team start time stuff
+real base opening and closing times
+list of teams on routes through a base
+figure out why speed calcs terrible for snr, rubbish for int - seem to have worked out (naith?)
+easier report editing
+mid hike withdrawal - ignore missed teams Base.done
+don't *assume* they've left as of the base report, but make it easy to specify
+newer reports update old ones, not duplicate?
+lunch stuff
+can we close a base? who's blocking?
+average time between given bases
+comms tickets ids

@@ -1,0 +1,62 @@
+def late(leeway):
+    for t in all('teams'):
+            if t.late(leeway):
+                    b = t.last_visited()['base']
+                    b = t.route.next(b)
+                    print t, b
+
+
+while True:
+    late(0)
+    time.sleep(10)
+
+
+def off_route():
+    for t in all('t'):
+            if not t.on_route():
+                    print t, t.last_visited()
+
+
+def speeds(route):
+    for t in route.teams:
+            if t.speed():
+                    print t, t.speed()
+
+
+while True:
+    speeds(rjnr)
+    speeds(rint)
+    speeds(rsnr)
+    sleep(1000)
+
+
+def not_visited(base):
+    for r in base.routes:
+            for t in r.teams:
+                    if not t.visited(base):
+                            print t
+
+
+def lunch_out(team, time):
+    team = Team.get(team)
+    b = team.last_visited()['base']
+    r = Report.get_by(base=b, team=team)
+    r.dep = mkdt(time)
+	print r
+
+for l in sys.stdin.readlines():
+     lunch_out(*l.split())
+
+for t in all('teams'):
+    if not t.missed():
+            print t
+
+
+slow, fast, sum = 99, 0, 0
+for t in all('teams'):
+    s = t.speed()
+    slow = min(slow, s)
+    fast = max(fast, s)
+    sum += t.speed()
+sum / float(len(all('teams')))
+
