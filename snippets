@@ -6,11 +6,6 @@ def late(leeway):
                     print t, b
 
 
-while True:
-    late(0)
-    time.sleep(10)
-
-
 def off_route():
     for t in all('t'):
             if not t.on_route():
@@ -21,13 +16,6 @@ def speeds(route):
     for t in route.teams:
             if t.speed():
                     print t, t.speed()
-
-
-while True:
-    speeds(rjnr)
-    speeds(rint)
-    speeds(rsnr)
-    sleep(1000)
 
 
 def not_visited(base):
@@ -43,6 +31,18 @@ def lunch_out(team, time):
     r = Report.get_by(base=b, team=team)
     r.dep = mkdt(time)
 	print r
+
+
+while True:
+    late(0)
+    time.sleep(10)
+
+
+while True:
+    speeds(rjnr)
+    speeds(rint)
+    speeds(rsnr)
+    sleep(1000)
 
 for l in sys.stdin.readlines():
      lunch_out(*l.split())
