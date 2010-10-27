@@ -1,28 +1,21 @@
-def late(leeway):
-	for t in all('teams'):
-		if t.late(leeway):
-			b = t.last_visited()['base']
-			b = t.route.next(b)
-			print t, b
+def pretty(l):
+	for i in l: print i
+
+
+def late(leeway=0):
+	[(t, t.route.next(t.last_visited()['base'])) for t in all('t') if t.late(leeway)]
 
 
 def off_route():
-	for t in all('t'):
-		if not t.on_route():
-			print t, t.last_visited()
+	[(t, t.last_visited()) for t in all('t') if not t.on_route()]
 
 
 def speeds(route):
-	for t in route.teams:
-		if t.speed():
-			print t, t.speed()
+	[(t, t.speed()) for t in route.teams if t.speed()]
 
 
 def not_visited(base):
-	for r in base.routes:
-		for t in r.teams:
-			if not t.visited(base):
-				print t
+	[t for r in base.routes for t in r.teams if not t.visited(base)]
 
 
 def lunch_out(team, time):
@@ -33,30 +26,21 @@ def lunch_out(team, time):
 	print r
 
 
-while True:
-	late(0)
-	time.sleep(10)
+def many_lunch_out():
+	for l in sys.stdin.readlines():
+		lunch_out(*l.split())
 
 
-while True:
-	speeds(rjnr)
-	speeds(rint)
-	speeds(rsnr)
-	sleep(1000)
-
-for l in sys.stdin.readlines():
-	lunch_out(*l.split())
-
-for t in all('teams'):
-	if not t.missed():
-		print t
+def perfect_teams():
+	[t for t in all('t') if not t.missed()]
 
 
-slow, fast, sum = 99, 0, 0
-for t in all('teams'):
-	s = t.speed()
-	slow = min(slow, s)
-	fast = max(fast, s)
-	sum += t.speed()
-sum / float(len(all('teams')))
+def speed_stats(team_list=None):
+	if not team_list: team_list = all('t')
+	speeds = [t.speed() for t in team_list]
+	return {
+		'slow':min(speeds),
+		'mean':sum(speeds)/len(speeds),
+		'fast':max(speeds)}
+
 
