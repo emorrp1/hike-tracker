@@ -37,10 +37,16 @@ def perfect_teams():
 
 def speed_stats(team_list=None):
 	if not team_list: team_list = all('t')
-	speeds = [t.speed() for t in team_list]
+	speeds = [t.speed() for t in team_list if not t.missed()]
 	return {
 		'slow':min(speeds),
 		'mean':sum(speeds)/len(speeds),
 		'fast':max(speeds)}
 
+def pretty_stats():
+	print "who | slow | fast | mean"
+	print "----|------|------|-----"
+	for r in ['snr','int','jnr']:
+		spds = speed_stats(get('r'+r).teams)
+		print r,"| {slow} | {fast} | {mean:.1f}".format(**spds)
 
