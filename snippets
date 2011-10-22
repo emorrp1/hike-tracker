@@ -3,19 +3,19 @@ def pretty(l):
 
 
 def late(leeway=0):
-	[(t, t.route.next(t.last_visited()['base'])) for t in all('t') if t.late(leeway)]
+	return [(t, t.route.next(t.last_visited()['base'])) for t in all('t') if t.late(leeway)]
 
 
 def off_route():
-	[(t, t.last_visited()) for t in all('t') if not t.on_route()]
+	return [(t, t.last_visited()) for t in all('t') if not t.on_route()]
 
 
 def speeds(route):
-	[(t, t.speed()) for t in route.teams if t.speed()]
+	return [(t, t.speed()) for t in route.teams if t.speed()]
 
 
 def not_visited(base):
-	[t for r in base.routes for t in r.teams if not t.visited(base)]
+	return [t for r in base.routes for t in r.teams if not t.visited(base)]
 
 
 def lunch_out(team, time):
@@ -32,7 +32,7 @@ def many_lunch_out():
 
 
 def perfect_teams():
-	[t for t in all('t') if not t.missed()]
+	return [t for t in all('t') if not t.missed()]
 
 
 def speed_stats(team_list=None):
