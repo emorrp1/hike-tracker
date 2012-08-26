@@ -10,6 +10,8 @@ class BaseClass:
 	id = Column(Integer, primary_key=True)
 	query = Session.query_property()
 
+	__table_args__ = {'keep_existing':True}
+
 	@declared_attr
 	def __tablename__(cls):
 		return cls.__name__.lower() + 's'
