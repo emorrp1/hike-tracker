@@ -1,11 +1,26 @@
-from elixir import *
+from sqlalchemy import *
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.ext.associationproxy import AssociationProxy
 from sqlalchemy.ext.orderinglist import ordering_list
 
-options_defaults['tablename'] = lambda x: x.__name__ + 's'
+Session = scoped_session(sessionmaker())
 
-class Named(object):
-	'''Modified Entity methods for named objects'''
+class BaseClass:
+	id = Column(Integer, primary_key=True)
+	query = Session.query_property()
+
+	@declared_attr
+	def __tablename__(cls):
+		return cls.__name__.lower() + 's'
+
+Entity = declarative_base(cls=BaseClass)
+
+class Named:
+	'''Modified BaseClass methods for named objects'''
+	name = Column(Text)
+	query = Session.query_property()
+
 	def __repr__(self):
 		return '<%s %s>' % (self.__class__.__name__, self.name)
 
@@ -16,7 +31,7 @@ class Named(object):
 	@classmethod
 	def get(cls, name):
 		if isinstance(name, cls) or not name: return name
-		else: return cls.get_by(name=name)
+		else: return cls.query.filter_by(name=name).first()
 
 class base(Named, Entity):
 	'''The database representation of a manned base'''
