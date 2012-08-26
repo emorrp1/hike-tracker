@@ -55,13 +55,14 @@ class routes_bases_order(Entity):
 	def __init__(self, arg):
 		if isinstance(arg, route): self.route = arg
 		if isinstance(arg, base): self.base = arg
-	route_id = Column(Integer, ForeignKey('route.id'), primary_key=True)
-	base_id = Column(Integer, ForeignKey('base.id'), primary_key=True)
+	route_id = Column(Integer, ForeignKey(route.id), primary_key=True)
+	base_id = Column(Integer, ForeignKey(base.id), primary_key=True)
 	position = Column(Integer)
 
 class team(Named, Entity):
 	'''The database representation of a competing team'''
 	start = Column(DateTime)
+	route_id = Column(Integer, ForeignKey(route.id))
 	reports = relationship('report', backref='team')
 
 class report(Entity):
@@ -69,6 +70,8 @@ class report(Entity):
 	arr = Column(DateTime)
 	dep = Column(DateTime)
 	note = Column(Text)
+	base_id = Column(Integer, ForeignKey(base.id))
+	team_id = Column(Integer, ForeignKey(team.id))
 
 	def __repr__(self):
 		if self.note: NOTE = ' - %s' % self.note
@@ -83,9 +86,9 @@ class leg(Entity):
 	'''Records the distance and height gain between two bases'''
 	dist = Column(Integer)
 	gain = Column(Integer)
-	start_id = Column(Integer, ForeignKey('base.id'))
+	start_id = Column(Integer, ForeignKey(base.id))
 	start = relationship('base')
-	end_id = Column(Integer, ForeignKey('base.id'))
+	end_id = Column(Integer, ForeignKey(base.id))
 	start = relationship('base')
 
 	def __repr__(self):
@@ -99,11 +102,11 @@ class leg(Entity):
 
 class config(Entity):
 	'''The hike configuration details'''
-	start = Field(DateTime)
-	wfact = Field(Float)
-	naith = Field(Float)
-	figs  = Field(Integer)
-	ver   = Field(Text)
+	start = Column(DateTime)
+	wfact = Column(Float)
+	naith = Column(Float)
+	figs  = Column(Integer)
+	ver   = Column(Text)
 
 	def __repr__(self):
 		return '<Global configuration>'
