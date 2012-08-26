@@ -45,7 +45,6 @@ class base(Named, Entity):
 class route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	base_refs = relationship('routes_bases_order', backref='route',
-		order_by='position',
 		collection_class=ordering_list('position'))
 	bases = AssociationProxy('base_refs', 'base')
 	teams = relationship('team', backref='route')
@@ -87,9 +86,9 @@ class leg(Entity):
 	dist = Column(Integer)
 	gain = Column(Integer)
 	start_id = Column(Integer, ForeignKey(base.id))
-	start = relationship('base')
+	start = relationship('base', primaryjoin='base.id==leg.start_id')
 	end_id = Column(Integer, ForeignKey(base.id))
-	start = relationship('base')
+	end = relationship('base', primaryjoin='base.id==leg.end_id')
 
 	def __repr__(self):
 		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
