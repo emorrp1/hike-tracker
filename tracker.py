@@ -1,4 +1,4 @@
-#!/usr/bin/python -iW ignore::DeprecationWarning
+#!/usr/bin/env python3
 from model import *
 
 VERSION += '.0'
@@ -66,6 +66,8 @@ def base_report(base, filename=None):
 			print(args, kwargs, e)
 
 if __name__ == '__main__':
+	from os import environ as _environ
+	_environ["PYTHONINSPECT"] = "1"
 	from sys import argv
 	if len(argv) >= 2:
 		start(argv[1][:-5])

@@ -1,4 +1,4 @@
-#!/usr/bin/python -W ignore::DeprecationWarning
+#!/usr/bin/env python3
 from tracker import *
 import unittest
 
