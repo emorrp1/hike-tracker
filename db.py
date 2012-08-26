@@ -61,18 +61,14 @@ class routes_bases_order(Entity):
 
 class team(Named, Entity):
 	'''The database representation of a competing team'''
-	name = Field(Text)
-	start = Field(DateTime)
-	reports = OneToMany('report')
-	route = ManyToOne('route')
+	start = Column(DateTime)
+	reports = relationship('report', backref='team')
 
 class report(Entity):
 	'''The database representation of a team's arr/dep times at a base'''
-	arr = Field(DateTime)
-	dep = Field(DateTime)
-	note = Field(Text)
-	base = ManyToOne('base')
-	team = ManyToOne('team')
+	arr = Column(DateTime)
+	dep = Column(DateTime)
+	note = Column(Text)
 
 	def __repr__(self):
 		if self.note: NOTE = ' - %s' % self.note
@@ -85,10 +81,12 @@ class report(Entity):
 
 class leg(Entity):
 	'''Records the distance and height gain between two bases'''
-	dist = Field(Integer)
-	gain = Field(Integer)
-	start = ManyToOne('base')
-	end = ManyToOne('base')
+	dist = Column(Integer)
+	gain = Column(Integer)
+	start_id = Column(Integer, ForeignKey('base.id'))
+	start = relationship('base')
+	end_id = Column(Integer, ForeignKey('base.id'))
+	start = relationship('base')
 
 	def __repr__(self):
 		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
