@@ -1,5 +1,5 @@
 from sqlalchemy import *
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import relationship, scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.ext.associationproxy import AssociationProxy
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -35,29 +35,29 @@ class Named:
 
 class base(Named, Entity):
 	'''The database representation of a manned base'''
-	name = Field(Text)
-	e = Field(Integer)
-	n = Field(Integer)
-	h = Field(Integer)
-	reports = OneToMany('report')
-	route_refs = OneToMany('routes_bases_order')
+	e = Column(Integer)
+	n = Column(Integer)
+	h = Column(Integer)
+	reports = relationship('report', backref='base')
+	route_refs = relationship('routes_bases_order', backref='base')
 	routes = AssociationProxy('route_refs', 'route')
 
 class route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
-	name = Field(Text)
-	base_refs = OneToMany('routes_bases_order', order_by='position', collection_class=ordering_list('position'))
+	base_refs = relationship('routes_bases_order', backref='route',
+		order_by='position',
+		collection_class=ordering_list('position'))
 	bases = AssociationProxy('base_refs', 'base')
-	teams = OneToMany('team')
+	teams = relationship('team', backref='route')
 
 class routes_bases_order(Entity):
 	'''The reference entity for ordered list of bases in route'''
 	def __init__(self, arg):
 		if isinstance(arg, route): self.route = arg
 		if isinstance(arg, base): self.base = arg
-	route = ManyToOne('route')
-	base = ManyToOne('base')
-	position = Field(Integer)
+	route_id = Column(Integer, ForeignKey('route.id'), primary_key=True)
+	base_id = Column(Integer, ForeignKey('base.id'), primary_key=True)
+	position = Column(Integer)
 
 class team(Named, Entity):
 	'''The database representation of a competing team'''
