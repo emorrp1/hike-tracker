@@ -40,7 +40,7 @@ def get_all(type=None):
 		for i in all(t):
 			tname = t + i.name
 			line = '%s = get("%s")' % (tname, tname)
-			exec line in globals()
+			exec(line, globals())
 	else:
 		for t in types:
 			get_all(t)
@@ -63,7 +63,7 @@ def base_report(base, filename=None):
 		try:
 			Report(*args, **kwargs)
 		except Exception as e:
-			print args, kwargs, e
+			print(args, kwargs, e)
 
 if __name__ == '__main__':
 	from sys import argv

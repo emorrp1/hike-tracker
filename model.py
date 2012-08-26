@@ -211,7 +211,7 @@ class Team(db.team):
 	def late(self, leeway=0, speed=None, base=None):
 		eta = self.eta(base, speed)
 		if eta:
-			if isinstance(leeway, (int, str, unicode)):
+			if isinstance(leeway, (int, str)):
 				leeway = timedelta(minutes=int(leeway))
 			return eta + leeway < datetime.now()
 		else:
@@ -296,8 +296,8 @@ def conf():
 def mkdt(time, date=None):
 	if not date:
 		date = conf().start.date()
-	elif isinstance(date, (str, unicode)):
+	elif isinstance(date, str):
 		date = datetime.strptime(date,'%y%m%d').date()
-	if isinstance(time, (str, unicode)):
+	if isinstance(time, str):
 		time = datetime.strptime(time,'%H:%M').time()
 	return datetime.combine(date, time)
