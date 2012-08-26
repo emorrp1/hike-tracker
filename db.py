@@ -1,10 +1,16 @@
 from sqlalchemy import *
-from sqlalchemy.orm import relationship, scoped_session, sessionmaker
+from sqlalchemy.orm import mapper, relationship, scoped_session, sessionmaker
+from sqlalchemy.event import listens_for
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.ext.associationproxy import AssociationProxy
 from sqlalchemy.ext.orderinglist import ordering_list
 
 Session = scoped_session(sessionmaker())
+session = Session()
+
+@listens_for(mapper, 'init')
+def auto_add(target, args, kwargs):
+    Session.add(target)
 
 class BaseClass:
 	id = Column(Integer, primary_key=True)

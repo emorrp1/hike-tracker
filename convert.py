@@ -103,10 +103,9 @@ if __name__ == '__main__':
 	else:
 		hike = argv[1]
 		dest = argv[2]
-	db.metadata.bind = 'sqlite:///%s' % hike
-	db.setup_all()
+	db.Entity.metadata.bind = 'sqlite:///%s' % hike
 	if dest:
 		save(dest)
 	else:
-		db.create_all()
+		db.Entity.metadata.create_all()
 		load(config)

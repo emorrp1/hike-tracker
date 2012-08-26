@@ -261,7 +261,7 @@ class Leg(db.leg):
 	def get(cls, start, end):
 		start = Base.get(start)
 		end = Base.get(end)
-		l = cls.get_by(start=start, end=end)
+		l = cls.query.filter_by(start=start, end=end).first()
 		if not l: l = cls(start, end)
 		return l
 
