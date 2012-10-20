@@ -32,6 +32,10 @@ class BaseClass:
 			return None
 		return cls.__name__.lower() + 's'
 
+	@classmethod
+	def get_by(cls, *args, **kwargs):
+		return cls.query.filter_by(*args, **kwargs).first()
+
 Entity = declarative_base(cls=BaseClass)
 
 @total_ordering
