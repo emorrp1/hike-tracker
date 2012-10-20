@@ -4,6 +4,7 @@ from sqlalchemy.event import listens_for
 from sqlalchemy.ext.declarative import declarative_base, declared_attr, has_inherited_table
 from sqlalchemy.ext.associationproxy import AssociationProxy
 from sqlalchemy.ext.orderinglist import ordering_list
+from functools import total_ordering
 
 Session = scoped_session(sessionmaker())
 session = Session()
@@ -33,6 +34,7 @@ class BaseClass:
 
 Entity = declarative_base(cls=BaseClass)
 
+@total_ordering
 class Named:
 	'''Modified BaseClass methods for named objects'''
 	name = Column(Text)
@@ -41,9 +43,14 @@ class Named:
 	def __repr__(self):
 		return '<%s %s>' % (self.__class__.__name__, self.name)
 
-	def __cmp__(self, other):
-		if other is None: return 2
-		return cmp(self.name, other.name)
+	def __lt__(self, other):
+		if other is None: return False
+		return self.name < other.name
+
+	def __eq__(self, other):
+		if other is None: return False
+		if self.__class__ != other.__class__: return NotImplemented
+		return self.name == other.name
 
 	@classmethod
 	def get(cls, name):
@@ -82,6 +89,7 @@ class team(Named, Entity):
 	route_id = Column(Integer, ForeignKey(route.id))
 	reports = relationship('report', backref='team')
 
+@total_ordering
 class report(Entity):
 	'''The database representation of a team's arr/dep times at a base'''
 	arr = Column(DateTime)
@@ -95,10 +103,16 @@ class report(Entity):
 		else: NOTE = ''
 		return '<%s Report: %s arrived %s departed %s%s>' % (self.base, self.team, self.arr.time(), self.dep.time(), NOTE)
 
-	def __cmp__(self, other):
-		if other is None: return 2
-		return cmp(self.dep, other.dep)
+	def __lt__(self, other):
+		if other is None: return False
+		return self.dep < other.dep
 
+	def __eq__(self, other):
+		if other is None: return False
+		if self.__class__ != other.__class__: return NotImplemented
+		return self.dep == other.dep
+
+@total_ordering
 class leg(Entity):
 	'''Records the distance and height gain between two bases'''
 	dist = Column(Integer)
@@ -111,11 +125,15 @@ class leg(Entity):
 	def __repr__(self):
 		return '<From %s to %s: distance is %d; height gain is %d>' % (self.start, self.end, self.dist, self.gain)
 
-	def __cmp__(self, other):
-		if other is None: return 2
-		c = cmp(self.dist, other.dist)
-		if c: return c
-		else: return cmp(self.gain, other.gain)
+	def __lt__(self, other):
+		if other is None: return False
+		if self.dist == other.dist: return self.gain < other.gain
+		else: return self.dist < other.dist
+
+	def __eq__(self, other):
+		if other is None: return False
+		if self.__class__ != other.__class__: return NotImplemented
+		return self.dist == other.dist and self.gain == other.gain
 
 class config(Entity):
 	'''The hike configuration details'''
