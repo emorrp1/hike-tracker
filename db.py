@@ -1,7 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.orm import mapper, relationship, scoped_session, sessionmaker
 from sqlalchemy.event import listens_for
-from sqlalchemy.ext.declarative import declarative_base, declared_attr
+from sqlalchemy.ext.declarative import declarative_base, declared_attr, has_inherited_table
 from sqlalchemy.ext.associationproxy import AssociationProxy
 from sqlalchemy.ext.orderinglist import ordering_list
 
@@ -15,11 +15,20 @@ def auto_add(target, args, kwargs):
 class BaseClass:
 	id = Column(Integer, primary_key=True)
 	query = Session.query_property()
+	row_type = Column(String(50))
 
 	__table_args__ = {'keep_existing':True}
 
 	@declared_attr
+	def __mapper_args__(cls):
+		if has_inherited_table(cls):
+			return {'polymorphic_identity': cls.__name__.lower()}
+		return {'polymorphic_on': cls.row_type}
+
+	@declared_attr
 	def __tablename__(cls):
+		if has_inherited_table(cls):
+			return None
 		return cls.__name__.lower() + 's'
 
 Entity = declarative_base(cls=BaseClass)
@@ -59,6 +68,7 @@ class route(Named, Entity):
 
 class routes_bases_order(Entity):
 	'''The reference entity for ordered list of bases in route'''
+	id = None
 	def __init__(self, arg):
 		if isinstance(arg, route): self.route = arg
 		if isinstance(arg, base): self.base = arg
