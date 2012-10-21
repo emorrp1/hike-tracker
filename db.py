@@ -73,6 +73,7 @@ class base(Named, Entity):
 class route(Named, Entity):
 	'''The database representation of a series of bases teams have to pass through'''
 	base_refs = relationship('routes_bases_order', backref='route',
+		order_by='routes_bases_order.position',
 		collection_class=ordering_list('position'))
 	bases = AssociationProxy('base_refs', 'base')
 	teams = relationship('team', backref='route')
