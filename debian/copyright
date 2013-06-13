@@ -1,7 +1,7 @@
-This package was debianized by Philip Morrell <hike-tracker.emorrp1@mamber.net> on
+This package was debianized by Philip Morrell <public@emorrp1.name> on
 Sat, 25 Apr 2009 15:47:59 +0100.
 
-Upstream Author: Philip Morrell <hike-tracker.emorrp1@mamber.net>
+Upstream Author: Philip Morrell <public@emorrp1.name>
 
 License:
 
@@ -9,5 +9,9 @@ License:
    it under the terms of the GNU General Public License version 3 as published by
    the Free Software Foundation.
 
-The Debian packaging is (C) 2009, Philip Morrell <hike-tracker.emorrp1@mamber.net> and
+   configobj.py from configobj-py3 port by Zubin Mithra 
+   ConfigObj 4 http://www.voidspace.org.uk/python/configobj.html
+   Released subject to the BSD License Please see http://www.voidspace.org.uk/python/license.shtml
+
+The Debian packaging is (C) 2013, Philip Morrell <public@emorrp1.name> and
 is licensed under the GPL, see `/usr/share/common-licenses/GPL'.

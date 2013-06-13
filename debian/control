@@ -1,12 +1,13 @@
 Source: hike-tracker
 Section: editors
 Priority: extra
-Maintainer: Philip Morrell <hike-tracker.emorrp1@mamber.net>
+Maintainer: Philip Morrell <public@emorrp1.name>
 Build-Depends: debhelper (>= 7)
 Standards-Version: 3.7.3
 
 Package: hike-tracker
 Architecture: any
-Depends: python (>=2.5), python-sqlite, python-elixir (>=0.7), python-configobj
+Depends: python3, python-sqlite, python3-sqlalchemy (>=0.7)
 Description: A program for tracking people on scout hikes.
  A program for tracking people on scout hikes.
+ Includes configobj-py3
