@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import db
 
-VERSION = '0.11'
+VERSION = '0.12'
 __version__ = VERSION
 
 class Base(db.base):
