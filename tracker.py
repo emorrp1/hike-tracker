@@ -8,11 +8,10 @@ def start(hike='custom'):
 	'''Start the database connection, creating the tables and configuring if necessary'''
 	from os.path import exists, expanduser
 	hike = expanduser(hike + '.hike')
-	db.metadata.bind = 'sqlite:///%s' % hike
-	db.setup_all()
+	db.Entity.metadata.bind = 'sqlite:///%s' % hike
 	if not exists(hike):
 		from convert import load
-		db.create_all()
+		db.Entity.metadata.create_all()
 		hike = hike.replace('.hike', '.conf')
 		load(hike)
 

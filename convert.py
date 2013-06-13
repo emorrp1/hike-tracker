@@ -59,7 +59,7 @@ def load(hike):
 				d = dg[0]
 				if len(dg) == 2: g = dg[1]
 				else: g = None
-				base, next = route.bases[i:i+2]
+				base, next = route.base_refs[i:i+2]
 				Leg.setup(base, next, d, g)
 		if 'routes' in c:
 			if 'routes' in config:
@@ -103,10 +103,9 @@ if __name__ == '__main__':
 	else:
 		hike = argv[1]
 		dest = argv[2]
-	db.metadata.bind = 'sqlite:///%s' % hike
-	db.setup_all()
+	db.Entity.metadata.bind = 'sqlite:///%s' % hike
 	if dest:
 		save(dest)
 	else:
-		db.create_all()
+		db.Entity.metadata.create_all()
 		load(config)
